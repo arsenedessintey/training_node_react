@@ -47,9 +47,10 @@ https://blog.devgenius.io/typescript-with-react-tutorial-8a147b36903d
 
 Tutoriel Node.js :
 https://openclassrooms.com/fr/courses/6390246-passez-au-full-stack-avec-node-js-express-et-mongodb/6466298-creez-une-route-get
-(Nous
+(Nousn'utiliserons pas MongoDB, mais le principe reste le même).
 
- n'utiliserons pas MongoDB, mais le principe reste le même).
+Creation serveur node ts : 
+https://blog.logrocket.com/how-to-set-up-node-typescript-express/
 
 Tutoriel création client-serveur :
 https://www.freecodecamp.org/french/news/comment-creer-une-appli-react-avec-un-backend-node-guide-complet/
