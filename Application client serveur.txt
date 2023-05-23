@@ -1,0 +1,59 @@
+
+Application client-serveur
+
+Une application de ce style demande de créer 2 projets dans un même dépôt GitHub.
+Un dossier "client" avec React pour la partie front-end.
+Un dossier "server" avec Node.js et Express pour le serveur.
+
+Le client envoie des requêtes à l'API serveur et reçoit une réponse, mais les deux ne fonctionnent pas sur le même port.
+Pour faciliter l'écriture des requêtes, tu peux regarder comment mettre en place un proxy avec React.
+https://medium.com/bb-tutorials-and-thoughts/react-how-to-proxy-to-backend-server-5588a9e0347
+(dépôt Git : https://github.com/bbachi/react-proxy-example/tree/master/my-app).
+
+Dans un premier temps, tu peux regarder le fonctionnement des deux dossiers (client, serveur) séparément.
+
+Tous les dossiers vont contenir des fichiers de paramétrage tels que package.json, tsconfig.json, *.json, etc. Entre deux documents, il peut y avoir des différences. Ne te prends pas trop la tête avec ça, la plupart du temps ton code fonctionnera.
+
+Beaucoup de tutoriels sont écrits en JavaScript et pas en TypeScript. C'est presque la même chose, tu peux quand même les utiliser. Dans un premier temps, tu peux coder en JavaScript pour t'entraîner.
+
+Avec React, tu vas tomber sur deux styles différents : les classes ou les hooks. C'est presque la même chose, mais cela peut déstabiliser quand on lit des documents. Historiquement, on utilisait des classes, mais depuis peu, React pousse à utiliser les hooks. Tu dois utiliser les hooks. Si jamais tu n'arrives pas à transformer un code classe en hook, la solution la plus rapide est de demander à ChatGPT, mais essaie de comprendre la transformation ou demande-lui de t'expliquer.
+
+Docs : https://samarthnehe.medium.com/react-hooks-vs-class-components-c344b59f3bc
+
+Pour créer les fichiers de base de React et Node, nous utilisons npm.
+npm permet en ligne de commande de créer des applications React et Node.js vides.
+npm permet aussi d'ajouter des packages/frameworks.
+
+Liste des technologies :
+- npm : gestion des frameworks et packages
+- TypeScript : (pour t'entraîner, tu peux commencer en JavaScript) langage de programmation JavaScript avec des types
+Front :
+	- React
+	- Axios : requêtes HTTP
+	- React Router : organiser les routes
+Serveur :
+	- Node.js : serveur en JavaScript
+	- Express : gestion des requêtes
+	- cors : gérer les origines des requêtes
+	- MySQL : base de données
+	- Prisma : ORM pour les requêtes en base de données (commence sans si besoin)
+
+Tutoriel React JavaScript :
+https://react.dev/learn/tutorial-tic-tac-toe
+https://openclassrooms.com/fr/courses/7008001-debutez-avec-react
+
+Tutoriel React TypeScript :
+https://blog.devgenius.io/typescript-with-react-tutorial-8a147b36903d
+
+Tutoriel Node.js :
+https://openclassrooms.com/fr/courses/6390246-passez-au-full-stack-avec-node-js-express-et-mongodb/6466298-creez-une-route-get
+(Nous
+
+ n'utiliserons pas MongoDB, mais le principe reste le même).
+
+Tutoriel création client-serveur :
+https://www.freecodecamp.org/french/news/comment-creer-une-appli-react-avec-un-backend-node-guide-complet/
+https://codingpr.com/react-typescript-and-express/
+
+Tutoriel Node.js Prisma MySQL (si tu le sens) :
+https://medium.com/@tericcabrel/using-prisma-orm-to-build-a-node-js-application-with-mysql-ac9a7690bae8
