@@ -12,6 +12,11 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server');
 });
 
+app.get('/api', (req: Request, res: Response) => {
+  console.log(`request from ${req.url}`)
+  res.status(200).json({message: "Hello from server"});
+});
+
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
