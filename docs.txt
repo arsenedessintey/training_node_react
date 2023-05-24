@@ -3,7 +3,9 @@ Application client-serveur
 
 Une application de ce style demande de créer 2 projets dans un même dépôt GitHub.
 Un dossier "client" avec React pour la partie front-end.
+demarrer : npm start
 Un dossier "server" avec Node.js et Express pour le serveur.
+demarrer : npm run dev
 
 Le client envoie des requêtes à l'API serveur et reçoit une réponse, mais les deux ne fonctionnent pas sur le même port.
 Pour faciliter l'écriture des requêtes, tu peux regarder comment mettre en place un proxy avec React.
@@ -29,8 +31,8 @@ Liste des technologies :
 - TypeScript : (pour t'entraîner, tu peux commencer en JavaScript) langage de programmation JavaScript avec des types
 Front :
 	- React
-	- Axios : requêtes HTTP
-	- React Router : organiser les routes
+	- Axios : requêtes HTTP // ne pas faire
+	- React Router : organiser les routes // ne pas faire
 Serveur :
 	- Node.js : serveur en JavaScript
 	- Express : gestion des requêtes
