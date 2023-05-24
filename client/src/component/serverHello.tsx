@@ -7,9 +7,18 @@ export const ServerHello = () => {
     // Function to handle the button click event
     const click = () => {
         // Fetch data from the "/api" endpoint
-        fetch("/api")
+        fetch("/api",
+            {
+                headers:
+                {
+                    method: 'GET'
+                }
+            })
             .then((res) => res.json()) // Parse the response as JSON
-            .then((data) => setMessage(data.message)); // Update the message state with the received message
+            .then((data) => setMessage(data.message)) // Update the message state with the received message
+            .catch((e) => {
+                console.log(e)
+            });
     }
 
     return (
@@ -17,6 +26,7 @@ export const ServerHello = () => {
             {/* Display the content of the message variable if it is not null */}
             {/* use '{}' to include javascript inside html */}
             {message && <p>{message}</p>}
+            {/* {if(message !== null )} */}
             <hr />
 
             <button

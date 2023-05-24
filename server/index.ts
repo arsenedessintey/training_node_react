@@ -25,7 +25,7 @@ app.get('/api', (req: Request, res: Response) => {
   // Log the request URL
   console.log(`request from ${req.url}`);
   // Respond with a JSON object containing the message 'Hello from server'
-  res.status(200).json({ message: "Hello from server" });
+  return res.status(200).json({ message: "Hello from server" });
 });
 
 // Start the server and listen on the specified port
