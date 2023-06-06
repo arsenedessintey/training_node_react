@@ -1,7 +1,11 @@
 import { MouseEventHandler, useState } from 'react'
 import image from "./cancel.png";
 
-export default function NewConstraint() {
+interface Props {
+  togM : () => void
+}
+
+export default function NewConstraint(props:Props) {
   //Constante
 
   const tabType = [
@@ -29,13 +33,30 @@ export default function NewConstraint() {
 
  const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    console.log(constraint);
+    // console.log(constraint);
+    props.togM()
+
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(constraint)
+    };
+
+    fetch('/api/constraint', requestOptions)
+        .then((response) => {
+          console.log(response.status);
+          console.log(response.text());
+        })
+        .catch((error) => {
+          console.log(error);
+        });
  }
 
   //Affichage
   return (
     <div className="cont-center">
       <div className="cont">
+      <input type="image" className="croix" src={image} onClick={props.togM}/>
         <br></br>
         <form onSubmit={handleSubmit}>
           <input type="text" className="Nom" placeholder="Nom.." name="nom" onChange={handleChange}/>
@@ -64,7 +85,7 @@ export default function NewConstraint() {
             </div>
           </div>
           <br></br>
-          <button type="submit" className="boutoncreer">CREER</button>
+          <button type="submit" className="boutoncreer" >CREER</button>
         </form>
       </div>
     </div>

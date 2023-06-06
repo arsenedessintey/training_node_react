@@ -24,8 +24,7 @@ const Modal = () => {
         </button>
   
         {modal && (
-          <NewConstraint />
-        //   <input type="image" className="croix" src={image} />
+          <NewConstraint togM={toggleModal}/>
         )}
       </>
     );

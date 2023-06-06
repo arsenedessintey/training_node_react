@@ -14,18 +14,18 @@ app.use(cors());
 // Set the server port by reading the value from the PORT environment variable
 const port = process.env.PORT;
 
+app.use(express.json());
+
 // Handler for the root route '/'
 app.get('/', (req: Request, res: Response) => {
   // Respond with the string 'Express + TypeScript Server'
   res.send('Express + TypeScript Server');
 });
 
-// Handler for the '/api' route
-app.get('/api', (req: Request, res: Response) => {
-  // Log the request URL
-  console.log(`request from ${req.url}`);
-  // Respond with a JSON object containing the message 'Hello from server'
-  return res.status(200).json({ message: "Hello from server" });
+app.post('/api/constraint', (req: Request, res: Response) => {
+  // console.log(req.headers['content-type']);
+  console.log(req.body);
+  return res.status(200).send("Contrainst added");
 });
 
 // Start the server and listen on the specified port
