@@ -1,11 +1,12 @@
 import React from 'react';
-import NewConstraint from './NewConstraint';
+import "./App.css";
+import Modal from './component/Modal';
 
 
 function App() {
   return (
     <div className="App">
-        <NewConstraint />
+        <Modal />
     </div>
   );
 }
