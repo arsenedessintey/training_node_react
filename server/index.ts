@@ -2,6 +2,12 @@ import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
+interface Constraint {
+  nom: string
+  type: string
+  regex: string 
+}
+
 // Load environment variables from a .env file
 dotenv.config();
 
@@ -33,3 +39,8 @@ app.listen(port, () => {
   // Print a message indicating that the server is running and specify the URL
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
+
+const tabCon : Constraint[]= [];
+
+console.log(tabCon)
+
