@@ -46,6 +46,11 @@ app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
 
+app.get('/api/tabCon', (req: Request, res: Response  ) => {
+console.log("rrr")
+return res.status(200).json(tabCon);
+
+});
 const tabCon : Constraint[]= [];
 
 console.log(tabCon)
