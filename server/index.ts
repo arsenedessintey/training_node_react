@@ -29,8 +29,14 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.post('/api/constraint', (req: Request, res: Response) => {
-  // console.log(req.headers['content-type']);
-  console.log(req.body);
+  const nom:string = (req.body.nom);
+  const type:string = (req.body.type);
+  const regex:string = (req.body.regex);
+
+  tabCon.push({nom: nom, type: type, regex: regex});
+
+  console.log(tabCon)
+  
   return res.status(200).send("Contrainst added");
 });
 
