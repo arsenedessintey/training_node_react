@@ -36,7 +36,6 @@
     transform: rotate(360deg);
   }
 }
-
 .display_flex_row{
   display: flex;
   flex-direction: row;
@@ -60,6 +59,7 @@
   width: 405px;
   height: 35px;
   border: solid 2px #282c34;
+  font-size: 20px;
 
 }
 
@@ -67,6 +67,7 @@
   width: 405px;
   height: 35px;
   border: solid 2px #282c34;
+  font-size: 20px;
 }
 
 .boutoncreer{
@@ -78,22 +79,28 @@
 
 .boutoncreer:hover{
   background-color: rgb(236, 236, 236);
+
 }
 
 .cont{
   width: 1000px;
   height: 550px;
   border: solid 4px #282c34;
+  background-color: #ffffff;
+  position:absolute;
+
 }
 
 .cont-center{
+  position:absolute;
   display:flex;
   justify-content: center;
-  margin-top:50px;
+  margin-top:100px;
+  margin-left:850px;
 }
 
 input::placeholder{
-  color:#595959
+  color:#595959;
 }
 
 .Regexcheck{
@@ -112,4 +119,58 @@ input::placeholder{
   position: absolute ;
   margin-left: -480px;
   margin-top: 15px;
+}
+
+.nconstraint{
+  font-size:17px;
+  width: 300px;
+  height: 73px;
+  border: solid 2px #282c34;
+  margin-top:10px;
+}
+ 
+.nnconstraint{
+  display:flex;
+  justify-content: left;
+  margin-right:20px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.bacCong{
+  overflow:scroll;
+  overflow-x: hidden;
+  display:block;
+  width: 400px;
+  height: 800px;
+  border: solid 3px #282c34;
+}
+
+.divBaccong{
+  display:flex;
+  justify-content: right;
+  margin-right:50px;
+  margin-top:50px;
+}
+
+.btn-modal {
+  width: 150px;
+  height: 75px;
+  border: solid 2px #282c34;
+  background-color: #d2d2d2;
+  margin-top:10px;
+  margin-left:1425px;
+  font-size:20px;
+}
+
+.btn-modal:hover{
+  background-color: rgb(236, 236, 236);
+}
+
+.croix2{
+  position:absolute;
+  width: 20px;
+  margin-left:128px;
 }

@@ -1,22 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NewConstraint, { Constraint } from "./NewConstraint";
 import axios from 'axios';
+import image2 from "./croix2.png";
 
 
 
 const Modal = () => {
-
     const [modal, setModal] = useState(false);
-
 
     const [constraint, setConstraint] = useState<Constraint[]>([]);
 
+    useEffect(() => {
+
+      getConstraint()
+  
+    }, []);
+
     async function getConstraint() { 
         const tmpConstraint:Constraint[] = (await axios.get('/api/tabCon')).data; 
-        console.log(tmpConstraint)
         setConstraint(tmpConstraint);
     }
-  
+    
+
     const toggleModal = () => {
       setModal(!modal);
     };
@@ -34,9 +39,7 @@ const Modal = () => {
     fetch(`/api/constraint/${id}`, { method: 'DELETE' })
       .then((response) => {
         console.log(response.status);
-        const constraintCopy = [...constraint];
-        const constraintCopyUpt = constraintCopy.filter((constraints) => constraints.id !== id);
-        setConstraint(constraintCopyUpt);
+        getConstraint();
       })
       .catch((error) => {
         console.log(error);
@@ -44,18 +47,29 @@ const Modal = () => {
 
   }
 
-    
-  
     return (
       <>
-        <button onClick={toggleModal} className="btn-modal">
-          CREER
-        </button>
-  
         {modal && (
           <NewConstraint togM={toggleModal} const={getConstraint}/>
           
         )}
+        <div className="divBaccong">
+          <div className="bacCong">
+            <ul>
+              {constraint.map(constr=>
+              <div className="nnconstraint">
+                <div className="nconstraint">
+                <input type="image" className="croix2" src={image2} onClick ={() => handledelete(constr.id)} />
+                  <li>Nom : {constr.nom}<br></br>Regex Utilisé : {constr.regex}</li>
+                </div>
+              </div>
+              )}
+            </ul>
+          </div>
+        </div>
+        <button onClick={toggleModal} className="btn-modal">
+          CREER
+        </button>
       </>
     );
   }

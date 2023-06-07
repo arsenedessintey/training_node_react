@@ -1,5 +1,5 @@
 import { MouseEventHandler, useState } from 'react'
-import image from "./cancel.png";
+import image1 from "./cancel.png";
 
 interface Props {
   togM: () => void,
@@ -10,6 +10,7 @@ export interface Constraint {
   nom: string
   type: string
   regex: string
+  id: string
 }
 
 export default function NewConstraint(props: Props) {
@@ -21,10 +22,12 @@ export default function NewConstraint(props: Props) {
     { value: "date", label: "Date", desc: "Cette Contrainte permet d'utiliser uniquement des Dates dans le Champ (avec des /)" },
     { value: "yesno", label: "Yes/No", desc: "Cette contrainte permet d'écrire uniquement Oui ou Non dans le Champs " },
   ]
+  const o = new Date().getTime().toString()
 
   //State
 
   const [constraint, setConstraint] = useState<Constraint>({
+    id: o,
     nom: "",
     type: tabType[0].value,
     regex: ""
@@ -41,7 +44,6 @@ export default function NewConstraint(props: Props) {
 
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    // console.log(constraint);
 
     // POST
     const requestOptions = {
@@ -62,7 +64,6 @@ export default function NewConstraint(props: Props) {
       });
 
     // End POST
-    props.const();
   }
 
   //Affichage
@@ -71,7 +72,7 @@ export default function NewConstraint(props: Props) {
   return (
     <div className="cont-center">
       <div className="cont">
-        <input type="image" className="croix" src={image} onClick={props.togM} />
+        <input type="image" className="croix" src={image1} onClick={props.togM} />
         <br></br>
 
         {/* ---------------------------------------  FORM  ----------------------------------------- */}

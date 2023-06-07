@@ -6,6 +6,7 @@ interface Constraint {
   nom: string
   type: string
   regex: string 
+  id:string
 }
 
 // Load environment variables from a .env file
@@ -29,23 +30,21 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.post('/api/constraint', (req: Request, res: Response) => {
-
+  const id:string = (req.body.id);
   const nom:string = (req.body.nom);
   const type:string = (req.body.type);
   const regex:string = (req.body.regex);
 
-  tabCon.push({nom: nom, type: type, regex: regex});
-
-  console.log(tabCon)
-  
+  tabCon.push({nom: nom, type: type, regex: regex, id: id});
   return res.status(200).send("Contrainst added");
 });
 
 app.delete('/api/constraint/:id', (req: Request, res: Response) => {
-
   const id:string = (req.params.id);
-  console.log(id)
-  tabCon = tabCon.filter((constraints) => constraints.id === id);
+  tabCon = tabCon.filter((constraints) => {
+    return constraints.id !== id
+  });
+  
   return res.status(200).send("Contrainst suppr");
 
 });
@@ -58,12 +57,12 @@ app.listen(port, () => {
 
 
 app.get('/api/tabCon', (req: Request, res: Response  ) => {
-console.log("rrr")
 return res.status(200).json(tabCon);
 
 });
 
-const tabCon : Constraint[]= [];
+let tabCon : Constraint[]= [
+  {id:"85498454", nom: "oidhvuoqdgb", type: "free", regex: "oudhuozehgo"}
+];
 
-console.log(tabCon)
 
