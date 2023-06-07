@@ -1,11 +1,21 @@
 import React, { useState } from "react";
-import NewConstraint from "./NewConstraint";
+import NewConstraint, { Constraint } from "./NewConstraint";
+import axios from 'axios';
 
 
 
 const Modal = () => {
 
     const [modal, setModal] = useState(false);
+
+
+    const [constraint, setConstraint] = useState<Constraint[]>([]);
+
+    async function getConstraint() { 
+        const tmpConstraint:Constraint[] = (await axios.get('/api/tabCon')).data; 
+        console.log(tmpConstraint)
+        setConstraint(tmpConstraint);
+    }
   
     const toggleModal = () => {
       setModal(!modal);
@@ -16,6 +26,8 @@ const Modal = () => {
     } else {
       document.body.classList.remove('active-modal')
     }
+
+    
   
     return (
       <>
@@ -24,7 +36,8 @@ const Modal = () => {
         </button>
   
         {modal && (
-          <NewConstraint togM={toggleModal}/>
+          <NewConstraint togM={toggleModal} const={getConstraint}/>
+          
         )}
       </>
     );

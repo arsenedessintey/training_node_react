@@ -29,6 +29,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.post('/api/constraint', (req: Request, res: Response) => {
+
   const nom:string = (req.body.nom);
   const type:string = (req.body.type);
   const regex:string = (req.body.regex);
@@ -46,11 +47,13 @@ app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
 
+
 app.get('/api/tabCon', (req: Request, res: Response  ) => {
 console.log("rrr")
 return res.status(200).json(tabCon);
 
 });
+
 const tabCon : Constraint[]= [];
 
 console.log(tabCon)
