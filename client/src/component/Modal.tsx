@@ -27,6 +27,23 @@ const Modal = () => {
       document.body.classList.remove('active-modal')
     }
 
+  const handledelete = (id: any) => {
+
+    alert("Attention tu vas supprimé une contrainte");
+
+    fetch(`/api/constraint/${id}`, { method: 'DELETE' })
+      .then((response) => {
+        console.log(response.status);
+        const constraintCopy = [...constraint];
+        const constraintCopyUpt = constraintCopy.filter((constraints) => constraints.id !== id);
+        setConstraint(constraintCopyUpt);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+  }
+
     
   
     return (

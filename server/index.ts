@@ -41,6 +41,15 @@ app.post('/api/constraint', (req: Request, res: Response) => {
   return res.status(200).send("Contrainst added");
 });
 
+app.delete('/api/constraint/:id', (req: Request, res: Response) => {
+
+  const id:string = (req.params.id);
+  console.log(id)
+  tabCon = tabCon.filter((constraints) => constraints.id === id);
+  return res.status(200).send("Contrainst suppr");
+
+});
+
 // Start the server and listen on the specified port
 app.listen(port, () => {
   // Print a message indicating that the server is running and specify the URL
