@@ -42,8 +42,6 @@ export default function NewConstraint(props: Props) {
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     // console.log(constraint);
-    props.togM();
-    props.const();
 
     // POST
     const requestOptions = {
@@ -56,12 +54,15 @@ export default function NewConstraint(props: Props) {
       .then((response) => {
         console.log(response.status);
         console.log(response.text());
+        props.const();
+        props.togM();
       })
       .catch((error) => {
         console.log(error);
       });
 
     // End POST
+    props.const();
   }
 
   //Affichage
