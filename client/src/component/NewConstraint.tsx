@@ -54,7 +54,7 @@ export default function NewConstraint(props: Props) {
       body: JSON.stringify(constraint)
     };
 
-    fetch('/api/constraint', requestOptions)
+    axios.post('/api/constraint', requestOptions)
       .then((response) => {
         console.log(response.status);
         console.log(response.text());

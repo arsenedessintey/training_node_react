@@ -37,7 +37,7 @@ const Modal = () => {
     console.log(id)
     alert("Attention tu vas supprimé une contrainte");
 
-    fetch(`/api/constraint/${id}`, { method: 'DELETE' })
+    axios.delete(`/api/constraint/${id}`)
       .then((response) => {
         console.log(response.status);
         getConstraint();
