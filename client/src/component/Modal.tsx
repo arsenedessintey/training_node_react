@@ -19,6 +19,7 @@ const Modal = () => {
     async function getConstraint() { 
         const tmpConstraint:Constraint[] = (await axios.get('/api/tabCon')).data; 
         setConstraint(tmpConstraint);
+        console.log(tmpConstraint);
     }
     
 
@@ -33,7 +34,7 @@ const Modal = () => {
     }
 
   const handledelete = (id: any) => {
-
+    console.log(id)
     alert("Attention tu vas supprimé une contrainte");
 
     fetch(`/api/constraint/${id}`, { method: 'DELETE' })
@@ -59,8 +60,8 @@ const Modal = () => {
               {constraint.map(constr=>
               <div className="nnconstraint">
                 <div className="nconstraint">
-                <input type="image" className="croix2" src={image2} onClick ={() => handledelete(constr.id)} />
-                  <li>Nom : {constr.nom}<br></br>Regex Utilisé : {constr.regex}</li>
+                <input type="image" className="croix2" src={image2} onClick ={() => handledelete(constr.contrainte_id)} />
+                  <li>Nom : {constr.nom}<br></br>Regex Utilisé : {constr.valeur_regex}</li>
                 </div>
               </div>
               )}

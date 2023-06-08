@@ -7,10 +7,11 @@ interface Props {
 }
 
 export interface Constraint {
+
+  contrainte_id: number
   nom: string
-  type: string
-  regex: string
-  id: number
+  type_contrainte: string
+  valeur_regex: string
 }
 
 export default function NewConstraint(props: Props) {
@@ -26,10 +27,12 @@ export default function NewConstraint(props: Props) {
   //State
 
   const [constraint, setConstraint] = useState<Constraint>({
-    id: 0,
+
+    contrainte_id: 0,
     nom: "",
-    type: tabType[0].value,
-    regex: ""
+    type_contrainte: tabType[0].value,
+    valeur_regex: ""
+    
   })
 
   //Comportement
@@ -83,18 +86,18 @@ export default function NewConstraint(props: Props) {
           <div className="radio_center">
             <div className="cadre_radio">
               <div className="display_flex_row">
-                {tabType.map(({ value, label, desc }) => {
+                {tabType.map(({ value, label }) => {
                   return (<div key={value} >
-                    <input type="radio" id={value} name="type" value={value} checked={constraint.type === value} onChange={handleChange} />
+                    <input type="radio" id={value} name="type_contrainte" value={value} checked={constraint.type_contrainte === value} onChange={handleChange} />
                     <label>{label}</label>
                   </div>)
                 })}
               </div>
-              <p>{tabType.find(({ value }) => constraint.type === value)?.desc}</p>
+              <p>{tabType.find(({ value }) => constraint.type_contrainte === value)?.desc}</p>
             </div>
           </div>
           <br></br>
-          <input type="text" className="Regex" placeholder="Regex.." name="regex" onChange={handleChange} />
+          <input type="text" className="Regex" placeholder="Regex.." name="valeur_regex" onChange={handleChange} />
           <br></br>
           <br></br>
           <div className="Regexcheck_center">

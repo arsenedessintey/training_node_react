@@ -37,14 +37,16 @@ app.post('/api/constraint', async (req: Request, res: Response) => {
 
 
   const nom:string = (req.body.nom);
-  const type:string = (req.body.type);
-  const regex:string = (req.body.regex);
+  const type:string = (req.body.type_contrainte);
+  const regex:string = (req.body.valeur_regex);
+
+  console.log(regex)
 
   prisma.contrainte.create({
     data: {
       nom: nom,
       type_contrainte: type,
-      valeur_regex:  regex,
+      valeur_regex: regex,
     }
   })
   .then((response) => {
@@ -58,7 +60,7 @@ app.post('/api/constraint', async (req: Request, res: Response) => {
 });
 
 app.delete('/api/constraint/:id',  (req: Request, res: Response) => {
-
+  console.log(req.params.id)
   const id:number = Number(req.params.id);
 
     prisma.contrainte.delete({
