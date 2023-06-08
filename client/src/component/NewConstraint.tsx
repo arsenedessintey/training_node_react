@@ -1,5 +1,5 @@
 import { MouseEventHandler, useState } from 'react'
-import image1 from "./cancel.png";
+import image1 from "./cancel.webp";
 
 interface Props {
   togM: () => void,
@@ -10,7 +10,7 @@ export interface Constraint {
   nom: string
   type: string
   regex: string
-  id: string
+  id: number
 }
 
 export default function NewConstraint(props: Props) {
@@ -22,12 +22,11 @@ export default function NewConstraint(props: Props) {
     { value: "date", label: "Date", desc: "Cette Contrainte permet d'utiliser uniquement des Dates dans le Champ (avec des /)" },
     { value: "yesno", label: "Yes/No", desc: "Cette contrainte permet d'écrire uniquement Oui ou Non dans le Champs " },
   ]
-  const o = new Date().getTime().toString()
 
   //State
 
   const [constraint, setConstraint] = useState<Constraint>({
-    id: o,
+    id: 0,
     nom: "",
     type: tabType[0].value,
     regex: ""

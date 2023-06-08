@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NewConstraint, { Constraint } from "./NewConstraint";
 import axios from 'axios';
-import image2 from "./croix2.png";
+import image2 from "./croix2.webp";
 
 
 
@@ -64,12 +64,14 @@ const Modal = () => {
                 </div>
               </div>
               )}
+              <div className="btn_modal_center">
+                <button onClick={toggleModal} className="btn-modal">
+                  +
+                </button>
+            </div>
             </ul>
           </div>
         </div>
-        <button onClick={toggleModal} className="btn-modal">
-          CREER
-        </button>
       </>
     );
   }

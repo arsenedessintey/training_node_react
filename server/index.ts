@@ -1,12 +1,16 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import { Contrainte, PrismaClient } from '@prisma/client';
 
-interface Constraint {
+
+export const prisma = new PrismaClient();
+
+interface Constraint2 {
   nom: string
   type: string
   regex: string 
-  id:string
+  id:number
 }
 
 // Load environment variables from a .env file
@@ -29,23 +33,47 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server');
 });
 
-app.post('/api/constraint', (req: Request, res: Response) => {
-  const id:string = (req.body.id);
+app.post('/api/constraint', async (req: Request, res: Response) => {
+
+
   const nom:string = (req.body.nom);
   const type:string = (req.body.type);
   const regex:string = (req.body.regex);
 
-  tabCon.push({nom: nom, type: type, regex: regex, id: id});
-  return res.status(200).send("Contrainst added");
+  prisma.contrainte.create({
+    data: {
+      nom: nom,
+      type_contrainte: type,
+      valeur_regex:  regex,
+    }
+  })
+  .then((response) => {
+    console.log(response);
+    return res.status(200).send("Contrainst add");
+  })
+  .catch((error) => {
+    console.log(error)
+    return res.status(404).send("Contrainst not add");
+  })
 });
 
-app.delete('/api/constraint/:id', (req: Request, res: Response) => {
-  const id:string = (req.params.id);
-  tabCon = tabCon.filter((constraints) => {
-    return constraints.id !== id
-  });
-  
-  return res.status(200).send("Contrainst suppr");
+app.delete('/api/constraint/:id',  (req: Request, res: Response) => {
+
+  const id:number = Number(req.params.id);
+
+    prisma.contrainte.delete({
+    where: {
+      contrainte_id: id,
+    },
+  })
+  .then((response) => {
+    console.log(response);
+    return res.status(200).send("Contrainst suppr");
+  })
+  .catch((error) => {
+    console.log(error)
+    return res.status(404).send("Contrainst not suppr");
+  })
 
 });
 
@@ -56,13 +84,16 @@ app.listen(port, () => {
 });
 
 
-app.get('/api/tabCon', (req: Request, res: Response  ) => {
-return res.status(200).json(tabCon);
+app.get('/api/tabCon', async (req: Request, res: Response  ) => {
+
+const allConstraint = await prisma.contrainte.findMany()
+return res.status(200).json(allConstraint);
 
 });
 
-let tabCon : Constraint[]= [
-  {id:"85498454", nom: "oidhvuoqdgb", type: "free", regex: "oudhuozehgo"}
-];
+// const nc  = await prisma.contrainte.findUnique({
+//   where: {}
+// })
+
 
 
