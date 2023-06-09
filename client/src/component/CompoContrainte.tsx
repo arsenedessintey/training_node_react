@@ -64,7 +64,7 @@ const CompoContrainte = () => {
                 <div className="nconstraint">
                 <input type="image" className="croix2" src={image2} onClick ={() => {if(window.confirm("Attention tu vas supprimé une contrainte")){handledelete(constr.contrainte_id)}}} />
                 <input type="image" className="Modif" src={image3} onClick ={() => {toggleModal(constr)}} />
-                  <li>Nom : {constr.nom}<br></br>Regex Utilisé : {constr.valeur_regex}</li>
+                  <li className="NameRegex">Nom : {constr.nom}<br></br>Regex Utilisé : {constr.valeur_regex}</li>
                 </div>
               </div>
               )}

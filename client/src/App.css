@@ -175,16 +175,21 @@ ul {
 }
 
 .croix2{
-  position:absolute;
+  position:relative;
   width: 20px;
-  margin-left:128px;
+  margin-left:278px;
 }
 
 .Modif{
-  position:absolute;
+  position:relative;
   width: 20px;
-  margin-left:128px;
-  margin-top:25px;
+  margin-left:278px;
+  margin-top:-25px;
+}
+
+.NameRegex{
+  margin-top:-55px;
+  padding:10px;
 }
 
 @media screen and (min-width: 1500px){

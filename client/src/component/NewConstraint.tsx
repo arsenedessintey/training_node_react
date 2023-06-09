@@ -37,9 +37,8 @@ export default function NewConstraint(props: Props) {
   })
 
   useEffect(() => {
-    console.log(props.selectConstraint)
+
     if (props.selectConstraint !== undefined) {
-      console.log('rrrr')
       setConstraint(props.selectConstraint)
     }
 
@@ -77,6 +76,8 @@ export default function NewConstraint(props: Props) {
       });
   }
 
+  const MC = (props.selectConstraint === undefined) ? <p>CREER</p> : <p>MODIFIER</p>;
+
   //Affichage
 
 
@@ -85,9 +86,6 @@ export default function NewConstraint(props: Props) {
       <div className="cont">
         <input type="image" className="croix" src={image1} onClick={props.togM} />
         <br></br>
-
-        {/* ---------------------------------------  FORM  ----------------------------------------- */}
-
         <form onSubmit={handleSubmit}>
           <input type="text" className="Nom" placeholder="Nom.." value={constraint.nom} name="nom" onChange={handleChange} />
           <br></br>
@@ -115,11 +113,8 @@ export default function NewConstraint(props: Props) {
             </div>
           </div>
           <br></br>
-          <button type="submit" className="boutoncreer" >CREER</button>
+          <button type="submit" className="boutoncreer"> {MC} </button>
         </form>
-
-        {/* --------------------------------------------------------------------------------------- */}
-
       </div>
     </div>
   );
