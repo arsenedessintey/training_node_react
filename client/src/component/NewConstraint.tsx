@@ -1,5 +1,6 @@
 import { MouseEventHandler, useState } from 'react'
 import image1 from "./cancel.webp";
+import axios from 'axios';
 
 interface Props {
   togM: () => void,
@@ -48,16 +49,20 @@ export default function NewConstraint(props: Props) {
     e.preventDefault();
 
     // POST
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(constraint)
-    };
 
-    axios.post('/api/constraint', requestOptions)
+    // const requestOptions = {
+    //   method: 'POST',
+    //   headers: { 'content-type': 'application/json' },
+    //   body: JSON.stringify(constraint)
+    // };
+    
+
+    // console.log(requestOptions)
+
+
+    axios.post('/api/constraint', constraint)
       .then((response) => {
         console.log(response.status);
-        console.log(response.text());
         props.const();
         props.togM();
       })
