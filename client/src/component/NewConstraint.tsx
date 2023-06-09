@@ -57,41 +57,24 @@ export default function NewConstraint(props: Props) {
     })
   };
 
-  const addConstraint = () => {
-    axios.post('/api/constraint', constraint)
-    .then((response) => {
-      console.log(response.status);
-      props.const();
-      props.togM();
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }
-
-  const modifConstraint = () => {
-    axios.put(`/api/constraint/${props.selectConstraint?.contrainte_id}`, constraint)
-    .then((response) => {
-      console.log(response.status);
-      props.const();
-      props.togM();
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }
-
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    console.log(props.selectConstraint)
 
-    // POST
-    if(typeof props.selectConstraint === 'undefined') {
-      addConstraint();
-    } else {
-      modifConstraint();
-    }
-    // End POST
+    // Choose url path to create or modify
+    const urlStr = (typeof props.selectConstraint === 'undefined') ? '/api/constraint' : `/api/constraint/${props.selectConstraint?.contrainte_id}`;
+    // Choose request method to create/post or modify/put
+    const request = (typeof props.selectConstraint === 'undefined') ? axios.post : axios.put;
+
+    // Send request
+    request(urlStr, constraint)
+      .then((response) => {
+        console.log(response.status);
+        props.const();
+        props.togM();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   //Affichage
