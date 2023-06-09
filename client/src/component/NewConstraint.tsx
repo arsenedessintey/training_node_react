@@ -49,17 +49,7 @@ export default function NewConstraint(props: Props) {
     e.preventDefault();
 
     // POST
-
-    // const requestOptions = {
-    //   method: 'POST',
-    //   headers: { 'content-type': 'application/json' },
-    //   body: JSON.stringify(constraint)
-    // };
     
-
-    // console.log(requestOptions)
-
-
     axios.post('/api/constraint', constraint)
       .then((response) => {
         console.log(response.status);
