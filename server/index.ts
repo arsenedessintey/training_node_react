@@ -40,8 +40,6 @@ app.post('/api/constraint', async (req: Request, res: Response) => {
   const type:string = (req.body.type_contrainte);
   const regex:string = (req.body.valeur_regex);
 
-  console.log(regex)
-
   prisma.contrainte.create({
     data: {
       nom: nom,
@@ -60,7 +58,6 @@ app.post('/api/constraint', async (req: Request, res: Response) => {
 });
 
 app.delete('/api/constraint/:id',  (req: Request, res: Response) => {
-  console.log(req.params.id)
   const id:number = Number(req.params.id);
 
     prisma.contrainte.delete({
@@ -97,8 +94,6 @@ app.put('/api/constraint/:id', async (req: Request, res: Response) => {
 
   const id:number = Number(req.params.id);
 
-  // console.log(id)
-
   const nom:string = (req.body.nom);
   const type:string = (req.body.type_contrainte);
   const regex:string = (req.body.valeur_regex);
@@ -123,9 +118,6 @@ app.put('/api/constraint/:id', async (req: Request, res: Response) => {
   })
 });
 
-// const nc  = await prisma.contrainte.findUnique({
-//   where: {}
-// })
 
 
 

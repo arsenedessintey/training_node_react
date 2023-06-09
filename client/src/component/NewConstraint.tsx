@@ -20,10 +20,42 @@ export default function NewConstraint(props: Props) {
   //Constante
 
   const tabType = [
-    { value: "free", label: "Libre", desc: "Aucune Contrainte dans le Champ" },
-    { value: "codebar", label: "CodeBar", desc: "Cette Contrainte permet d'utiliser que des lettres et des chiffres dans le Champ" },
-    { value: "date", label: "Date", desc: "Cette Contrainte permet d'utiliser uniquement des Dates dans le Champ (avec des /)" },
-    { value: "yesno", label: "Yes/No", desc: "Cette contrainte permet d'écrire uniquement Oui ou Non dans le Champs " },
+    { value: "free",
+      label: "Libre", 
+      desc: "Aucune Contrainte dans le Champ", 
+    },
+    { value: "codebar", 
+      label: "CodeBar", 
+      desc: "Cette Contrainte permet d'utiliser que des lettres et des chiffres dans le Champ", 
+      Regex1: "Nombre de caractère max :",
+      input1: <input type="text" className="allinput" name="caramax" />, 
+      Regex2: "Nombre de chiffre max :", 
+      input2: <input type="text" className="allinput" name="nombremax"  />,
+      Regex3: "Nombre de lettre max :", 
+      input3: <input type="text" className="allinput" name="lettremax"  />,
+      Regex4: "Uniquement des chiffres :", 
+      input4: <input type="text" className="allinput" name="unichiffre"  />,
+      Regex5: "Uniquement des lettres :",
+      input5: <input type="text" className="allinput" name="unilettre"  />
+    },
+    { value: "date", 
+      label: "Date", 
+      desc: "Cette Contrainte permet d'utiliser uniquement des Dates dans le Champ (avec des /)", 
+      Regex1: "Format AAAA/MM :",
+      input1: <input type="checkbox" id="scales" name="aaaamm" value=""/>,
+      Regex2: "Format AAAA/MM/DD :",
+      input2: <input type="checkbox" id="scales" name="aaaammdd" value=""/>,
+    },
+    { value: "liste", 
+      label: "Liste", 
+      desc: "Cette contrainte permet d'écrire uniquement des mots complet définie dans le Champs ", 
+      Regex1: "Liste de mot  à définir (avec un | entre chaque mot) :",      
+      input1: <input type="text" className="allinput" name="liste"/>,
+    },
+    { value: "mac/wifi", 
+      label: "Adresse Mac/Wifi", 
+      desc:"Format perméttant d'utiliser uniquement des adresses mac ou wifi", 
+    }
   ]
 
   //State
@@ -109,7 +141,11 @@ export default function NewConstraint(props: Props) {
           <br></br>
           <div className="Regexcheck_center">
             <div className="Regexcheck">
-              <p>Choix Regex</p>
+            <p>{tabType.find(({ value }) => constraint.type_contrainte === value)?.Regex1}{tabType.find(({ value }) => constraint.type_contrainte === value)?.input1}</p>
+            <p>{tabType.find(({ value }) => constraint.type_contrainte === value)?.Regex2}{tabType.find(({ value }) => constraint.type_contrainte === value)?.input2}</p>
+            <p>{tabType.find(({ value }) => constraint.type_contrainte === value)?.Regex3}{tabType.find(({ value }) => constraint.type_contrainte === value)?.input3}</p>
+            <p>{tabType.find(({ value }) => constraint.type_contrainte === value)?.Regex4}{tabType.find(({ value }) => constraint.type_contrainte === value)?.input4}</p>
+            <p>{tabType.find(({ value }) => constraint.type_contrainte === value)?.Regex5}{tabType.find(({ value }) => constraint.type_contrainte === value)?.input5}</p>
             </div>
           </div>
           <br></br>
