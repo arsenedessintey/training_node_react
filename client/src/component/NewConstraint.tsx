@@ -104,7 +104,7 @@ export default function NewConstraint(props: Props) {
             </div>
           </div>
           <br></br>
-          <input type="text" className="Regex" placeholder="Regex.." name="valeur_regex" value={constraint.valeur_regex} onChange={handleChange} />
+          <input type="text" className="Regex" placeholder="Regex.." name="valeur_regex" value={constraint.valeur_regex} onChange={handleChange} maxLength={18} />
           <br></br>
           <br></br>
           <div className="Regexcheck_center">
