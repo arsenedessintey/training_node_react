@@ -180,6 +180,13 @@ ul {
   margin-left:128px;
 }
 
+.Modif{
+  position:absolute;
+  width: 20px;
+  margin-left:128px;
+  margin-top:25px;
+}
+
 @media screen and (min-width: 1500px){
 
   .bacCong{

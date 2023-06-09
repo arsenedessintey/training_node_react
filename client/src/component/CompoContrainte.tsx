@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import NewConstraint, { Constraint } from "./NewConstraint";
 import axios from 'axios';
 import image2 from "./croix2.webp";
+import image3 from "./Modif.webp"
 
 
 
@@ -9,6 +10,7 @@ const CompoContrainte = () => {
     const [modal, setModal] = useState(false);
 
     const [constraint, setConstraint] = useState<Constraint[]>([]);
+    const [selectConstraint, setSelectConstraint] = useState<Constraint | undefined>(undefined);
 
     useEffect(() => {
 
@@ -23,7 +25,8 @@ const CompoContrainte = () => {
     }
     
 
-    const toggleModal = () => {
+    const toggleModal = (constraint: Constraint | undefined) => {
+      setSelectConstraint(constraint);
       setModal(!modal);
     };
   
@@ -34,12 +37,12 @@ const CompoContrainte = () => {
     }
 
   const handledelete = (id: any) => {
-    console.log(id)
 
     axios.delete(`/api/constraint/${id}`)
       .then((response) => {
         console.log(response.status);
         getConstraint();
+
       })
       .catch((error) => {
         console.log(error);
@@ -50,7 +53,7 @@ const CompoContrainte = () => {
     return (
       <>
         {modal && (
-          <NewConstraint togM={toggleModal} const={getConstraint}/>
+          <NewConstraint togM={() => toggleModal(undefined)} selectConstraint={selectConstraint} const={getConstraint}/>
           
         )}
         <div className="divBaccong">
@@ -60,12 +63,13 @@ const CompoContrainte = () => {
               <div className="nnconstraint">
                 <div className="nconstraint">
                 <input type="image" className="croix2" src={image2} onClick ={() => {if(window.confirm("Attention tu vas supprimé une contrainte")){handledelete(constr.contrainte_id)}}} />
+                <input type="image" className="Modif" src={image3} onClick ={() => {toggleModal(constr)}} />
                   <li>Nom : {constr.nom}<br></br>Regex Utilisé : {constr.valeur_regex}</li>
                 </div>
               </div>
               )}
               <div className="btn_modal_center">
-                <button onClick={toggleModal} className="btn-modal">
+                <button onClick={()=>toggleModal(undefined)} className="btn-modal">
                   +
                 </button>
             </div>

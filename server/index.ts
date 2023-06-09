@@ -93,6 +93,36 @@ return res.status(200).json(allConstraint);
 
 });
 
+app.put('/api/constraint/:id', async (req: Request, res: Response) => {
+
+  const id:number = Number(req.params.id);
+
+  // console.log(id)
+
+  const nom:string = (req.body.nom);
+  const type:string = (req.body.type_contrainte);
+  const regex:string = (req.body.valeur_regex);
+
+  prisma.contrainte.update({
+    where: {
+      contrainte_id:id,
+    },
+    data:{
+      nom: nom,
+      type_contrainte: type,
+      valeur_regex: regex,
+    }
+  })
+  .then((response) => {
+    console.log(response);
+    return res.status(200).send("Contrainst add");
+  })
+  .catch((error) => {
+    console.log(error)
+    return res.status(404).send("Contrainst not add");
+  })
+});
+
 // const nc  = await prisma.contrainte.findUnique({
 //   where: {}
 // })

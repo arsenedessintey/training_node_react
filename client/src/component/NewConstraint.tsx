@@ -1,10 +1,11 @@
-import { MouseEventHandler, useState } from 'react'
+import { useEffect, useState } from 'react'
 import image1 from "./cancel.webp";
 import axios from 'axios';
 
 interface Props {
   togM: () => void,
-  const: () => void
+  const: () => void,
+  selectConstraint: Constraint | undefined
 }
 
 export interface Constraint {
@@ -33,8 +34,19 @@ export default function NewConstraint(props: Props) {
     nom: "",
     type_contrainte: tabType[0].value,
     valeur_regex: ""
-    
   })
+
+  useEffect(() => {
+    console.log(props.selectConstraint)
+    if (props.selectConstraint !== undefined) {
+      console.log('rrrr')
+      setConstraint(props.selectConstraint)
+    }
+
+
+
+
+  }, []);
 
   //Comportement
 
@@ -45,21 +57,40 @@ export default function NewConstraint(props: Props) {
     })
   };
 
+  const addConstraint = () => {
+    axios.post('/api/constraint', constraint)
+    .then((response) => {
+      console.log(response.status);
+      props.const();
+      props.togM();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
+  const modifConstraint = () => {
+    axios.put(`/api/constraint/${props.selectConstraint?.contrainte_id}`, constraint)
+    .then((response) => {
+      console.log(response.status);
+      props.const();
+      props.togM();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
+    console.log(props.selectConstraint)
 
     // POST
-    
-    axios.post('/api/constraint', constraint)
-      .then((response) => {
-        console.log(response.status);
-        props.const();
-        props.togM();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
+    if(typeof props.selectConstraint === 'undefined') {
+      addConstraint();
+    } else {
+      modifConstraint();
+    }
     // End POST
   }
 
@@ -75,7 +106,7 @@ export default function NewConstraint(props: Props) {
         {/* ---------------------------------------  FORM  ----------------------------------------- */}
 
         <form onSubmit={handleSubmit}>
-          <input type="text" className="Nom" placeholder="Nom.." name="nom" onChange={handleChange} />
+          <input type="text" className="Nom" placeholder="Nom.." value={constraint.nom} name="nom" onChange={handleChange} />
           <br></br>
           <br></br>
           <div className="radio_center">
@@ -92,7 +123,7 @@ export default function NewConstraint(props: Props) {
             </div>
           </div>
           <br></br>
-          <input type="text" className="Regex" placeholder="Regex.." name="valeur_regex" onChange={handleChange} />
+          <input type="text" className="Regex" placeholder="Regex.." name="valeur_regex" value={constraint.valeur_regex} onChange={handleChange} />
           <br></br>
           <br></br>
           <div className="Regexcheck_center">
