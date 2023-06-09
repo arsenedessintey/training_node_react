@@ -5,7 +5,7 @@ import image2 from "./croix2.webp";
 
 
 
-const Modal = () => {
+const CompoContrainte = () => {
     const [modal, setModal] = useState(false);
 
     const [constraint, setConstraint] = useState<Constraint[]>([]);
@@ -35,7 +35,6 @@ const Modal = () => {
 
   const handledelete = (id: any) => {
     console.log(id)
-    alert("Attention tu vas supprimé une contrainte");
 
     axios.delete(`/api/constraint/${id}`)
       .then((response) => {
@@ -60,7 +59,7 @@ const Modal = () => {
               {constraint.map(constr=>
               <div className="nnconstraint">
                 <div className="nconstraint">
-                <input type="image" className="croix2" src={image2} onClick ={() => handledelete(constr.contrainte_id)} />
+                <input type="image" className="croix2" src={image2} onClick ={() => {if(window.confirm("Attention tu vas supprimé une contrainte")){handledelete(constr.contrainte_id)}}} />
                   <li>Nom : {constr.nom}<br></br>Regex Utilisé : {constr.valeur_regex}</li>
                 </div>
               </div>
@@ -76,4 +75,4 @@ const Modal = () => {
       </>
     );
   }
-  export default Modal
+  export default CompoContrainte

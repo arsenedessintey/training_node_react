@@ -1,12 +1,12 @@
 import React from 'react';
 import "./App.css";
-import Modal from './component/Modal';
+import CompoContrainte from './component/CompoContrainte';
 
 
 function App() {
   return (
     <div className="App">
-        <Modal />
+        <CompoContrainte />
     </div>
   );
 }
