@@ -1,0 +1,37 @@
+  
+  
+  
+  
+  const maxLength = (req.body.maxlength);
+  const onlyNum = (req.body.onlyNum);
+  const onlyLett = (req.body.onlyLett);
+  const MMAAAA = (req.body.MMAAAA);
+  const DDMMAAAA = (req.body.DDMMAAAA);
+  const Liste = (req.body.liste);
+  const regexT = ""
+
+  if(Liste !== undefined){
+    regexT = `\b(?:${Liste})\b`
+  }
+
+  if(maxLength !== undefined){   
+
+    regexT = `^[A-Z0-9]{0,${maxLength}}$`
+
+    if(onlyNum){
+        regexT = `^[0-9]{0,${maxLength}}$`
+    }
+
+    if(onlyLett){
+        regexT = `^[A-Z]{0,${maxLength}}$`
+    }
+  }
+
+  if(MMAAAA){
+    regexT = "^[0-9]{1,2}\/[0-9]{4}$"
+  }
+
+  if(DDMMAAAA){
+    regexT = "^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$"
+  }
+

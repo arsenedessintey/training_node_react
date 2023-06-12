@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import image1 from "./cancel.webp";
 import axios from 'axios';
+import CodeBar from './CodeBar';
+
 
 interface Props {
   togM: () => void,
@@ -66,6 +68,7 @@ export default function NewConstraint(props: Props) {
     nom: "",
     type_contrainte: tabType[0].value,
     valeur_regex: ""
+    
   })
 
   useEffect(() => {
@@ -141,11 +144,7 @@ export default function NewConstraint(props: Props) {
           <br></br>
           <div className="Regexcheck_center">
             <div className="Regexcheck">
-            <p>{tabType.find(({ value }) => constraint.type_contrainte === value)?.Regex1}{tabType.find(({ value }) => constraint.type_contrainte === value)?.input1}</p>
-            <p>{tabType.find(({ value }) => constraint.type_contrainte === value)?.Regex2}{tabType.find(({ value }) => constraint.type_contrainte === value)?.input2}</p>
-            <p>{tabType.find(({ value }) => constraint.type_contrainte === value)?.Regex3}{tabType.find(({ value }) => constraint.type_contrainte === value)?.input3}</p>
-            <p>{tabType.find(({ value }) => constraint.type_contrainte === value)?.Regex4}{tabType.find(({ value }) => constraint.type_contrainte === value)?.input4}</p>
-            <p>{tabType.find(({ value }) => constraint.type_contrainte === value)?.Regex5}{tabType.find(({ value }) => constraint.type_contrainte === value)?.input5}</p>
+                <CodeBar />
             </div>
           </div>
           <br></br>
