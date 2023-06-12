@@ -3,6 +3,7 @@ import image1 from "./cancel.webp";
 import axios from 'axios';
 import CodeBar from './CodeBar';
 import Date from './Date'
+import Liste from './Liste';
 
 
 interface Props {
@@ -30,14 +31,17 @@ export default function NewConstraint(props: Props) {
     { value: "codebar", 
       label: "CodeBar", 
       desc: "Cette Contrainte permet d'utiliser que des lettres et des chiffres dans le Champ", 
+      compo: <CodeBar />,
     },
     { value: "date", 
       label: "Date", 
       desc: "Cette Contrainte permet d'utiliser uniquement des Dates dans le Champ (avec des /)", 
+      compo: <Date />,
     },
     { value: "liste", 
       label: "Liste", 
       desc: "Cette contrainte permet d'écrire uniquement des mots complet définie dans le Champs ", 
+      compo: <Liste />,
     },
     { value: "mac/wifi", 
       label: "Adresse Mac/Wifi", 
@@ -129,8 +133,7 @@ export default function NewConstraint(props: Props) {
           <br></br>
           <div className="Regexcheck_center">
             <div className="Regexcheck">
-                <CodeBar />
-                <Date />
+              {tabType.find(({ value }) => constraint.type_contrainte === value)?.compo}
             </div>
           </div>
           <br></br>
