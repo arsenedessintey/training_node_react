@@ -10,10 +10,6 @@
   const Liste = (req.body.liste);
   const regexT = ""
 
-  if(Liste !== undefined){
-    regexT = `\b(?:${Liste})\b`
-  }
-
   if(maxLength !== undefined){   
 
     regexT = `^[A-Z0-9]{0,${maxLength}}$`
@@ -34,4 +30,14 @@
   if(DDMMAAAA){
     regexT = "^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$"
   }
+
+  if(Liste !== undefined){
+    regexT = `\\b(?:${Liste})\\b`
+  }
+
+  prisma.contrainte.create({
+    data: {
+        valeur_regex : regexT,
+    }
+  })
 

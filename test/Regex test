@@ -1,0 +1,55 @@
+console.clear()  
+
+  const tabLength = [ 30, 30, 30, undefined, undefined, undefined ]
+  const tabNum = [ false, true, false, false, false, false ]
+  const tabLett = [ false, false, true, false, false, false ]
+  const tabMMAAAA = [ false, false, false, true, false, false ]
+  const tabDDMMAAAA = [ false, false, false, false, true, false ]
+  const tabListe = [ undefined, undefined, undefined, undefined, undefined, "oui|non" ]
+  let i = 0
+  const t1 = [ "202AUI104", "54637646866", "YTYUHEFUHUEFU", "06/2023", "12/06/2023", "oui"]
+  const res: boolean[] = []
+
+while (i < 6) {
+
+  const maxLength = tabLength[i];
+  const onlyNum = tabNum[i];
+  const onlyLett = tabLett[i];
+  const MMAAAA = tabMMAAAA[i];
+  const DDMMAAAA = tabDDMMAAAA[i];
+  const Liste = tabListe[i];
+  let regexT = ""
+
+  if(maxLength !== undefined){   
+
+    regexT = `^[A-Z0-9]{0,${maxLength}}$`
+
+    if(onlyNum){
+        regexT = `^[0-9]{0,${maxLength}}$`
+    }
+
+    if(onlyLett){
+        regexT = `^[A-Z]{0,${maxLength}}$`
+    }
+  }
+
+  if(MMAAAA){
+    regexT = "^[0-9]{1,2}\/[0-9]{4}$"
+  }
+
+  if(DDMMAAAA){
+    regexT = "^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$"
+  }
+
+  if(Liste !== undefined){
+  regexT = `\\b(?:${Liste})\\b`
+  }
+
+  console.log(regexT)
+    res.push(new RegExp(regexT).test(t1[i]))
+
+  i = i + 1
+}
+
+console.log(res)
+console.log("all good : ", res.every(e => e===true))

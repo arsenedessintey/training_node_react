@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import image1 from "./cancel.webp";
 import axios from 'axios';
 import CodeBar from './CodeBar';
+import Date from './Date'
 
 
 interface Props {
@@ -29,30 +30,14 @@ export default function NewConstraint(props: Props) {
     { value: "codebar", 
       label: "CodeBar", 
       desc: "Cette Contrainte permet d'utiliser que des lettres et des chiffres dans le Champ", 
-      Regex1: "Nombre de caractère max :",
-      input1: <input type="text" className="allinput" name="caramax" />, 
-      Regex2: "Nombre de chiffre max :", 
-      input2: <input type="text" className="allinput" name="nombremax"  />,
-      Regex3: "Nombre de lettre max :", 
-      input3: <input type="text" className="allinput" name="lettremax"  />,
-      Regex4: "Uniquement des chiffres :", 
-      input4: <input type="text" className="allinput" name="unichiffre"  />,
-      Regex5: "Uniquement des lettres :",
-      input5: <input type="text" className="allinput" name="unilettre"  />
     },
     { value: "date", 
       label: "Date", 
       desc: "Cette Contrainte permet d'utiliser uniquement des Dates dans le Champ (avec des /)", 
-      Regex1: "Format AAAA/MM :",
-      input1: <input type="checkbox" id="scales" name="aaaamm" value=""/>,
-      Regex2: "Format AAAA/MM/DD :",
-      input2: <input type="checkbox" id="scales" name="aaaammdd" value=""/>,
     },
     { value: "liste", 
       label: "Liste", 
       desc: "Cette contrainte permet d'écrire uniquement des mots complet définie dans le Champs ", 
-      Regex1: "Liste de mot  à définir (avec un | entre chaque mot) :",      
-      input1: <input type="text" className="allinput" name="liste"/>,
     },
     { value: "mac/wifi", 
       label: "Adresse Mac/Wifi", 
@@ -68,7 +53,7 @@ export default function NewConstraint(props: Props) {
     nom: "",
     type_contrainte: tabType[0].value,
     valeur_regex: ""
-    
+
   })
 
   useEffect(() => {
@@ -145,6 +130,7 @@ export default function NewConstraint(props: Props) {
           <div className="Regexcheck_center">
             <div className="Regexcheck">
                 <CodeBar />
+                <Date />
             </div>
           </div>
           <br></br>

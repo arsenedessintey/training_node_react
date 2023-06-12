@@ -17,8 +17,4 @@ model Contrainte {
   valeur_regex    String
 }
 
-model Regex {
-  contrainte_id   Int          @id @default(autoincrement())
-  regex           String       @unique
-}
 
