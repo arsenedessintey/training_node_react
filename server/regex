@@ -35,9 +35,4 @@
     regexT = `\\b(?:${Liste})\\b`
   }
 
-  prisma.contrainte.create({
-    data: {
-        valeur_regex : regexT,
-    }
-  })
 

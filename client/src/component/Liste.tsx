@@ -1,18 +1,20 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react'
+import "../App.css";
 
 export default function Liste () {
 
     const tabListe = [
         {
             id: "Listeid",
-            Regex1: "Liste de mot  à définir (avec un | entre chaque mot) :",
+            Liste: "Liste de mot  à définir (avec un | entre chaque mot) :",
  
         }
     ]
 
     const [liste, setListe] = useState({
 
-        VRegex1: ""
+        Liste: ""
 
       })
 
@@ -21,17 +23,35 @@ export default function Liste () {
         setListe((prev) => {
             return { ...prev, [name]: value };
         })
+            
     };
 
-    return (
+    const Sub = () => {
 
+        axios.post(`/api/regex`, liste)
+        .then((response) => {
+            console.log(response.status);
+
+            })
+        .catch((error) => {
+            console.log(error);
+            });
+
+        }
+
+    return (
         <div>
-            {tabListe.map(({ id, Regex1 }) => {
-                return (<div key={id} >
-                    <label>{Regex1}</label>
-                    <input type="text" className="listechoix" id={id} name="VRegex1" value={liste.VRegex1} onChange={handleChange} /><br></br>
-                </div>)
+            <div className="divRegex">
+                {tabListe.map(({ id, Liste }) => {
+                    return (<div key={id} >
+                        <label>{Liste}</label>
+                        <input type="text" className="listechoix" id={id} name="Liste" value={liste.Liste} onChange={handleChange} /><br></br>
+                    </div>)
                 })}
+            </div>
+            <div className="cntbuttonRegex">
+                    <button className="buttonRegex" onClick={Sub}>Validé</button>
+            </div>
         </div>
 
 )};

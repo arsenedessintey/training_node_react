@@ -70,18 +70,6 @@
   font-size: 20px;
 }
 
-.boutoncreer{
-  width: 100px;
-  height: 50px;
-  border: solid 2px #282c34;
-  background-color: #d2d2d2;
-}
-
-.boutoncreer:hover{
-  background-color: rgb(236, 236, 236);
-
-}
-
 .cont{
   width: 1000px;
   height: 550px;
@@ -192,8 +180,20 @@ ul {
   padding:10px;
 }
 
-.MaxMin{
-  width: "à";
+.divRegex{
+  height: 170px;
+}
+
+.buttonRegex{
+  width: 100px;
+  height: 50px;
+  border: solid 2px #282c34;
+  background-color: #d2d2d2;
+}
+
+.buttonRegex:hover{
+  background-color: rgb(236, 236, 236);
+
 }
 
 @media screen and (min-width: 1500px){

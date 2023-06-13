@@ -4,6 +4,8 @@ import axios from 'axios';
 import CodeBar from './CodeBar';
 import Date from './Date'
 import Liste from './Liste';
+import Libre from './Libre';
+import Adresse from './Adresse';
 
 
 interface Props {
@@ -20,13 +22,20 @@ export interface Constraint {
   valeur_regex: string
 }
 
+export interface Regex {
+
+  regex_id: number
+  choix_regex: string
+}
+
 export default function NewConstraint(props: Props) {
   //Constante
 
   const tabType = [
     { value: "free",
       label: "Libre", 
-      desc: "Aucune Contrainte dans le Champ", 
+      desc: "Aucune Contrainte dans le Champ",
+      compo: <Libre /> 
     },
     { value: "codebar", 
       label: "CodeBar", 
@@ -46,6 +55,7 @@ export default function NewConstraint(props: Props) {
     { value: "mac/wifi", 
       label: "Adresse Mac/Wifi", 
       desc:"Format perméttant d'utiliser uniquement des adresses mac ou wifi", 
+      compo: <Adresse />
     }
   ]
 
@@ -56,7 +66,7 @@ export default function NewConstraint(props: Props) {
     contrainte_id: 0,
     nom: "",
     type_contrainte: tabType[0].value,
-    valeur_regex: ""
+    valeur_regex:"t"
 
   })
 
@@ -71,7 +81,19 @@ export default function NewConstraint(props: Props) {
 
   }, []);
 
+  const [regex, setRegex] = useState<Regex[]>([]);
+
   //Comportement
+
+
+  async function getRegex() {
+    const tmpRegex: Regex[] = (await axios.get('/api/regex')).data;
+    console.log(tmpRegex)
+    setRegex(tmpRegex);
+  }
+
+
+
 
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
@@ -100,7 +122,7 @@ export default function NewConstraint(props: Props) {
       });
   }
 
-  const MC = (props.selectConstraint === undefined) ? <p>CREER</p> : <p>MODIFIER</p>;
+  // const MC = (props.selectConstraint === undefined) ? <p>CREER</p> : <p>MODIFIER</p>;
 
   //Affichage
 
@@ -137,7 +159,6 @@ export default function NewConstraint(props: Props) {
             </div>
           </div>
           <br></br>
-          <button type="submit" className="boutoncreer"> {MC} </button>
         </form>
       </div>
     </div>

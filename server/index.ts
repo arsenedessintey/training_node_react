@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { Contrainte, PrismaClient } from '@prisma/client';
+import { Contrainte, Regex, PrismaClient } from '@prisma/client';
 
 
 export const prisma = new PrismaClient();
@@ -35,16 +35,16 @@ app.get('/', (req: Request, res: Response) => {
 
 app.post('/api/constraint', async (req: Request, res: Response) => {
 
+  //Base
 
   const nom:string = (req.body.nom);
   const type:string = (req.body.type_contrainte);
-  const regex:string = (req.body.valeur_regex);
 
   prisma.contrainte.create({
     data: {
       nom: nom,
       type_contrainte: type,
-      valeur_regex: regex,
+      valeur_regex: "t",
     }
   })
   .then((response) => {
@@ -117,6 +117,68 @@ app.put('/api/constraint/:id', async (req: Request, res: Response) => {
     return res.status(404).send("Contrainst not add");
   })
 });
+
+app.post('/api/regex', async (req: Request, res: Response) => {
+
+  const maxLength = (req.body.maxLength);
+  const onlyNum = (req.body.onlyNum);
+  const onlyLett = (req.body.onlyLett);
+  const MMAAAA = (req.body.MMAAAA);
+  const DDMMAAAA = (req.body.DDMMAAAA);
+  const Liste = (req.body.Liste);
+  let regexT = "no"
+
+  if(maxLength !== undefined){   
+
+    regexT = `^[A-Z0-9]{0,${maxLength}}$`
+
+    if(onlyNum === "true"){
+        regexT = `^[0-9]{0,${maxLength}}$`
+    }
+
+    if(onlyLett === "true"){
+        regexT = `^[A-Z]{0,${maxLength}}$`
+    }
+  }
+
+  if(MMAAAA === "true"){
+    regexT = "^[0-9]{1,2}\/[0-9]{4}$"
+  }
+
+  if(DDMMAAAA === "true"){
+    regexT = "^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$"
+  }
+
+  if(Liste !== undefined){
+    regexT = `\\b(?:${Liste})\\b`
+  }
+
+  console.log(regexT)
+
+  prisma.regex.create({
+    data: {
+      choix_regex: regexT,
+    }
+  })
+
+  .then((response: any) => {
+    console.log(response);
+    return res.status(200).send("Contrainst add");
+  })
+  
+  .catch((error: any) => {
+    console.log(error)
+    return res.status(404).send("Contrainst not add");
+  })
+});
+
+app.get('/api/regex', async (req: Request, res: Response  ) => {
+
+  const allRegex = await prisma.regex.findMany()
+  return res.status(200).json(allRegex);
+  });
+
+
 
 
 
