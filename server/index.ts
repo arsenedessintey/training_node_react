@@ -144,7 +144,8 @@ app.put('/api/constraint/:id', async (req: Request, res: Response) => {
 
   const nom:string = (req.body.nom);
   const type:string = (req.body.type_contrainte);
-  const regex:string = (req.body.valeur_regex);
+  const reqRegex = req;
+  const regexT = CreateRegex(reqRegex)
 
   prisma.contrainte.update({
     where: {
@@ -153,7 +154,7 @@ app.put('/api/constraint/:id', async (req: Request, res: Response) => {
     data:{
       nom: nom,
       type_contrainte: type,
-      valeur_regex: regex,
+      valeur_regex: regexT,
     }
   })
   .then((response) => {
