@@ -4,9 +4,6 @@ import "../App.css";
 
 export default function Adresse () {
 
-    const Sub = () => {
-
-    }
 
     return (
         <div>
