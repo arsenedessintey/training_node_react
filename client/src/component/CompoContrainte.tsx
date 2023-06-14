@@ -6,13 +6,20 @@ import image3 from "./Modif.webp"
 import image4 from "./fleche-gauche.webp"
 import image5 from "./+.webp"
 import image6 from "./Fgauche2.webp"
+import Groupe from "./Groupe";
 
 
 
 const CompoContrainte = () => {
+  // Modal Contrainte
   const [modal, setModal] = useState(false);
 
+  //Modal Groupe
+  const [modal2, setModal2] = useState(false);
+
+
   const [constraint, setConstraint] = useState<Constraint[]>([]);
+
   const [selectConstraint, setSelectConstraint] = useState<Constraint | undefined>(undefined);
 
   useEffect(() => {
@@ -26,7 +33,7 @@ const CompoContrainte = () => {
     setConstraint(tmpConstraint);
   }
 
-
+//Modal Contrainte
   const toggleModal = (constraint: Constraint | undefined) => {
     setSelectConstraint(constraint);
     setModal(!modal);
@@ -37,6 +44,21 @@ const CompoContrainte = () => {
   } else {
     document.body.classList.remove('active-modal')
   }
+
+//Modal Groupe
+
+  const toggleModal2 = (constraint: Constraint | undefined) => {
+    setSelectConstraint(constraint);
+    setModal2(!modal2);
+  };
+
+  if (modal2) {
+    document.body.classList.add('active-modal')
+  } else {
+    document.body.classList.remove('active-modal')
+  }
+
+
 
   const handledelete = (id: any) => {
 
@@ -58,13 +80,19 @@ const CompoContrainte = () => {
         <NewConstraint togM={() => toggleModal(undefined)} selectConstraint={selectConstraint} const={getConstraint} />
 
       )}
+
+      {modal2 && (
+        <Groupe togm2={() => toggleModal2(undefined)}/>
+
+      )}
+
       <div className="divexit">
         <input type="image" className="Fgauche2" src={image6} />
       </div>
       <div className="divfiche">
         <div className="divgroupe">
           <div className="groupe">
-            <input type="image" className="plus" src={image5} />
+            <input type="image" className="plus" src={image5} onClick={() => {toggleModal2(undefined)}} />
             <p>INSERER UN GROUPE</p>
           </div>
         </div>
