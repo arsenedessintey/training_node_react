@@ -38,9 +38,7 @@ export default function CodeBar () {
     };
 
     const handleChange = (e: any) => {
-        console.log(e.target)
         const { name, checked } = e.target;
-        console.log("checked", checked)
         setCodeBar((prev) => {
             return { ...prev, [name]: checked };
         

@@ -17,7 +17,6 @@ export default function Liste () {
         creListe: "",
 
       })
-      console.log(liste)
 
     const handleChange = (e: { target: { name: any; value: any; }; }) => {
         const { name, value } = e.target;

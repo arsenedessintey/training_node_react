@@ -17,9 +17,5 @@ model Contrainte {
   valeur_regex    String
 }
 
-model Regex {
-  regex_id  Int @id @default(autoincrement())
-  choix_regex String 
-}
 
 

@@ -84,7 +84,6 @@ export default function NewConstraint(props: Props) {
   }, []);
 
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
-    console.log("handleChange")
     const { name, value } = e.target;
     setConstraint((prev) => {
       return { ...prev, [name]: value };
