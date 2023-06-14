@@ -140,7 +140,7 @@ ul {
   display:flex;
   justify-content: right;
   margin-right:50px;
-  margin-top:50px;
+  margin-top:30px;
 }
 
 .btn_modal_center{
@@ -203,10 +203,59 @@ ul {
   margin-right: 270px;
 }
 
-@media screen and (min-width: 1500px){
+.plus{
+  position: absolute;
+  margin-left: -60px;
+  margin-top:25px;
+}
+
+.groupe{
+  display:flex;
+  position: absolute;
+  /* background-color: #61dafb; */
+  width: 400px;
+  font-size: 30px;
+  font-weight: bold;
+  margin-top:0px;
+  margin-left: 80px;
+}
+
+.divgroupe{
+  display:flex;
+  justify-content: left;
+}
+
+.divfiche{
+  overflow:scroll;
+  overflow-x: hidden;
+  border: solid 3px #282c34;
+  position: absolute;
+  width:  1340px;
+  height: 880px;
+  margin-left:100px;
+}
+
+.Fgauche2{
+  position: absolute;
+  display: flex;
+  justify-content: left;
+}
+
+.divexit{
+  margin-left: 17px;
+  margin-top: -10px;
+}
+
+@media screen and (max-width: 1600px){
 
   .bacCong{
     height: 600px;
+  }
+
+  .divfiche{
+    margin-left:100px;
+    width:  955px;
+    height: 665px;
   }
 
 }

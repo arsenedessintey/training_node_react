@@ -4,6 +4,8 @@ import axios from 'axios';
 import image2 from "./croix2.webp";
 import image3 from "./Modif.webp"
 import image4 from "./fleche-gauche.webp"
+import image5 from "./+.webp"
+import image6 from "./Fgauche2.webp"
 
 
 
@@ -56,6 +58,17 @@ const CompoContrainte = () => {
         <NewConstraint togM={() => toggleModal(undefined)} selectConstraint={selectConstraint} const={getConstraint} />
 
       )}
+      <div className="divexit">
+        <input type="image" className="Fgauche2" src={image6} />
+      </div>
+      <div className="divfiche">
+        <div className="divgroupe">
+          <div className="groupe">
+            <input type="image" className="plus" src={image5} />
+            <p>INSERER UN GROUPE</p>
+          </div>
+        </div>
+      </div>
       <div className="divBaccong">
         <div className="bacCong">
           <ul>
