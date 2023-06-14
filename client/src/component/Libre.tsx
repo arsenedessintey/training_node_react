@@ -7,6 +7,12 @@ export default function Libre () {
 
     return (
         <div>
+            <input value="" style={{display:"none"}}></input>
+            <input value="" style={{display:"none"}}></input>
+            <input value="" style={{display:"none"}}></input>
+            <input value="" style={{display:"none"}}></input>
+            <input value="" style={{display:"none"}}></input>
+            <input value="" style={{display:"none"}}></input>
         </div>
 
 )};

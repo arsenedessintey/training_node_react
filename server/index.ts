@@ -14,7 +14,7 @@ export const prisma = new PrismaClient();
   const MMAAAA = (req.body.Value4);
   const DDMMAAAA = (req.body.Value5);
   const Liste = (req.body.Value6);
-  let regexT = "no"
+  let regexT = "Aucun"
 
   if(maxLength !== ""){   
 

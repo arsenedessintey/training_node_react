@@ -7,6 +7,12 @@ export default function Adresse () {
 
     return (
         <div>
+            <input value="" style={{display:"none"}}></input>
+            <input value="" style={{display:"none"}}></input>
+            <input value="" style={{display:"none"}}></input>
+            <input value="" style={{display:"none"}}></input>
+            <input value="" style={{display:"none"}}></input>
+            <input value="" style={{display:"none"}}></input>
         </div>
 
 )};
