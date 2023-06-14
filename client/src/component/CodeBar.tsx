@@ -1,67 +1,70 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import "../App.css";
+import { kMaxLength } from 'buffer';
 
+
+interface CodeBar {
+    maxLenght:number
+    onlyNum:boolean
+    onlyLett:boolean
+}
 export default function CodeBar () {
 
     const tabCodeBar = [
         {
             id: "CodeBarid",
-            maxLength: "Nombre de caractère max : ",
+            maxLenght: "Nombre de caractère max : ",
             onlyNum: "Uniquement des chiffres : ",
             onlyLett: "Uniquement des lettres : "
         }
     ]
 
-    const [codeBar, setCodeBar] = useState({
 
-        maxLength: undefined,
-        onlyNum: "false",
-        onlyLett: "false"
+    const [codeBar, setCodeBar] = useState<CodeBar>({
 
-      })
+        maxLenght: 8,
+        onlyLett: false,
+        onlyNum: false
 
-    const handleChange = (e: { target: { name: any; value: any; }; }) => {
-        setCodeBar((prev) => {
-            return { ...prev, onlyNum: "false", onlyLett: "false" };
-        })
+      });
+
+    const handleChangeLenght = (e: any) => {
+
         const { name, value } = e.target;
         setCodeBar((prev) => {
             return { ...prev, [name]: value };
         })
     };
 
-    const Sub = () => {
+    const handleChange = (e: any) => {
+        console.log(e.target)
+        const { name, checked } = e.target;
+        console.log("checked", checked)
+        setCodeBar((prev) => {
+            return { ...prev, [name]: checked };
         
-        axios.post(`/api/regex`, codeBar)
-        .then((response) => {
-            console.log(response.status);
-
-            })
-        .catch((error) => {
-            console.log(error);
-            });
-
-    }
+        })
+    };
 
 
     return (
         <div>
             <div className="divRegex">
-                {tabCodeBar.map(({ id, maxLength, onlyNum, onlyLett }) => {
+                {tabCodeBar.map(({ id, maxLenght, onlyNum, onlyLett }) => {
                     return (<div key={id} >
-                        <label>{maxLength}</label>
-                        <input type="text" className="MaxMin" id={id} name="maxLength" placeholder="de" value={codeBar.maxLength} onChange={handleChange} /><br></br>
+                        <label>{maxLenght}</label>
+                        <input type="text" className="MaxMin" id={id} name="maxLenght" placeholder="de" value={codeBar.maxLenght} onChange={handleChangeLenght} /><br></br>
                         {/* <input type="text" className="MaxMin" id={id} name="VRegex1" placeholder="à" value={codeBar.maxLength} onChange={handleChange} /> */}
                         <label>{onlyNum}</label>
-                        <input type="checkbox" id={id} name="onlyNum" value= "true" onChange={handleChange} /><br></br>
+                        <input type="checkbox" id={id} name="onlyNum" value={codeBar.onlyNum.toString()} onChange={handleChange} /><br></br>
                         <label>{onlyLett}</label>
-                        <input type="checkbox" id={id} name="onlyLett" value= "true" onChange={handleChange} /><br></br>
+                        <input type="checkbox" id={id} name="onlyLett" value={codeBar.onlyLett.toString()} onChange={handleChange}  /><br></br>
+                        <input value="" style={{display:"none"}}></input>
+                        <input value="" style={{display:"none"}}></input>
+                        <input value="" style={{display:"none"}}></input>
                     </div>)
                     })}
-            </div>
-            <div className="cntbuttonRegex">
-                    <button className="buttonRegex" onClick={Sub}>Validé</button>
             </div>
         </div>
 

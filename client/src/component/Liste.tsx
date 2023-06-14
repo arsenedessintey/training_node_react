@@ -7,16 +7,17 @@ export default function Liste () {
     const tabListe = [
         {
             id: "Listeid",
-            Liste: "Liste de mot  à définir (avec un | entre chaque mot) :",
+            creListe: "Liste de mot  à définir (avec un | entre chaque mot) :",
  
         }
     ]
 
     const [liste, setListe] = useState({
 
-        Liste: ""
+        creListe: "",
 
       })
+      console.log(liste)
 
     const handleChange = (e: { target: { name: any; value: any; }; }) => {
         const { name, value } = e.target;
@@ -26,31 +27,20 @@ export default function Liste () {
             
     };
 
-    const Sub = () => {
-
-        axios.post(`/api/regex`, liste)
-        .then((response) => {
-            console.log(response.status);
-
-            })
-        .catch((error) => {
-            console.log(error);
-            });
-
-        }
-
     return (
         <div>
             <div className="divRegex">
-                {tabListe.map(({ id, Liste }) => {
+                {tabListe.map(({ id, creListe }) => {
                     return (<div key={id} >
-                        <label>{Liste}</label>
-                        <input type="text" className="listechoix" id={id} name="Liste" value={liste.Liste} onChange={handleChange} /><br></br>
+                        <label>{creListe}</label>
+                        <input value="" style={{display:"none"}}></input>
+                        <input value="" style={{display:"none"}}></input>
+                        <input value="" style={{display:"none"}}></input>
+                        <input value="" style={{display:"none"}}></input>
+                        <input value="" style={{display:"none"}}></input>
+                        <input type="text" className="listechoix" id={id} name="creListe" value={liste.creListe} onChange={handleChange} /><br></br>
                     </div>)
                 })}
-            </div>
-            <div className="cntbuttonRegex">
-                    <button className="buttonRegex" onClick={Sub}>Validé</button>
             </div>
         </div>
 

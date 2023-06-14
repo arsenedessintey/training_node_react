@@ -6,6 +6,50 @@ import { Contrainte, Regex, PrismaClient } from '@prisma/client';
 
 export const prisma = new PrismaClient();
 
+  const CreateRegex = (req: { body: { Value1: any , Value2 : any, Value3 : any, Value4 : any, Value5 : any, Value6 : any, }; }) => {
+    
+  const maxLength = (req.body.Value1);
+  const onlyNum = (req.body.Value2);
+  const onlyLett = (req.body.Value3);
+  const MMAAAA = (req.body.Value4);
+  const DDMMAAAA = (req.body.Value5);
+  const Liste = (req.body.Value6);
+  console.log(maxLength)
+  console.log(onlyNum)
+  console.log(onlyLett)
+  console.log(MMAAAA)
+  console.log(DDMMAAAA)
+  console.log(Liste)
+  let regexT = "no"
+
+  if(maxLength !== ""){   
+
+    regexT = `^[A-Z0-9]{0,${maxLength}}$`
+
+    if(onlyNum === "true"){
+        regexT = `^[0-9]{0,${maxLength}}$`
+    }
+
+    if(onlyLett === "true"){
+        regexT = `^[A-Z]{0,${maxLength}}$`
+    }
+  }
+
+  if(MMAAAA === "true"){
+    regexT = "^[0-9]{1,2}\/[0-9]{4}$"
+  }
+
+  if(DDMMAAAA === "true"){
+    regexT = "^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$"
+  }
+
+  if(Liste !== ""){
+    regexT = `\\b(?:${Liste})\\b`
+  }
+
+  return regexT
+  }
+
 interface Constraint2 {
   nom: string
   type: string
@@ -35,16 +79,20 @@ app.get('/', (req: Request, res: Response) => {
 
 app.post('/api/constraint', async (req: Request, res: Response) => {
 
+  //Regex
+  const reqRegex = req;
+  const regexT = CreateRegex(reqRegex)
+  console.log(regexT)
   //Base
-
   const nom:string = (req.body.nom);
   const type:string = (req.body.type_contrainte);
+
 
   prisma.contrainte.create({
     data: {
       nom: nom,
       type_contrainte: type,
-      valeur_regex: "t",
+      valeur_regex: regexT,
     }
   })
   .then((response) => {
@@ -118,59 +166,59 @@ app.put('/api/constraint/:id', async (req: Request, res: Response) => {
   })
 });
 
-app.post('/api/regex', async (req: Request, res: Response) => {
+// app.post('/api/regex', async (req: Request, res: Response) => {
 
-  const maxLength = (req.body.maxLength);
-  const onlyNum = (req.body.onlyNum);
-  const onlyLett = (req.body.onlyLett);
-  const MMAAAA = (req.body.MMAAAA);
-  const DDMMAAAA = (req.body.DDMMAAAA);
-  const Liste = (req.body.Liste);
-  let regexT = "no"
+//   const maxLength = (req.body.maxLength);
+//   const onlyNum = (req.body.onlyNum);
+//   const onlyLett = (req.body.onlyLett);
+//   const MMAAAA = (req.body.MMAAAA);
+//   const DDMMAAAA = (req.body.DDMMAAAA);
+//   const Liste = (req.body.Liste);
+//   let regexT = "no"
 
-  if(maxLength !== undefined){   
+//   if(maxLength !== undefined){   
 
-    regexT = `^[A-Z0-9]{0,${maxLength}}$`
+//     regexT = `^[A-Z0-9]{0,${maxLength}}$`
 
-    if(onlyNum === "true"){
-        regexT = `^[0-9]{0,${maxLength}}$`
-    }
+//     if(onlyNum === "true"){
+//         regexT = `^[0-9]{0,${maxLength}}$`
+//     }
 
-    if(onlyLett === "true"){
-        regexT = `^[A-Z]{0,${maxLength}}$`
-    }
-  }
+//     if(onlyLett === "true"){
+//         regexT = `^[A-Z]{0,${maxLength}}$`
+//     }
+//   }
 
-  if(MMAAAA === "true"){
-    regexT = "^[0-9]{1,2}\/[0-9]{4}$"
-  }
+//   if(MMAAAA === "true"){
+//     regexT = "^[0-9]{1,2}\/[0-9]{4}$"
+//   }
 
-  if(DDMMAAAA === "true"){
-    regexT = "^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$"
-  }
+//   if(DDMMAAAA === "true"){
+//     regexT = "^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$"
+//   }
 
-  if(Liste !== undefined){
-    regexT = `\\b(?:${Liste})\\b`
-  }
+//   if(Liste !== undefined){
+//     regexT = `\\b(?:${Liste})\\b`
+//   }
 
-  console.log(regexT)
+//   console.log(regexT)
 
-  prisma.regex.create({
-    data: {
-      choix_regex: regexT,
-    }
-  })
+//   prisma.regex.create({
+//     data: {
+//       choix_regex: regexT,
+//     }
+//   })
 
-  .then((response: any) => {
-    console.log(response);
-    return res.status(200).send("Contrainst add");
-  })
+//   .then((response: any) => {
+//     console.log(response);
+//     return res.status(200).send("Contrainst add");
+//   })
   
-  .catch((error: any) => {
-    console.log(error)
-    return res.status(404).send("Contrainst not add");
-  })
-});
+//   .catch((error: any) => {
+//     console.log(error)
+//     return res.status(404).send("Contrainst not add");
+//   })
+// });
 
 app.get('/api/regex', async (req: Request, res: Response  ) => {
 

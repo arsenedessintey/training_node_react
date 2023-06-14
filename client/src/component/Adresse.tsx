@@ -10,11 +10,6 @@ export default function Adresse () {
 
     return (
         <div>
-            <div className="divRegex">
-            </div>
-            <div className="cntbuttonRegex">
-                    <button className="buttonRegex" onClick={Sub}> Validé </button>
-            </div>
         </div>
 
 )};

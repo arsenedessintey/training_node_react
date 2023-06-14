@@ -20,12 +20,12 @@ export interface Constraint {
   nom: string
   type_contrainte: string
   valeur_regex: string
-}
-
-export interface Regex {
-
-  regex_id: number
-  choix_regex: string
+  Value1 : string
+  Value2 : string
+  Value3 : string
+  Value4: string
+  Value5: string
+  Value6: string
 }
 
 export default function NewConstraint(props: Props) {
@@ -66,7 +66,13 @@ export default function NewConstraint(props: Props) {
     contrainte_id: 0,
     nom: "",
     type_contrainte: tabType[0].value,
-    valeur_regex:"t"
+    valeur_regex:"",
+    Value1 : "",
+    Value2 : "",
+    Value3 : "",
+    Value4 : "",
+    Value5 : "",
+    Value6 : ""
 
   })
 
@@ -75,35 +81,30 @@ export default function NewConstraint(props: Props) {
     if (props.selectConstraint !== undefined) {
       setConstraint(props.selectConstraint)
     }
-
-
-
-
   }, []);
 
-  const [regex, setRegex] = useState<Regex[]>([]);
-
-  //Comportement
-
-
-  async function getRegex() {
-    const tmpRegex: Regex[] = (await axios.get('/api/regex')).data;
-    console.log(tmpRegex)
-    setRegex(tmpRegex);
-  }
-
-
-
-
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
+    console.log("handleChange")
     const { name, value } = e.target;
     setConstraint((prev) => {
       return { ...prev, [name]: value };
     })
   };
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
+
+
+  const handleSubmit = (e: any) => {
     e.preventDefault();
+
+    const NewConstraint: Constraint = {
+      ...constraint, 
+      Value1: e.target[7].value,
+      Value2: e.target[8].value,
+      Value3: e.target[9].value,
+      Value4: e.target[10].value,
+      Value5: e.target[11].value,
+      Value6: e.target[12].value,
+    }
 
     // Choose url path to create or modify
     const urlStr = (typeof props.selectConstraint === 'undefined') ? '/api/constraint' : `/api/constraint/${props.selectConstraint?.contrainte_id}`;
@@ -111,7 +112,7 @@ export default function NewConstraint(props: Props) {
     const request = (typeof props.selectConstraint === 'undefined') ? axios.post : axios.put;
 
     // Send request
-    request(urlStr, constraint)
+    request(urlStr, NewConstraint)
       .then((response) => {
         console.log(response.status);
         props.const();
@@ -122,7 +123,7 @@ export default function NewConstraint(props: Props) {
       });
   }
 
-  // const MC = (props.selectConstraint === undefined) ? <p>CREER</p> : <p>MODIFIER</p>;
+  const MC = (props.selectConstraint === undefined) ? <p>CREER</p> : <p>MODIFIER</p>;
 
   //Affichage
 
@@ -157,6 +158,10 @@ export default function NewConstraint(props: Props) {
             <div className="Regexcheck">
               {tabType.find(({ value }) => constraint.type_contrainte === value)?.compo}
             </div>
+          </div>
+          <br></br>
+          <div className="cntbuttonRegex">
+              <button type="submit" className="buttonRegex"> {MC} </button>
           </div>
           <br></br>
         </form>

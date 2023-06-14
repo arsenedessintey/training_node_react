@@ -15,49 +15,34 @@ export default function Date () {
 
     const [date, setDate] = useState({
 
-        MMAAAA: "false",
-        DDMMAAAA: "false"
+        MMAAAA: false,
+        DDMMAAAA: false
 
       })
 
-    const handleChange = (e: { target: { name: any; value: any; }; }) => {
+    const handleChange = (e: any) => {
+        const { name, checked } = e.target;
         setDate((prev) => {
-            return { ...prev, MMAAAA: "false", DDMMAAAA: "false" };
-        })
-        const { name, value } = e.target;
-        setDate((prev) => {
-            return { ...prev, [name]: value };
+            return { ...prev, [name]: checked };
         })
             
     };
-
-    const Sub = () => {
-        
-        axios.post(`/api/regex`, date)
-        .then((response) => {
-            console.log(response.status);
-
-            })
-        .catch((error) => {
-            console.log(error);
-            });
-
-    }
 
     return (
         <div>
             <div className="divRegex">
                     {tabDate.map(({ id, MMAAAA, DDMMAAAA }) => {
                         return (<div key={id} >
+                            <input value="" style={{display:"none"}}></input>
+                            <input value="" style={{display:"none"}}></input>
+                            <input value="" style={{display:"none"}}></input>
                             <label>{MMAAAA}</label>
-                            <input type="checkbox" id={id} name="MMAAAA" value= "true" onChange={handleChange} /><br></br>
+                            <input type="checkbox" id={id} name="MMAAAA" value={date.MMAAAA.toString()} onChange={handleChange}  /><br></br>
                             <label>{DDMMAAAA}</label>
-                            <input type="checkbox" id={id} name="DDMMAAAA" value= "true" onChange={handleChange} /><br></br>
+                            <input type="checkbox" id={id} name="DDMMAAAA" value={date.DDMMAAAA.toString()} onChange={handleChange}  /><br></br>
+                            <input value="" style={{display:"none"}}></input>
                         </div>)
                     })}
-            </div>
-            <div className="cntbuttonRegex">
-                    <button className="buttonRegex" onClick={Sub}> Validé </button>
             </div>
         </div>
 
