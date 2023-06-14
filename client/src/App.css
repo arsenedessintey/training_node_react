@@ -172,12 +172,12 @@ ul {
   position:relative;
   width: 20px;
   margin-left:278px;
-  margin-top:-25px;
+  margin-top:-5px;
 }
 
 .NameRegex{
   margin-top:-55px;
-  padding:10px;
+  padding:0px;
 }
 
 .divRegex{
@@ -194,6 +194,13 @@ ul {
 .buttonRegex:hover{
   background-color: rgb(236, 236, 236);
 
+}
+
+.Fgauche {
+  margin-top: -100px;
+  position:relative;
+  width: 20px;
+  margin-right: 270px;
 }
 
 @media screen and (min-width: 1500px){

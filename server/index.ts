@@ -18,14 +18,14 @@ export const prisma = new PrismaClient();
 
   if(maxLength !== ""){   
 
-    regexT = `^[A-Z0-9]{0,${maxLength}}$`
+    regexT = `^[A-Z0-9-]{0,${maxLength}}$`
 
     if(onlyNum === "true"){
-        regexT = `^[0-9]{0,${maxLength}}$`
+        regexT = `^[0-9-]{0,${maxLength}}$`
     }
 
     if(onlyLett === "true"){
-        regexT = `^[A-Z]{0,${maxLength}}$`
+        regexT = `^[A-Z-]{0,${maxLength}}$`
     }
   }
 

@@ -3,6 +3,7 @@ import NewConstraint, { Constraint } from "./NewConstraint";
 import axios from 'axios';
 import image2 from "./croix2.webp";
 import image3 from "./Modif.webp"
+import image4 from "./fleche-gauche.webp"
 
 
 
@@ -63,6 +64,7 @@ const CompoContrainte = () => {
                 <div className="nconstraint">
                   <input type="image" className="croix2" src={image2} onClick={() => { if (window.confirm("Attention tu vas supprimé une contrainte")) { handledelete(constr.contrainte_id) } }} />
                   <input type="image" className="Modif" src={image3} onClick={() => { toggleModal(constr) }} />
+                  <input type="image" className="Fgauche" src={image4} />
                   <li className="NameRegex">Nom : {constr.nom}<br></br>Regex Utilisé : {constr.valeur_regex}</li>
                 </div>
               </div>
