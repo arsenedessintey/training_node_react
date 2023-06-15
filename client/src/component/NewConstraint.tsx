@@ -26,6 +26,7 @@ export interface Constraint {
   Value4: string
   Value5: string
   Value6: string
+  Value7: string
 }
 
 export default function NewConstraint(props: Props) {
@@ -72,7 +73,8 @@ export default function NewConstraint(props: Props) {
     Value3 : "",
     Value4 : "",
     Value5 : "",
-    Value6 : ""
+    Value6 : "",
+    Value7 : ""
 
   })
 
@@ -103,6 +105,7 @@ export default function NewConstraint(props: Props) {
       Value4: e.target[10].value,
       Value5: e.target[11].value,
       Value6: e.target[12].value,
+      Value7: e.target[13].value,
     }
 
     // Choose url path to create or modify

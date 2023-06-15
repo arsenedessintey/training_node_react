@@ -8,13 +8,14 @@ interface CodeBar {
     maxLenght:number
     onlyNum:boolean
     onlyLett:boolean
+    minLenght:number
 }
 export default function CodeBar () {
 
     const tabCodeBar = [
         {
             id: "CodeBarid",
-            maxLenght: "Nombre de caractère max : ",
+            maxLenght: "Intervalle de caractère max : ",
             onlyNum: "Uniquement des chiffres : ",
             onlyLett: "Uniquement des lettres : "
         }
@@ -24,6 +25,7 @@ export default function CodeBar () {
     const [codeBar, setCodeBar] = useState<CodeBar>({
 
         maxLenght: 8,
+        minLenght: 1,
         onlyLett: false,
         onlyNum: false
 
@@ -52,8 +54,8 @@ export default function CodeBar () {
                 {tabCodeBar.map(({ id, maxLenght, onlyNum, onlyLett }) => {
                     return (<div key={id} >
                         <label>{maxLenght}</label>
-                        <input type="text" className="MaxMin" id={id} name="maxLenght" placeholder="de" value={codeBar.maxLenght} onChange={handleChangeLenght} /><br></br>
-                        {/* <input type="text" className="MaxMin" id={id} name="VRegex1" placeholder="à" value={codeBar.maxLength} onChange={handleChange} /> */}
+                        <input type="text" className="MaxMin" id={id} name="minLenght" placeholder="de" value={codeBar.minLenght} onChange={handleChangeLenght} /><label>  à  </label>
+                        <input type="text" className="MaxMin" id={id} name="maxLenght" placeholder="" value={codeBar.maxLenght} onChange={handleChangeLenght} /><br></br>
                         <label>{onlyNum}</label>
                         <input type="checkbox" id={id} name="onlyNum" value={codeBar.onlyNum.toString()} onChange={handleChange} /><br></br>
                         <label>{onlyLett}</label>

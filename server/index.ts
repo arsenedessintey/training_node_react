@@ -6,26 +6,30 @@ import { Contrainte, Regex, PrismaClient } from '@prisma/client';
 
 export const prisma = new PrismaClient();
 
-  const CreateRegex = (req: { body: { Value1: any , Value2 : any, Value3 : any, Value4 : any, Value5 : any, Value6 : any, }; }) => {
+  const CreateRegex = (req: { body: { Value1: any , Value2 : any, Value3 : any, Value4 : any, Value5 : any, Value6 : any, Value7:any, }; }) => {
     
-  const maxLength = (req.body.Value1);
-  const onlyNum = (req.body.Value2);
-  const onlyLett = (req.body.Value3);
-  const MMAAAA = (req.body.Value4);
-  const DDMMAAAA = (req.body.Value5);
-  const Liste = (req.body.Value6);
+  const minLength = (req.body.Value1);
+  const maxLength = (req.body.Value2);
+  const onlyNum = (req.body.Value3);
+  const onlyLett = (req.body.Value4);
+  const MMAAAA = (req.body.Value5);
+  const DDMMAAAA = (req.body.Value6);
+  const Liste = (req.body.Value7);
   let regexT = "Aucun"
 
-  if(maxLength !== ""){   
+  if(minLength !== ""){
 
-    regexT = `^[A-Z0-9-]{0,${maxLength}}$`
+    if(maxLength !== ""){
 
-    if(onlyNum === "true"){
-        regexT = `^[0-9-]{0,${maxLength}}$`
-    }
+      regexT = `^[A-Z0-9-]{${minLength},${maxLength}}$`
 
-    if(onlyLett === "true"){
-        regexT = `^[A-Z-]{0,${maxLength}}$`
+      if(onlyNum === "true"){
+          regexT = `^[0-9-]{${minLength},${maxLength}}$`
+      }
+
+      if(onlyLett === "true"){
+          regexT = `^[A-Z-]{${minLength},${maxLength}}$`
+      }
     }
   }
 
@@ -160,7 +164,9 @@ app.put('/api/constraint/:id', async (req: Request, res: Response) => {
   })
 });
 
+app.post('/api/groupe', async (req: Request, res: Response) => {
 
+});
 
 
 

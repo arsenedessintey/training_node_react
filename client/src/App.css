@@ -290,6 +290,10 @@ ul {
   /* background-color: #61dafb; */
 }
 
+.MaxMin{
+  width: 70px;
+}
+
 
 @media screen and (max-width: 1600px){
 

@@ -36,6 +36,7 @@ export default function Date () {
                             <input value="" style={{display:"none"}}></input>
                             <input value="" style={{display:"none"}}></input>
                             <input value="" style={{display:"none"}}></input>
+                            <input value="" style={{display:"none"}}></input>
                             <label>{MMAAAA}</label>
                             <input type="checkbox" id={id} name="MMAAAA" value={date.MMAAAA.toString()} onChange={handleChange}  /><br></br>
                             <label>{DDMMAAAA}</label>
