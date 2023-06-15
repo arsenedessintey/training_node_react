@@ -117,8 +117,6 @@ const CompoContrainte = () => {
 
   }
 
-  {constraint}
-
   //FIN GROUPE//
 
 
@@ -155,9 +153,6 @@ const CompoContrainte = () => {
           </li>
 
         ))}
-        <li>
-
-        </li>
 
         <div className="divgroupe">
           <div className="groupe">
