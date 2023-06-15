@@ -112,6 +112,17 @@ const CompoContrainte = () => {
 
   }
 
+  const handleSubmitChamps = (e: any) => {
+    e.preventDefault();
+    toggleModal(modalConstraint, setModalConstraint);
+    const {nameField, selectConstraint, mandatoryField } = e.target;
+    console.log('nameField :>> ', nameField.value);
+    console.log('selectConstraint :>> ', selectConstraint.value);
+    console.log('mandatoryField :>> ', mandatoryField.checked);
+
+
+  }
+
   //FIN GROUPE//
 
 
@@ -121,16 +132,19 @@ const CompoContrainte = () => {
       {modalConstraint &&
         <Modal
           toggle={() => toggleModal(modalConstraint, setModalConstraint)}
-          validate={()=>{}}
+          handleSubmit={handleSubmitChamps}
         >
           <div>
-            <div>
-              <input type="text"placeholder="Nom du Champ..." value={""} /><br></br>
-              <label>Contrainte Utilisé : </label><input value={selectConstraint?.nom} disabled /><br></br>
-              <label>Champ obligatoire : </label><input type="checkbox" className="check" />
-              <div >
-                {/* <button type="submit" className="buttonchamps" onClick={handleSubmitChamps}>Validé</button> */}
-              </div>
+            <input type="text" placeholder="Nom du Champ..." name="nameField"/> <br></br>
+
+            <label>Contrainte Utilisé : </label>
+            <input name="selectConstraint" type="text" value={selectConstraint?.nom} disabled /><br></br>
+
+            <label htmlFor="mandatoryField">Champ obligatoire : </label>
+            <input id="mandatoryField" name="mandatoryField" type="checkbox" className="check" />
+
+            <div >
+              {/* <button type="submit" className="buttonchamps" onClick={handleSubmitChamps}>Validé</button> */}
             </div>
           </div>
         </Modal>
