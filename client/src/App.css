@@ -294,6 +294,23 @@ ul {
   width: 70px;
 }
 
+.croix2groupe{
+  position:  absolute;
+  width:  30px;
+  margin-top: 17px;
+  margin-left:-38px;
+}
+
+.textgroupe{
+  display:flex;
+  font-size: 40px;
+  font-weight: bold;
+  list-style-type: none;
+  justify-content: left;
+  margin-left:50px;
+  margin-top: 10px;
+
+}
 
 @media screen and (max-width: 1600px){
 
