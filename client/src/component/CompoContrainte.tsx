@@ -6,6 +6,7 @@ import image3 from "./Modif.webp"
 import image4 from "./fleche-gauche.webp"
 import image5 from "./+.webp"
 import image6 from "./Fgauche2.webp"
+import Modal from "./Modal";
 
 interface Groupeinter {
   idg: number
@@ -20,6 +21,9 @@ interface Champ{
 }
 
 const CompoContrainte = () => {
+  // Modal Contrainte
+  const [modalConstraint, setModalConstraint] = useState(false);
+
   // Modal Contrainte
   const [modal1, setModal1] = useState(false);
 
@@ -59,7 +63,9 @@ const CompoContrainte = () => {
 
 
 //Modal Contrainte
-  const toggleModal = (modal: boolean, setter: (modal: boolean) => void,  constraint: Constraint | undefined) => {
+  const toggleModal = (modal: boolean, setter: (modal: boolean) => void,  constraint?: Constraint) => {
+    console.log('toggle')
+    
     setSelectConstraint(constraint);
     setter(!modal);
   };
@@ -97,6 +103,7 @@ const CompoContrainte = () => {
   const handleSubmitGroupe = (e: any) => {
 
       e.preventDefault();
+      
       const groupeCopy = [...groupes];
       groupeCopy.push({ idg: timeId, nomGroupe: nouveauGroupe, champs: []});
       setGroupe(groupeCopy);
@@ -105,29 +112,47 @@ const CompoContrainte = () => {
 
   }
 
-
-
   //FIN GROUPE//
 
 
   return (
     <>
+
+      {modalConstraint &&
+        <Modal
+          toggle={() => toggleModal(modalConstraint, setModalConstraint)}
+          validate={()=>{}}
+        >
+          <div>
+            <div>
+              <input type="text"placeholder="Nom du Champ..." value={""} /><br></br>
+              <label>Contrainte Utilisé : </label><input value={selectConstraint?.nom} disabled /><br></br>
+              <label>Champ obligatoire : </label><input type="checkbox" className="check" />
+              <div >
+                {/* <button type="submit" className="buttonchamps" onClick={handleSubmitChamps}>Validé</button> */}
+              </div>
+            </div>
+          </div>
+        </Modal>
+      }
+
       {modal1 && (
-        <NewConstraint togM={() => toggleModal(modal1, setModal1, undefined)} selectConstraint={selectConstraint} const={getConstraint} />
+        <NewConstraint togM={() => toggleModal(modal1, setModal1)} selectConstraint={selectConstraint} const={getConstraint} />
 
       )}
 
       {modal2 && (
 
-        <div className="divcadregroupe">
+        <form id="formGroup" onSubmit={handleSubmitGroupe}>
+                  <div className="divcadregroupe">
             <div className="cadregroupe">
                 <input type="text" className='inputgroupe' placeholder="Nom du Groupe..."  value={nouveauGroupe} onChange={handleChangeGroupe} />
                 <div className="divbgroupe">
-                    <button type="submit" className="buttongroupe" onClick={handleSubmitGroupe}>+</button>
+                    <button form="formGroup" type="submit" className="buttongroupe">+</button>
                 </div>
             </div>
-        </div>
-
+          </div>
+        </form>
       )}
 
       {modal3 && (
@@ -182,7 +207,7 @@ const CompoContrainte = () => {
               </div>
             )}
             <div className="btn_modal_center">
-              <button onClick={() => toggleModal(modal1, setModal1, undefined)} className="btn-modal">
+              <button onClick={() => toggleModal(modalConstraint, setModalConstraint)} className="btn-modal">
                 +
               </button>
             </div>
