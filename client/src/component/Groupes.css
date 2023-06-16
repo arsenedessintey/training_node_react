@@ -1,0 +1,33 @@
+.ContourGroupe{
+
+    width: 640px;
+
+}
+
+.inputgroupe{
+
+    width: 600px;
+    height: 50px;
+    margin-top: 8px;
+    margin-right: 0px;
+    font-size: 25px;
+
+  }
+
+.textgroupe{
+
+    display: flex;
+    list-style-type: none;
+    justify-content: left;
+
+    margin-top:10px;
+    margin-left:20px;
+
+  }
+  
+  .labelgroupe{
+
+    font-weight: bold;
+    font-size:35px;
+    
+  }

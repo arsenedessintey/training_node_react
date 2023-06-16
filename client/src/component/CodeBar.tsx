@@ -57,9 +57,9 @@ export default function CodeBar () {
                         <input type="text" className="MaxMin" id={id} name="minLenght" placeholder="de" value={codeBar.minLenght} onChange={handleChangeLenght} /><label>  à  </label>
                         <input type="text" className="MaxMin" id={id} name="maxLenght" placeholder="" value={codeBar.maxLenght} onChange={handleChangeLenght} /><br></br>
                         <label>{onlyNum}</label>
-                        <input type="checkbox" id={id} name="onlyNum" value={codeBar.onlyNum.toString()} onChange={handleChange} /><br></br>
+                        <input className="CheckNum" type="checkbox" id={id} name="onlyNum" value={codeBar.onlyNum.toString()} onChange={handleChange} /><br></br>
                         <label>{onlyLett}</label>
-                        <input type="checkbox" id={id} name="onlyLett" value={codeBar.onlyLett.toString()} onChange={handleChange}  /><br></br>
+                        <input className="CheckLett"type="checkbox" id={id} name="onlyLett" value={codeBar.onlyLett.toString()} onChange={handleChange}  /><br></br>
                         <input value="" style={{display:"none"}}></input>
                         <input value="" style={{display:"none"}}></input>
                         <input value="" style={{display:"none"}}></input>

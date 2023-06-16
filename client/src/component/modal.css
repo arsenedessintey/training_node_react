@@ -6,4 +6,46 @@
 
     background-color: white;
     border: 2px solid black;
+
+    transform:translate(-50%, -50%)
+}
+
+.ModalButton{
+
+    border: solid 2px #282c34;
+    background-color: #d2d2d2;
+
+    width: 100px;
+    height: 56px;
+    margin-left: 0px;
+    font-size:25px ;
+    margin-top:10px;
+
+}
+
+.ModalButton:hover{
+
+    background-color: #e2e2e2;
+    cursor: pointer;
+
+}
+
+.ModalCroix{
+
+    background-color: white;
+    border: solid 0px #282c34;
+
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: -20px;
+    margin-left: 5px;
+
+    display: flex;
+
+}
+
+.ModalCroix:hover{
+
+    cursor: pointer;
+    
 }

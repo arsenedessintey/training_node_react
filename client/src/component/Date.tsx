@@ -38,9 +38,9 @@ export default function Date () {
                             <input value="" style={{display:"none"}}></input>
                             <input value="" style={{display:"none"}}></input>
                             <label>{MMAAAA}</label>
-                            <input type="checkbox" id={id} name="MMAAAA" value={date.MMAAAA.toString()} onChange={handleChange}  /><br></br>
+                            <input className="CheckMMAAAA" type="checkbox" id={id} name="MMAAAA" value={date.MMAAAA.toString()} onChange={handleChange}  /><br></br>
                             <label>{DDMMAAAA}</label>
-                            <input type="checkbox" id={id} name="DDMMAAAA" value={date.DDMMAAAA.toString()} onChange={handleChange}  /><br></br>
+                            <input className="CheckDDMMAAAA" type="checkbox" id={id} name="DDMMAAAA" value={date.DDMMAAAA.toString()} onChange={handleChange}  /><br></br>
                             <input value="" style={{display:"none"}}></input>
                         </div>)
                     })}

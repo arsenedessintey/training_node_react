@@ -14,11 +14,14 @@ const Modal = (props: Props) => {
 
     return <div className="containerModal">
         <form id={id} onSubmit={handleSubmit}>
-            <button type="button" onClick={toggle}>X</button>
+            <br></br>
+            <button className="ModalCroix" type="button" onClick={toggle}>✖</button>
 
             {children}
-
-            <button form={id} type="submit">Valider</button>
+            <br></br>
+            <button className="ModalButton" form={id} type="submit">Valider</button>
+            <br></br>
+            <br></br>
         </form>
 
     </div>

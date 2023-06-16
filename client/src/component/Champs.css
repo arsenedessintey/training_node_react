@@ -1,0 +1,60 @@
+.divChamps{
+
+    overflow:scroll;
+    overflow-x: hidden;
+    position: absolute;
+
+    width:  70%;
+    height: 90%;
+    margin-left:100px;
+
+    background-color: white;
+    border: solid 3px #282c34;
+
+}
+
+.divCreaChamps{
+
+    width: 500px;
+
+}
+
+.NomChamps{
+
+    width: 400px;
+    height: 40px;
+    font-size: 20px;
+
+    border: 0.5px solid gray;
+
+}
+
+.NomchoixChamps{
+
+    width: 200px;
+    height: 30px;
+    font-size: 17px;
+
+    border: 0.5px solid gray;
+
+}
+
+.labelChoixC{
+
+    font-size:20px;
+
+}
+
+.labelValida{
+
+    font-size:18px;
+
+}
+
+@media screen and (max-width: 1600px){
+    .divChamps{
+
+        width:  63%;
+        
+    }
+}

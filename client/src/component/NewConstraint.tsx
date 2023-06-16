@@ -101,41 +101,37 @@ export default function NewConstraint(props: Props) {
 
 
   return (
-    <div className="">
-      <div className="">
-          <input type="text" className="Nom" placeholder="Nom.." value={props.selectConstraint.nom} name="nom" onChange={handleChange} />
-          <br></br>
-          <br></br>
-          <div className="radio_center">
-            <div className="cadre_radio">
-              <div className="display_flex_row">
+    <div className="divcontrainte">
+        <input type="text" className="Nom" placeholder="Nom.." value={props.selectConstraint.nom} name="nom" onChange={handleChange} />
+        <br></br>
+        <br></br>
+        <div className="radio_center">
+          <div className="cadre_radio">
+            <div className="display_flex_row">
 
-                <fieldset name='fieldSetConstraint' >
-                  {tabType.map(({ value, label }) => {
-                    return (<div key={value} >
-                      <input type="radio" id={value} name="type_contrainte" value={value} checked={value === props.selectConstraint.type_contrainte} onChange={handleChange}/>
-                      <label>{label}</label>
-                    </div>)
-                  })}
-                </fieldset>
+                {tabType.map(({ value, label }) => {
+                  return (<div key={value} >
+                    <input className="CheckRad" type="radio" id={value} name="type_contrainte" value={value} checked={value === props.selectConstraint.type_contrainte} onChange={handleChange}/>
+                    <label>{label}</label>
+                  </div>)
+                })}
 
-              </div>
-              <p>{tabType.find(({ value }) => props.selectConstraint.type_contrainte === value)?.desc}</p>
+
             </div>
+            <p>{tabType.find(({ value }) => props.selectConstraint.type_contrainte === value)?.desc}</p>
           </div>
-          <br></br>
-          {/* <input type="text" className="Regex" placeholder="Regex.." name="valeur_regex" value={props.selectConstraint.valeur_regex} onChange={handleChange} maxLength={20} /> */}
-          <span>{props.selectConstraint.valeur_regex}</span>
-          <br></br>
-          <br></br>
-          <div className="Regexcheck_center">
-            <div className="Regexcheck">
-              {tabType.find(({ value }) => props.selectConstraint.type_contrainte === value)?.compo}
-            </div>
+        </div>
+        <br></br>
+        <input type="text" className="Regex" placeholder="Regex.." name="valeur_regex" value={props.selectConstraint.valeur_regex} onChange={handleChange} maxLength={20} disabled />
+        <br></br>
+        <br></br>
+        <div className="Regexcheck_center">
+          <div className="Regexcheck">
+            {tabType.find(({ value }) => props.selectConstraint.type_contrainte === value)?.compo}
           </div>
-          <br></br>
-          <br></br>
-      </div>
+        </div>
+        <br></br>
+        <br></br>
     </div>
   );
 }
