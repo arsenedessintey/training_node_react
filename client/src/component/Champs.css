@@ -1,16 +1,19 @@
+.felxRowConstraint {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 1rem;
+    padding-left: 5rem;
+}
+
 .divChamps{
-
-    overflow:scroll;
+    overflow: scroll;
     overflow-x: hidden;
-    position: absolute;
-
-    width:  70%;
-    height: 90%;
-    margin-left:100px;
-
+    width: 70%;
+    height: 800px;
+    min-width: 30rem;
     background-color: white;
     border: solid 3px #282c34;
-
 }
 
 .divCreaChamps{
@@ -49,12 +52,4 @@
 
     font-size:18px;
 
-}
-
-@media screen and (max-width: 1600px){
-    .divChamps{
-
-        width:  63%;
-        
-    }
 }

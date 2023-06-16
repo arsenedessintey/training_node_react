@@ -29,5 +29,10 @@
 
     font-weight: bold;
     font-size:35px;
-    
+
+  }
+
+  .insgroupe{
+    margin-top:28px;
+    cursor: pointer;
   }

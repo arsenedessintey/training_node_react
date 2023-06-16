@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
 import NewConstraint, { Constraint } from "./NewConstraint";
 import axios from 'axios';
-import image3 from "./Modif.webp"
-import image4 from "./fleche-gauche.webp"
-import image5 from "./+.webp"
-import image6 from "./Fgauche2.webp"
+import image3 from "./Crayon.svg"
+import image4 from "./Fgauche.svg"
+import image5 from "./Plus.svg"
+import image6 from "./FlecheExit.svg"
 import Modal from "./Modal";
 
 interface Groupeinter {
   idg: number
   nomGroupe: string
-  champs:Champ[]
+  champs: Champ[]
 }
 
-interface Champ{
+interface Champ {
   id: number
-  nom:string
-  contrainte:Constraint
+  nom: string
+  contrainte: Constraint
 }
 
 const CompoContrainte = () => {
@@ -32,18 +32,18 @@ const CompoContrainte = () => {
 
   const [constraint, setConstraint] = useState<Constraint[]>([]);
 
-  const emptyConstraint: Constraint =     {
+  const emptyConstraint: Constraint = {
     contrainte_id: -1,
     nom: "",
-    type_contrainte:  'free',
-    valeur_regex:"",
-    Value1 : "",
-    Value2 : "",
-    Value3 : "",
-    Value4 : "",
-    Value5 : "",
-    Value6 : "",
-    Value7 : ""
+    type_contrainte: 'free',
+    valeur_regex: "",
+    Value1: "",
+    Value2: "",
+    Value3: "",
+    Value4: "",
+    Value5: "",
+    Value6: "",
+    Value7: ""
 
   }
 
@@ -75,9 +75,9 @@ const CompoContrainte = () => {
   }
 
 
-//Modal Contrainte
-  const toggleModal = (modal: boolean, setter: (modal: boolean) => void,  constraint?: Constraint) => {
-    
+  //Modal Contrainte
+  const toggleModal = (modal: boolean, setter: (modal: boolean) => void, constraint?: Constraint) => {
+
     setSelectConstraint(constraint ?? emptyConstraint);
     setter(!modal);
   };
@@ -98,24 +98,24 @@ const CompoContrainte = () => {
 
   //GROUPE//
 
-    const handleDeleteGroupe = (idg: number) => {
-      const groupeCopy = [...groupes];
-      const groupeUpt = groupeCopy.filter((groupee) => groupee.idg !== idg);
-      setGroupe(groupeUpt);
+  const handleDeleteGroupe = (idg: number) => {
+    const groupeCopy = [...groupes];
+    const groupeUpt = groupeCopy.filter((groupee) => groupee.idg !== idg);
+    setGroupe(groupeUpt);
   }
 
 
   const handleChangeGroupe = (e: any) => {
 
-      const valueAfter = e.target.value;
-      setNouveauGroupe(valueAfter);
+    const valueAfter = e.target.value;
+    setNouveauGroupe(valueAfter);
 
   };
 
   const handleSubmitGroupes = (e: any) => {
     e.preventDefault();
     const groupeCopy = [...groupes];
-    groupeCopy.push({ idg: timeId, nomGroupe: nouveauGroupe, champs: []});
+    groupeCopy.push({ idg: timeId, nomGroupe: nouveauGroupe, champs: [] });
     setGroupe(groupeCopy);
     setNouveauGroupe("");
     toggleModal(modalGroupes, setModalGroupes)
@@ -124,7 +124,7 @@ const CompoContrainte = () => {
   const handleSubmitChamps = (e: any) => {
     e.preventDefault();
     toggleModal(modalChamps, setModalChamps);
-    const {nameField, selectConstraint, mandatoryField } = e.target;
+    const { nameField, selectConstraint, mandatoryField } = e.target;
   }
 
   const handleSubmitContraintes = (e: any) => {
@@ -145,7 +145,7 @@ const CompoContrainte = () => {
     // Choose url path to create or modify
     const urlStr = (NewConstraint.contrainte_id === -1) ? '/api/constraint' : `/api/constraint/${selectConstraint?.contrainte_id}`;
     // Choose request method to create/post or modify/put
-    const request = (NewConstraint.contrainte_id === -1) ?  axios.post : axios.put;
+    const request = (NewConstraint.contrainte_id === -1) ? axios.post : axios.put;
 
     console.log('urlStr :>> ', urlStr);
 
@@ -173,10 +173,10 @@ const CompoContrainte = () => {
         >
           <div className="divCreaChamps">
             <br></br>
-            <input className="NomChamps" type="text" placeholder="Nom du Champ..." name="nameField"/> <br></br>
+            <input className="NomChamps" type="text" placeholder="Nom du Champ..." name="nameField" /> <br></br>
             <br></br>
             <label className="labelChoixC">Contrainte Utilisé : </label>
-            <input className="NomchoixChamps"name="selectConstraint" type="text" value={selectConstraint?.nom} disabled /><br></br>
+            <input className="NomchoixChamps" name="selectConstraint" type="text" value={selectConstraint?.nom} disabled /><br></br>
 
             <label className="labelValida" htmlFor="mandatoryField">Champ obligatoire : </label>
             <input id="mandatoryField" name="mandatoryField" type="checkbox" className="check" />
@@ -187,70 +187,68 @@ const CompoContrainte = () => {
 
       {modalGroupes && (
         <Modal
-        toggle={() => toggleModal(modalGroupes, setModalGroupes)}
-        handleSubmit={handleSubmitGroupes}
+          toggle={() => toggleModal(modalGroupes, setModalGroupes)}
+          handleSubmit={handleSubmitGroupes}
         >
           <form id="formGroup" onSubmit={handleSubmitGroupes}>
             <div className="ContourGroupe">
               <div className="">
-                  <input type="text" className='inputgroupe' placeholder="Nom du Groupe..."  value={nouveauGroupe} onChange={handleChangeGroupe} />
+                <input type="text" className='inputgroupe' placeholder="Nom du Groupe..." value={nouveauGroupe} onChange={handleChangeGroupe} />
               </div>
             </div>
           </form>
         </Modal>
       )}
 
-      {modalContraintes && ( 
+      {modalContraintes && (
         <Modal
-        toggle={() => toggleModal(modalContraintes, setModalContraintes)}
-        handleSubmit={handleSubmitContraintes}
+          toggle={() => toggleModal(modalContraintes, setModalContraintes)}
+          handleSubmit={handleSubmitContraintes}
         >
-        <NewConstraint selectConstraint={selectConstraint} setSelectedConstraint={setSelectConstraint} const={getConstraint} />
+          <NewConstraint selectConstraint={selectConstraint} setSelectedConstraint={setSelectConstraint} const={getConstraint} />
         </Modal>
       )}
 
-      <div className="divexit">
-        <input type="image" className="Fgauche2" src={image6} />
-      </div>
-      <div className="divChamps">
+      <input type="image" className="Fgauche2" src={image6} />
 
-        {groupes.map((groupe) => (
+      <div className="felxRowConstraint">
+        <div className="divChamps">
 
-          <li key={groupe.idg} className="textgroupe">
+          {groupes.map((groupe) => (
 
-          <button type="button" className="croixgroupe"  onClick={() => handleDeleteGroupe(groupe.idg)}>✖</button><span className="labelgroupe"><label>-- </label> {groupe.nomGroupe} <label>-- </label></span>
+            <li key={groupe.idg} className="textgroupe">
 
-          </li>
+              <button type="button" className="croixgroupe" onClick={() => handleDeleteGroupe(groupe.idg)}>✖</button><span className="labelgroupe"><label>-- </label> {groupe.nomGroupe} <label>-- </label></span>
 
-        ))}
+            </li>
 
-
-        <div className="divgroupe">
-          <div className="groupe">
-            <input type="image" className="plus" src={image5} onClick={() => toggleModal(modalGroupes, setModalGroupes)} />
-            <p>INSERER UN GROUPE</p>
-          </div>
-        </div>
-      </div>
-      <div className="divBaccong">
-        <div className="bacCong">
-          <ul>
-            {constraint.map(constr =>
-              <div key={constr.nom} className="nnconstraint">
-                <div className="nconstraint">
-                  <button type="button" className="croixCont" onClick={() => { if (window.confirm("Attention tu vas supprimé une contrainte")) { handledelete(constr.contrainte_id) } }}>✖</button>
-                  <input type="image" className="Modif" src={image3} onClick={() => toggleModal(modalContraintes, setModalContraintes, constr) } />
-                  <input type="image" className="Fgauche" src={image4} onClick={ () => { toggleModal(modalChamps, setModalChamps, constr)} } />
-                  <li className="NameRegex">Nom : {constr.nom}<br></br>Regex Utilisé : {constr.valeur_regex}</li>
-                </div>
-              </div>
-            )}
-            <div className="btn_modal_center">
-              <button onClick={() => toggleModal(modalContraintes, setModalContraintes)} className="btn-modal">
-                +
-              </button>
+          ))}
+            <div className="groupe">
+              <input type="image" className="plus" id="mandatoryGroupe" name="mandatoryGroupe" src={image5} onClick={() => toggleModal(modalGroupes, setModalGroupes)} />
+              <label className="insgroupe" htmlFor="mandatoryGroupe">INSERER UN GROUPE</label>
             </div>
-          </ul>
+        </div>
+
+        <div className="divBaccong">
+          <div className="bacCong">
+            <ul>
+              {constraint.map(constr =>
+                <div key={constr.nom} className="nnconstraint">
+                  <div className="nconstraint">
+                    <div className="divcroisupp"><button type="button" className="croixCont" onClick={() => { if (window.confirm("Attention tu vas supprimé une contrainte")) { handledelete(constr.contrainte_id) } }}>✖</button></div>
+                    <div className="divmodif"><input type="image" className="Modif" src={image3} onClick={() => toggleModal(modalContraintes, setModalContraintes, constr)} /></div>
+                    <input type="image" className="Fgauche" src={image4} onClick={() => { toggleModal(modalChamps, setModalChamps, constr) }} />
+                    <div className="divNomRegex"><li className="NameRegex">Nom : {constr.nom}<br></br>Regex Utilisé : {constr.valeur_regex}</li></div>
+                  </div>
+                </div>
+              )}
+              <div className="btn_modal_center">
+                <button onClick={() => toggleModal(modalContraintes, setModalContraintes)} className="btn-modal">
+                  +
+                </button>
+              </div>
+            </ul>
+          </div>
         </div>
       </div>
     </>
