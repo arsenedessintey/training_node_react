@@ -141,6 +141,19 @@ const CompoContrainte = () => {
     e.preventDefault();
     toggleModal(modalContraintes, setModalContraintes);
 
+    console.log('e.target[3].value :>> ', e.target[3].value);
+    console.log('e.target[4].value :>> ', e.target[4].value);
+    console.log('e.target[5].value :>> ', e.target[5].value);
+    console.log('e.target[6].value :>> ', e.target[6].value);
+    console.log('e.target[7].value :>> ', e.target[7].value);
+    console.log('e.target[8].value :>> ', e.target[8].value);
+    console.log('e.target[9].value :>> ', e.target[9].value);
+    console.log('e.target[10].value :>> ', e.target[10].value);
+    console.log('e.target[11].value :>> ', e.target[11].value);
+    console.log('e.target[12].value :>> ', e.target[12].value);
+    console.log('e.target[13].value :>> ', e.target[13].value);
+    console.log('e.target[14].value :>> ', e.target[14].value);
+
     const NewConstraint: Constraint = {
       ...selectConstraint,
       Value1: e.target[8].value,
@@ -163,6 +176,7 @@ const CompoContrainte = () => {
     request(urlStr, NewConstraint)
       .then((response) => {
         console.log(response.status);
+        getConstraint()
       })
       .catch((error) => {
         console.log(error);
