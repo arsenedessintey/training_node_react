@@ -247,8 +247,8 @@ ul {
   overflow-x: hidden;
   border: solid 3px #282c34;
   position: absolute;
-  width:  1340px;
-  height: 880px;
+  width:  50%;
+  height: 50%;
   margin-left:100px;
 }
 
@@ -367,12 +367,12 @@ ul {
   .bacCong{
     height: 600px;
   }
-
+/* 
   .divfiche{
     margin-left:100px;
     width:  955px;
     height: 665px;
-  }
+  } */
 
 }
 

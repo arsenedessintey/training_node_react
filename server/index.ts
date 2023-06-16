@@ -78,6 +78,7 @@ app.get('/', (req: Request, res: Response) => {
 app.post('/api/constraint', async (req: Request, res: Response) => {
 
   //Regex
+  console.log('req.body :>> ', req.body);
   const reqRegex = req;
   const regexT = CreateRegex(reqRegex)
   //Base
@@ -136,7 +137,7 @@ return res.status(200).json(allConstraint);
 });
 
 app.put('/api/constraint/:id', async (req: Request, res: Response) => {
-
+  // console.log('req.body :>> ', req.body);
   const id:number = Number(req.params.id);
 
   const nom:string = (req.body.nom);
