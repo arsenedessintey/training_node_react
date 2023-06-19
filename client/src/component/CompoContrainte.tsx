@@ -6,6 +6,7 @@ import image4 from "./Fgauche.svg"
 import image5 from "./Plus.svg"
 import image6 from "./FlecheExit.svg"
 import Modal from "./Modal";
+import { groupCollapsed } from "console";
 
 interface Groupeinter {
   idg: number
@@ -47,9 +48,11 @@ const CompoContrainte = () => {
 
   }
 
+
   const [selectConstraint, setSelectConstraint] = useState<Constraint>(
     emptyConstraint
   );
+  const [selectedGroupe, setSelectedGroupe] = useState<string>("");
 
   useEffect(() => {
 
@@ -74,11 +77,21 @@ const CompoContrainte = () => {
     setConstraint(tmpConstraint);
   }
 
+  const changeGroupe = (groupes: string) => {
+    setSelectedGroupe(groupes);
+    toggleModal(modalGroupes, setModalGroupes)
+  }
+
+  const changeConstraint = (constraint: Constraint) => {
+    setSelectConstraint(constraint)
+    toggleModal(modalContraintes, setModalContraintes)
+  }
 
   //Modal Contrainte
   const toggleModal = (modal: boolean, setter: (modal: boolean) => void, constraint?: Constraint) => {
 
-    setSelectConstraint(constraint ?? emptyConstraint);
+      setSelectConstraint(constraint ?? emptyConstraint);
+    
     setter(!modal);
   };
 
@@ -114,17 +127,40 @@ const CompoContrainte = () => {
 
   const handleSubmitGroupes = (e: any) => {
     e.preventDefault();
+
     const groupeCopy = [...groupes];
-    groupeCopy.push({ idg: timeId, nomGroupe: nouveauGroupe, champs: [] });
+
+    const groupeFound = groupeCopy.find(groupe => groupe.nomGroupe === selectedGroupe);
+
+    // Modify the groupe
+    if(groupeFound !== undefined){
+      groupeFound.nomGroupe = nouveauGroupe;
+    }
+    // Add new groupe
+    else{
+      groupeCopy.push({ idg: timeId, nomGroupe: nouveauGroupe, champs: [] });
+    }
+
+    // save changes
     setGroupe(groupeCopy);
+
+    // Récuprer variable groupe si elle existe avec find() x
+
+    // Si groupe exsite
+        // Modifier
+    // Sinon 
+        // Créer un nouveau groupe
+        // Insérer le groupe
+
+    // Reset nouveau groupe et selected groupe
     setNouveauGroupe("");
+    setSelectedGroupe("")
     toggleModal(modalGroupes, setModalGroupes)
   }
 
   const handleSubmitChamps = (e: any) => {
     e.preventDefault();
     toggleModal(modalChamps, setModalChamps);
-    const { nameField, selectConstraint, mandatoryField } = e.target;
   }
 
   const handleSubmitContraintes = (e: any) => {
@@ -218,7 +254,10 @@ const CompoContrainte = () => {
 
             <li key={groupe.idg} className="textgroupe">
 
-              <button type="button" className="croixgroupe" onClick={() => handleDeleteGroupe(groupe.idg)}>✖</button><span className="labelgroupe"><label>-- </label> {groupe.nomGroupe} <label>-- </label></span>
+              <button type="button" className="croixgroupe" onClick={() => handleDeleteGroupe(groupe.idg)}>✖</button><span 
+              onDoubleClick={() => changeGroupe(groupe.nomGroupe)} 
+              className="labelgroupe">
+              <label>- </label> {groupe.nomGroupe} <label>- </label></span>
 
             </li>
 
