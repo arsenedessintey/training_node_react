@@ -121,9 +121,15 @@ const CompoContrainte = () => {
 
   const handleDeleteChamps = (idc: number) => {
     const groupeCopy = [...groupes];
-    const champUpt = groupeCopy[groupeCopy.length - 1].champs.filter((champ) => champ.idc !== idc);
-    groupeCopy[groupeCopy.length - 1].champs = champUpt
-    setGroupe(groupeCopy);
+
+    for(let i = 0; i < groupeCopy.length ; i++){
+      const index = groupeCopy[i].champs.findIndex(champ => champ.idc === champ.idc );
+      if (index !== -1){
+        console.log('&é&é :>> ', 132123123);
+        groupeCopy[index].champs.splice(index, 1);
+        setGroupe(groupeCopy);
+      }
+   }
   }
 
 
