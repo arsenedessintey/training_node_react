@@ -143,16 +143,6 @@ const CompoContrainte = () => {
 
     // save changes
     setGroupe(groupeCopy);
-
-    // Récuprer variable groupe si elle existe avec find() x
-
-    // Si groupe exsite
-        // Modifier
-    // Sinon 
-        // Créer un nouveau groupe
-        // Insérer le groupe
-
-    // Reset nouveau groupe et selected groupe
     setNouveauGroupe("");
     setSelectedGroupe("")
     toggleModal(modalGroupes, setModalGroupes)
