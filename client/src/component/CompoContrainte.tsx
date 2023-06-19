@@ -57,6 +57,7 @@ const CompoContrainte = () => {
   useEffect(() => {
 
     getConstraint()
+    
 
   }, []);
 
@@ -78,19 +79,16 @@ const CompoContrainte = () => {
   }
 
   const changeGroupe = (groupes: string) => {
-    setSelectedGroupe(groupes);
     toggleModal(modalGroupes, setModalGroupes)
-  }
-
-  const changeConstraint = (constraint: Constraint) => {
-    setSelectConstraint(constraint)
-    toggleModal(modalContraintes, setModalContraintes)
+    setSelectedGroupe(groupes);
   }
 
   //Modal Contrainte
   const toggleModal = (modal: boolean, setter: (modal: boolean) => void, constraint?: Constraint) => {
 
       setSelectConstraint(constraint ?? emptyConstraint);
+      setNouveauGroupe("")
+      setSelectedGroupe("")
     
     setter(!modal);
   };
