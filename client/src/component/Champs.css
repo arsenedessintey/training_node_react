@@ -10,7 +10,7 @@
     overflow: scroll;
     overflow-x: hidden;
     width: 70%;
-    height: 800px;
+    height: 55rem;
     min-width: 30rem;
     background-color: white;
     border: solid 3px #282c34;
@@ -52,4 +52,17 @@
 
     font-size:18px;
 
+}
+
+@media screen and (max-width: 1600px){
+
+    .divChamps{
+        overflow: scroll;
+        overflow-x: hidden;
+        width: 70%;
+        height: 43rem;
+        min-width: 30rem;
+        background-color: white;
+        border: solid 3px #282c34;
+    }
 }
