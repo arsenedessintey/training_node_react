@@ -15,9 +15,9 @@ interface Groupeinter {
 }
 
 interface Champ {
-  id: number
-  nom: string
-  contrainte: Constraint
+  idc: number
+  nomChamps: string
+  contrainteChamps: Constraint
 }
 
 const CompoContrainte = () => {
@@ -67,9 +67,13 @@ const CompoContrainte = () => {
 
   //
 
-  const [groupes, setGroupe] = useState<Groupeinter[]>([]);
+  const [groupes, setGroupe] = useState<Groupeinter[]>([
+    {idg: timeId , nomGroupe: "Default" , champs:[]}
+  ]);
 
   const [nouveauGroupe, setNouveauGroupe] = useState("");
+
+  const [nouveauChamps, setNouveauChamps] = useState("")
 
   //FIN GROUPE STATE
 
@@ -115,13 +119,27 @@ const CompoContrainte = () => {
     setGroupe(groupeUpt);
   }
 
+  const handleDeleteChamps = (idc: number) => {
+    const groupeCopy = [...groupes];
+    const champUpt = groupeCopy[groupeCopy.length - 1].champs.filter((champ) => champ.idc !== idc);
+    groupeCopy[groupeCopy.length - 1].champs = champUpt
+    setGroupe(groupeCopy);
+  }
+
 
   const handleChangeGroupe = (e: any) => {
 
-    const valueAfter = e.target.value;
-    setNouveauGroupe(valueAfter);
+    const valueAfterGroupe = e.target.value;
+    setNouveauGroupe(valueAfterGroupe);
 
   };
+
+  const handleChangeChamps = (e:any) => {
+
+    const valueAfterChamps = e.target.value;
+    setNouveauChamps(valueAfterChamps);
+
+  }
 
   const handleSubmitGroupes = (e: any) => {
     e.preventDefault();
@@ -148,7 +166,13 @@ const CompoContrainte = () => {
 
   const handleSubmitChamps = (e: any) => {
     e.preventDefault();
-    toggleModal(modalChamps, setModalChamps);
+
+    const groupeCopy = [...groupes];
+    groupeCopy[groupeCopy.length - 1].champs.push({ idc: timeId, nomChamps: nouveauChamps, contrainteChamps: selectConstraint });
+    setGroupe(groupeCopy);
+    setNouveauChamps("");
+    toggleModal(modalChamps, setModalChamps)
+
   }
 
   const handleSubmitContraintes = (e: any) => {
@@ -197,7 +221,7 @@ const CompoContrainte = () => {
         >
           <div className="divCreaChamps">
             <br></br>
-            <input className="NomChamps" type="text" placeholder="Nom du Champ..." name="nameField" /> <br></br>
+            <input className="NomChamps" type="text" placeholder="Nom du Champ..." name="nameField" value={nouveauChamps} onChange={handleChangeChamps}/> <br></br>
             <br></br>
             <label className="labelChoixC">Contrainte Utilisé : </label>
             <input className="NomchoixChamps" name="selectConstraint" type="text" value={selectConstraint?.nom} disabled /><br></br>
@@ -214,13 +238,9 @@ const CompoContrainte = () => {
           toggle={() => toggleModal(modalGroupes, setModalGroupes)}
           handleSubmit={handleSubmitGroupes}
         >
-          <form id="formGroup" onSubmit={handleSubmitGroupes}>
-            <div className="ContourGroupe">
-              <div className="">
-                <input type="text" className='inputgroupe' placeholder="Nom du Groupe..." value={nouveauGroupe} onChange={handleChangeGroupe} />
-              </div>
-            </div>
-          </form>
+          <div className="ContourGroupe">
+            <input type="text" className='inputgroupe' placeholder="Nom du Groupe..." value={nouveauGroupe} onChange={handleChangeGroupe} />
+          </div>
         </Modal>
       )}
 
@@ -239,15 +259,24 @@ const CompoContrainte = () => {
         <div className="divChamps">
 
           {groupes.map((groupe) => (
+            <ul>
+              <li key={groupe.idg} className="textgroupe">
 
-            <li key={groupe.idg} className="textgroupe">
+                <button type="button" className="croixgroupe" onClick={() => handleDeleteGroupe(groupe.idg)}>✖</button><span 
+                onDoubleClick={() => changeGroupe(groupe.nomGroupe)} 
+                className="labelgroupe">
+                <label>- </label> {groupe.nomGroupe} <label>- </label></span>
 
-              <button type="button" className="croixgroupe" onClick={() => handleDeleteGroupe(groupe.idg)}>✖</button><span 
-              onDoubleClick={() => changeGroupe(groupe.nomGroupe)} 
-              className="labelgroupe">
-              <label>- </label> {groupe.nomGroupe} <label>- </label></span>
+              </li>
+              
+              <li>
 
-            </li>
+                  {groupe.champs.map((champ) => (
+                    <><button type="button" className="croixgroupe" onClick={() => handleDeleteChamps(champ.idc)}>✖</button><input value={champ.nomChamps} disabled /><input value={champ.contrainteChamps.nom} disabled /></>
+                  ))}
+
+              </li>
+            </ul>        
 
           ))}
             <div className="groupe">
