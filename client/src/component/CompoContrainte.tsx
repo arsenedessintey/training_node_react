@@ -54,6 +54,8 @@ const CompoContrainte = () => {
   );
   const [selectedGroupe, setSelectedGroupe] = useState<string>("");
 
+  const [selectedChamp, setSelectedChamp] = useState<string>("");
+
   useEffect(() => {
 
     getConstraint()
@@ -87,12 +89,19 @@ const CompoContrainte = () => {
     setSelectedGroupe(groupes);
   }
 
+  const changeChamp = (champs: string) => {
+    console.log('champs :>> ', champs);
+    toggleModal(modalChamps, setModalChamps)
+    setSelectedChamp(champs);
+  }
   //Modal Contrainte
   const toggleModal = (modal: boolean, setter: (modal: boolean) => void, constraint?: Constraint) => {
 
       setSelectConstraint(constraint ?? emptyConstraint);
       setNouveauGroupe("")
       setSelectedGroupe("")
+      setNouveauChamps("")
+      setSelectedChamp("")
     
     setter(!modal);
   };
@@ -123,9 +132,8 @@ const CompoContrainte = () => {
     const groupeCopy = [...groupes];
 
     for(let i = 0; i < groupeCopy.length ; i++){
-      const index = groupeCopy[i].champs.findIndex(champ => champ.idc === champ.idc );
+      const index = groupeCopy[i].champs.findIndex(champ => champ.idc !== idc );
       if (index !== -1){
-        console.log('&é&é :>> ', 132123123);
         groupeCopy[index].champs.splice(index, 1);
         setGroupe(groupeCopy);
       }
@@ -174,12 +182,29 @@ const CompoContrainte = () => {
     e.preventDefault();
 
     const groupeCopy = [...groupes];
-    groupeCopy[groupeCopy.length - 1].champs.push({ idc: timeId, nomChamps: nouveauChamps, contrainteChamps: selectConstraint });
+    let index = -1
+      for(let i = 0; i < groupeCopy.length ; i++){
+        index = groupeCopy[i].champs.findIndex(champ => champ.nomChamps === selectedChamp);
+    // Modify champ
+        if(index !== -1) {
+          const tmpChamps = groupeCopy[i].champs[index];
+          tmpChamps.nomChamps = nouveauChamps;
+          break
+        }
+     }
+    // Add new champs
+
+    if(index === -1){
+      groupeCopy[groupeCopy.length - 1].champs.push({ idc: timeId, nomChamps: nouveauChamps, contrainteChamps: selectConstraint });
+    }
+
+    // save changes
     setGroupe(groupeCopy);
     setNouveauChamps("");
+    setSelectedChamp("")
     toggleModal(modalChamps, setModalChamps)
-
   }
+
 
   const handleSubmitContraintes = (e: any) => {
     e.preventDefault();
@@ -278,7 +303,12 @@ const CompoContrainte = () => {
               <li>
 
                   {groupe.champs.map((champ) => (
-                    <><button type="button" className="croixgroupe" onClick={() => handleDeleteChamps(champ.idc)}>✖</button><input value={champ.nomChamps} disabled /><input value={champ.contrainteChamps.nom} disabled /></>
+
+                    <>
+                    <input type="image" className="Modif" src={image3} onClick={() => changeChamp(champ.nomChamps)} />
+                    <button type="button" className="croixgroupe" onClick={() => handleDeleteChamps(champ.idc)}>✖</button>
+                    <input value={champ.nomChamps} disabled />
+                    <input value={champ.contrainteChamps.nom} disabled /></>
                   ))}
 
               </li>
