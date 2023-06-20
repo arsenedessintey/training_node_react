@@ -9,6 +9,7 @@ import Modal from "./Modal";
 import image7 from "./Monter.svg"
 import image8 from "./Descente.svg"
 import { groupCollapsed } from "console";
+import { swipeArrayElem } from "../utils/utils";
 
 interface Groupeinter {
   idg: number
@@ -147,44 +148,24 @@ const CompoContrainte = () => {
    }
   }
 
-  const handleChampsUpDown = (champp: Champ, choixnumber : number) => {
-      const groupeCopy = [...groupes];
+  const handleChampsMove = (moveChamp: Champ, travel: -1 | 1) => {
+    const groupeCopy = [...groupes];
 
-      let indexChampClick
+    let indexChampClick = -1;
 
-      for(let i = 0; i < groupeCopy.length ; i++){
+    for (let i = 0; i < groupeCopy.length; i++) {
 
-        indexChampClick = groupeCopy[i].champs.findIndex(champ => champ.idc === champp.idc);
+      indexChampClick = groupeCopy[i].champs.findIndex(champ => champ.idc === moveChamp.idc);
+      const arrayLimit = (travel !== 1) ? 0 : groupeCopy[i].champs.length - 1;
 
-        if(indexChampClick !== -1 && indexChampClick !== 0){
-          if(choixnumber === 1){
-            const temps = groupeCopy[i].champs[indexChampClick]
-            groupeCopy[i].champs[indexChampClick] = groupeCopy[i].champs[indexChampClick - 1]
-            groupeCopy[i].champs[indexChampClick - 1] = temps
-
-            break
-          }
-        }
-        if(indexChampClick !== -1 && indexChampClick !== groupeCopy[i].champs.length - 1){
-          if(choixnumber === 2) {
-            const temps = groupeCopy[i].champs[indexChampClick]
-            groupeCopy[i].champs[indexChampClick] = groupeCopy[i].champs[indexChampClick + 1]
-            groupeCopy[i].champs[indexChampClick + 1] = temps
-
-            break
-          }
-        }
+      if (indexChampClick !== -1 && indexChampClick !== arrayLimit) {
+        swipeArrayElem(groupeCopy[i].champs, indexChampClick, indexChampClick + travel);
+        break
       }
-    
-  
+    }
 
-  
-  
-  console.log('hgioefj :>> ', groupeCopy);
-
-  setGroupe(groupeCopy);
-
-}
+    setGroupe(groupeCopy);
+  }
 
   const handleGroupeUpDown = () => {
 
@@ -354,8 +335,8 @@ const CompoContrainte = () => {
                   {groupe.champs.map((champ) => (
 
                     <>
-                    <input type="image" className="Descente" src={image8} onClick={() => {handleChampsUpDown(champ,2)}}/>
-                    <input type="image" className="Monter" src={image7} onClick={() => {handleChampsUpDown(champ,1)}}/>
+                    <input type="image" className="Descente" src={image8} onClick={() => {handleChampsMove(champ,+1)}}/>
+                    <input type="image" className="Monter" src={image7} onClick={() => {handleChampsMove(champ,-1)}}/>
                     <input type="image" className="Modif" src={image3} onClick={() => changeChamp(champ)} />
                     <button type="button" className="croixgroupe" onClick={() => handleDeleteChamps(champ.idc)}>✖</button>
                     <input value={champ.nomChamps} disabled />
