@@ -206,6 +206,16 @@ ul {
   padding: 0px;
 }
 
+.Monter{
+  width: 30px;
+}
+
+.Descente{
+  
+  width: 25px;
+  margin-left:px;
+}
+
 @media screen and (max-width: 1600px){
 
   .bacCong{

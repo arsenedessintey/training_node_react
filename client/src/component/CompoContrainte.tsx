@@ -6,6 +6,8 @@ import image4 from "./Fgauche.svg"
 import image5 from "./Plus.svg"
 import image6 from "./FlecheExit.svg"
 import Modal from "./Modal";
+import image7 from "./Monter.svg"
+import image8 from "./Descente.svg"
 import { groupCollapsed } from "console";
 
 interface Groupeinter {
@@ -54,7 +56,7 @@ const CompoContrainte = () => {
   );
   const [selectedGroupe, setSelectedGroupe] = useState<string>("");
 
-  const [selectedChamp, setSelectedChamp] = useState<string>("");
+  const [selectedChampId, setSelectedChampId] = useState<number>(-1);
 
   useEffect(() => {
 
@@ -89,10 +91,10 @@ const CompoContrainte = () => {
     setSelectedGroupe(groupes);
   }
 
-  const changeChamp = (champs: string) => {
-    console.log('champs :>> ', champs);
+  const changeChamp = (champs: Champ) => {
     toggleModal(modalChamps, setModalChamps)
-    setSelectedChamp(champs);
+    setSelectedChampId(champs.idc);
+    setSelectConstraint(champs.contrainteChamps)
   }
   //Modal Contrainte
   const toggleModal = (modal: boolean, setter: (modal: boolean) => void, constraint?: Constraint) => {
@@ -101,7 +103,7 @@ const CompoContrainte = () => {
       setNouveauGroupe("")
       setSelectedGroupe("")
       setNouveauChamps("")
-      setSelectedChamp("")
+      setSelectedChampId(-1)
     
     setter(!modal);
   };
@@ -128,13 +130,18 @@ const CompoContrainte = () => {
     setGroupe(groupeUpt);
   }
 
-  const handleDeleteChamps = (idc: number) => {
+  const handleDeleteChamps = (idc : number) => {
     const groupeCopy = [...groupes];
+    console.log('efzefezfcez :>> ', idc);
 
     for(let i = 0; i < groupeCopy.length ; i++){
-      const index = groupeCopy[i].champs.findIndex(champ => champ.idc !== idc );
-      if (index !== -1){
-        groupeCopy[index].champs.splice(index, 1);
+      const indexChamp = groupeCopy[i].champs.findIndex(champ => {
+        console.log('champ.idc :>> ', champ.idc);
+        return champ.idc === idc
+      } );
+      console.log('index :>> ', indexChamp);
+      if (indexChamp !== -1){
+        groupeCopy[i].champs.splice(indexChamp, 1);
         setGroupe(groupeCopy);
       }
    }
@@ -184,7 +191,7 @@ const CompoContrainte = () => {
     const groupeCopy = [...groupes];
     let index = -1
       for(let i = 0; i < groupeCopy.length ; i++){
-        index = groupeCopy[i].champs.findIndex(champ => champ.nomChamps === selectedChamp);
+        index = groupeCopy[i].champs.findIndex(champ => champ.idc === selectedChampId);
     // Modify champ
         if(index !== -1) {
           const tmpChamps = groupeCopy[i].champs[index];
@@ -201,7 +208,7 @@ const CompoContrainte = () => {
     // save changes
     setGroupe(groupeCopy);
     setNouveauChamps("");
-    setSelectedChamp("")
+    setSelectedChampId(-1)
     toggleModal(modalChamps, setModalChamps)
   }
 
@@ -305,7 +312,9 @@ const CompoContrainte = () => {
                   {groupe.champs.map((champ) => (
 
                     <>
-                    <input type="image" className="Modif" src={image3} onClick={() => changeChamp(champ.nomChamps)} />
+                    <input type="image" className="Descente" src={image8}/>
+                    <input type="image" className="Monter" src={image7}/>
+                    <input type="image" className="Modif" src={image3} onClick={() => changeChamp(champ)} />
                     <button type="button" className="croixgroupe" onClick={() => handleDeleteChamps(champ.idc)}>✖</button>
                     <input value={champ.nomChamps} disabled />
                     <input value={champ.contrainteChamps.nom} disabled /></>
