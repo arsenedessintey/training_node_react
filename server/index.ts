@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { Contrainte, Regex, PrismaClient } from '@prisma/client';
+import { Contrainte, PrismaClient } from '@prisma/client';
 
 
 export const prisma = new PrismaClient();

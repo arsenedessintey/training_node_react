@@ -9,7 +9,7 @@ import Modal from "./Modal";
 import image7 from "./Monter.svg"
 import image8 from "./Descente.svg"
 import { groupCollapsed } from "console";
-import { swipeArrayElem } from "../utils/utils";
+import { swipeArrayElem, swipeArrayElemGroupe } from "../utils/utils";
 
 interface Groupeinter {
   idg: number
@@ -149,6 +149,7 @@ const CompoContrainte = () => {
   }
 
   const handleChampsMove = (moveChamp: Champ, travel: -1 | 1) => {
+
     const groupeCopy = [...groupes];
 
     let indexChampClick = -1;
@@ -167,7 +168,24 @@ const CompoContrainte = () => {
     setGroupe(groupeCopy);
   }
 
-  const handleGroupeUpDown = () => {
+  const handleGroupeUpDown = (moveGroupe: Groupeinter, travel: -1 | 1) => {
+
+    const groupeCopy = [...groupes];
+
+    let indexGroupeClick = -1;
+
+    for (let i = 0; i < groupeCopy.length; i++) {
+
+      indexGroupeClick = groupeCopy.findIndex(groupe => groupe.idg === moveGroupe.idg);
+      const arrayLimit = (travel!== 1) ? 0 : groupeCopy.length - 1;
+
+      if (indexGroupeClick !== -1 && indexGroupeClick !== arrayLimit) {
+        swipeArrayElemGroupe(groupeCopy, indexGroupeClick, indexGroupeClick + travel);
+        break
+      }
+    }
+
+    setGroupe(groupeCopy);
 
   }
     
@@ -327,6 +345,10 @@ const CompoContrainte = () => {
                 onDoubleClick={() => changeGroupe(groupe.nomGroupe)} 
                 className="labelgroupe">
                 <label>- </label> {groupe.nomGroupe} <label>- </label></span>
+                <div className="affichageGroupeDM">
+                  <input type="image" className="Descente" src={image8} onClick={() => handleGroupeUpDown(groupe, +1)}/>
+                  <input type="image" className="Monter" src={image7}onClick={() => handleGroupeUpDown(groupe, -1)}/>
+                </div>
 
               </li>
               
@@ -334,23 +356,27 @@ const CompoContrainte = () => {
 
                   {groupe.champs.map((champ) => (
 
-                    <>
-                    <input type="image" className="Descente" src={image8} onClick={() => {handleChampsMove(champ,+1)}}/>
-                    <input type="image" className="Monter" src={image7} onClick={() => {handleChampsMove(champ,-1)}}/>
-                    <input type="image" className="Modif" src={image3} onClick={() => changeChamp(champ)} />
-                    <button type="button" className="croixgroupe" onClick={() => handleDeleteChamps(champ.idc)}>✖</button>
-                    <input value={champ.nomChamps} disabled />
-                    <input value={champ.contrainteChamps.nom} disabled /></>
+                    <div className="affichageAllChamps">
+                      <input className="affichageNomChamp" value={champ.nomChamps} disabled />
+                      <input className="affichageContrainte" value={champ.contrainteChamps.nom} disabled />
+                      <input type="image" className="Modifchamps" src={image3} onClick={() => changeChamp(champ)} />
+                      <button type="button" className="croixchamps" onClick={() => handleDeleteChamps(champ.idc)}>✖</button>
+                      <div className="affichageChampDM">
+                        <input type="image" className="Descente" src={image8} onClick={() => {handleChampsMove(champ,+1)}}/>
+                        <input type="image" className="Monter" src={image7} onClick={() => {handleChampsMove(champ,-1)}}/>
+                      </div>
+                    </div>
                   ))}
 
               </li>
+              
             </ul>        
 
           ))}
-            <div className="groupe">
-              <input type="image" className="plus" id="mandatoryGroupe" name="mandatoryGroupe" src={image5} onClick={() => toggleModal(modalGroupes, setModalGroupes)} />
-              <label className="insgroupe" htmlFor="mandatoryGroupe">INSERER UN GROUPE</label>
-            </div>
+          <div className="groupe">
+            <input type="image" className="plus" id="mandatoryGroupe" name="mandatoryGroupe" src={image5} onClick={() => toggleModal(modalGroupes, setModalGroupes)} />
+            <label className="insgroupe" htmlFor="mandatoryGroupe">INSERER UN GROUPE</label>
+          </div>
         </div>
 
         <div className="divBaccong">
@@ -362,7 +388,7 @@ const CompoContrainte = () => {
                     <div className="divcroisupp"><button type="button" className="croixCont" onClick={() => { if (window.confirm("Attention tu vas supprimé une contrainte")) { handledelete(constr.contrainte_id) } }}>✖</button></div>
                     <div className="divmodif"><input type="image" className="Modif" src={image3} onClick={() => toggleModal(modalContraintes, setModalContraintes, constr)} /></div>
                     <input type="image" className="Fgauche" src={image4} onClick={() => { toggleModal(modalChamps, setModalChamps, constr) }} />
-                    <div className="divNomRegex"><li className="NameRegex">Nom : {constr.nom}<br></br>Regex Utilisé : {constr.valeur_regex}</li></div>
+                    <div className="divNomRegex"><li className="NameRegex">Nom : {constr.nom}</li></div>
                   </div>
                 </div>
               )}

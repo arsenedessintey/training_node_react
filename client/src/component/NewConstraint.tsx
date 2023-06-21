@@ -60,31 +60,6 @@ export default function NewConstraint(props: Props) {
     }
   ]
 
-  //State
-
-  // const [constraint, setConstraint] = useState<Constraint>({
-
-  //   contrainte_id: 0,
-  //   nom: "",
-  //   type_contrainte: tabType[0].value,
-  //   valeur_regex:"",
-  //   Value1 : "",
-  //   Value2 : "",
-  //   Value3 : "",
-  //   Value4 : "",
-  //   Value5 : "",
-  //   Value6 : "",
-  //   Value7 : ""
-
-  // })
-
-  useEffect(() => {
-
-    // if (props.selectConstraint !== undefined) {
-    //   props.setConstraint(props.selectConstraint)
-    // }
-  }, []);
-
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
 
@@ -93,9 +68,6 @@ export default function NewConstraint(props: Props) {
       [name]: value
     })
   };
-
-
-  // const MC = (props.selectConstraint === undefined) ? <p>CREER</p> : <p>MODIFIER</p>;
 
   //Affichage
 

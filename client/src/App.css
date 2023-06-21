@@ -119,7 +119,9 @@ ul {
 
 .NameRegex{
 
-  margin-top:-63px;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top:-55px;
   padding:0px;
 
 }
@@ -146,12 +148,13 @@ ul {
 .groupe{
 
   display:flex;
-  position: absolute;
+  position: relative;
 
   width: 400px;
   font-size: 30px;
   margin-top:-5px;
   margin-left: 80px;
+  margin-bottom:20px;
 
   font-weight: bold;
 
@@ -214,6 +217,65 @@ ul {
   
   width: 25px;
   margin-left:px;
+}
+
+.affichageNomChamp{
+  width: 30rem;
+  height: 3rem;
+  border: solid 2px #282c34;
+  margin-right:20px;
+  font-size:23px;
+  
+}
+
+.affichageContrainte{
+  width: 20rem;
+  height: 3rem;
+  border: solid 2px #282c34;
+  font-size:23px;
+}
+
+.Modifchamps{
+  position:relative;
+  z-index: 6;
+
+  width: 25px;
+  top: 13px;
+  right: 30px;
+}
+
+.croixchamps{
+
+  position:relative;
+  z-index: 5;
+
+  font-size:17px;
+  right:56px;
+  bottom: 13px;
+
+  font-weight: bold;
+  background-color: rgb(250, 250, 250);
+  border: solid 0px #282c34;
+  cursor: pointer;
+
+}
+
+.affichageChampDM{
+  position:relative;
+  left:430px;
+  bottom: 42px;
+}
+
+.affichageAllChamps{
+  margin-top: 20px;
+  margin-right: 200px;
+  margin-bottom: -40px;
+}
+
+.affichageGroupeDM{
+  position:relative;
+  top:10px;
+  left:10px;
 }
 
 @media screen and (max-width: 1600px){
