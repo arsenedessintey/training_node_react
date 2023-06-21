@@ -137,7 +137,6 @@ const CompoContrainte = () => {
 
     for(let i = 0; i < groupeCopy.length ; i++){
       const indexChamp = groupeCopy[i].champs.findIndex(champ => {
-        console.log('champ.idc :>> ', champ.idc);
         return champ.idc === idc
       } );
       console.log('index :>> ', indexChamp);
@@ -162,6 +161,28 @@ const CompoContrainte = () => {
       if (indexChampClick !== -1 && indexChampClick !== arrayLimit) {
         swipeArrayElem(groupeCopy[i].champs, indexChampClick, indexChampClick + travel);
         break
+      }
+      if(indexChampClick === arrayLimit){
+
+        if(arrayLimit === groupeCopy[i].champs.length - 1){
+
+          console.log('"iujbzesdvuibsdfvui"', "iujbzesdvuibsdfvui")
+
+          const champtempo = groupeCopy[i].champs[indexChampClick]
+
+          groupeCopy[ i ].champs.splice(indexChampClick, 1);
+          setGroupe(groupeCopy);
+
+          console.log('"uuuuuuuuuuuuu"', "uuuuuuuuuuuuu")
+          groupeCopy[ i + 1 ].champs.push(champtempo)
+          setGroupe(groupeCopy)
+
+        }
+        if(arrayLimit === 0){
+
+        }
+
+
       }
     }
 
@@ -357,13 +378,17 @@ const CompoContrainte = () => {
                   {groupe.champs.map((champ) => (
 
                     <div className="affichageAllChamps">
-                      <input className="affichageNomChamp" value={champ.nomChamps} disabled />
-                      <input className="affichageContrainte" value={champ.contrainteChamps.nom} disabled />
-                      <input type="image" className="Modifchamps" src={image3} onClick={() => changeChamp(champ)} />
-                      <button type="button" className="croixchamps" onClick={() => handleDeleteChamps(champ.idc)}>✖</button>
+                      <div className="champRow">
+                        <input className="affichageNomChamp" value={champ.nomChamps} disabled />
+                        <input className="affichageContrainte" value={champ.contrainteChamps.nom} disabled />
+
+                        <input type="image" className="Modifchamps" src={image3} onClick={() => changeChamp(champ)} />
+                        <button type="button" className="croixchamps" onClick={() => handleDeleteChamps(champ.idc)}>✖</button>
                       <div className="affichageChampDM">
-                        <input type="image" className="Descente" src={image8} onClick={() => {handleChampsMove(champ,+1)}}/>
                         <input type="image" className="Monter" src={image7} onClick={() => {handleChampsMove(champ,-1)}}/>
+                        <input type="image" className="Descente" src={image8} onClick={() => {handleChampsMove(champ,+1)}}/>
+
+                      </div>
                       </div>
                     </div>
                   ))}

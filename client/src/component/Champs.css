@@ -54,7 +54,14 @@
 
 }
 
-@media screen and (max-width: 1600px){
+
+
+@media screen and (max-width: 1700px){
+
+    .champRow{
+        display: flex;
+        flex-direction: row;
+    }
 
     .divChamps{
         overflow: scroll;

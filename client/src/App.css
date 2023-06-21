@@ -71,9 +71,6 @@ ul {
   display:flex;
   justify-content: right;
 
-  /* margin-right:50px;
-  margin-top:30px; */
-
 }
 
 .btn_modal_center{
@@ -229,6 +226,7 @@ ul {
 }
 
 .affichageContrainte{
+  z-index: 10;
   width: 20rem;
   height: 3rem;
   border: solid 2px #282c34;
@@ -254,22 +252,22 @@ ul {
   bottom: 13px;
 
   font-weight: bold;
-  background-color: rgb(250, 250, 250);
+  background-color: rgb(255, 255, 255);
   border: solid 0px #282c34;
   cursor: pointer;
 
 }
 
 .affichageChampDM{
-  position:relative;
-  left:430px;
-  bottom: 42px;
+  position: relative;
+  margin-left:870px;
+  margin-top:-40px;
 }
 
 .affichageAllChamps{
   margin-top: 20px;
-  margin-right: 200px;
-  margin-bottom: -40px;
+  margin-right: 190px;
+  margin-bottom: -5px;
 }
 
 .affichageGroupeDM{
@@ -278,13 +276,49 @@ ul {
   left:10px;
 }
 
-@media screen and (max-width: 1600px){
+@media screen and (max-width: 1700px){
+
+  .Modifchamps{
+
+    top: 7px;
+
+  }
+
+  .croixchamps{
+
+    bottom: 17px;
+  
+  }
 
   .bacCong{
 
     height: 600px;
 
   }
+
+  .affichageChampDM{
+
+    margin-left:-40px;
+    margin-top:-5px;
+
+  }
+
+}
+
+
+@media screen and (max-width: 1240px){
+
+  .affichageNomChamp{
+
+    font-size:20px;
+    
+  }
+  
+  .affichageContrainte{
+  
+    font-size:20px;
+  }
+  
 
 }
 
