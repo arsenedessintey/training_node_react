@@ -15,6 +15,62 @@ model Contrainte {
   nom             String       @unique
   type_contrainte String
   valeur_regex    String
+  
+  //Champs
+  champs          Field[]
+
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+}
+
+model Sheet {
+  sheet_id        Int          @id @default(autoincrement())
+  nom             String
+  description     String?
+  champs          Field[]
+  
+
+  // Childs Sheet
+  childSheet  Sheet[] @relation("childParentFiche")
+
+  // Parent Sheet
+  parentSheet Sheet? @relation("childParentFiche", fields: [parentSheetId], references: [sheet_id])
+  parentSheetId Int?
+
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+}
+
+model Field {
+  field_id        Int          @id @default(autoincrement())
+  nom             String
+  ordre   	      Int          
+  obligatoire     Boolean
+
+  //Sheet
+  sheet      Sheet   @relation(fields: [sheet_id], references: [sheet_id])
+  sheet_id   Int
+
+  // Groupe
+  groupe          Groupe?      @relation(fields: [groupe_id], references: [groupe_id])
+  groupe_id       Int?
+
+  //Constraint
+  constraint Contrainte @relation(fields: [constraintId], references: [contrainte_id])
+  constraintId Int
+
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+}
+
+model Groupe {
+  groupe_id       Int          @id @default(autoincrement())
+  nom             String
+  champs          Field[]
+
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
 }
 
 
