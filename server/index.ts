@@ -165,7 +165,34 @@ app.put('/api/constraint/:id', async (req: Request, res: Response) => {
   })
 });
 
-app.post('/api/groupe', async (req: Request, res: Response) => {
+app.post('/api/saugarde', async (req: Request, res: Response) => {
+
+  prisma.sheet.create({
+    data: {
+      nom:"defaultname",
+      champs: {
+        create : [
+          {
+            nom : "Constraintname",
+            constraint : {connect:{
+              contrainte_id : 1
+            }},
+            obligatoire : true,
+            ordre : 1,
+            groupe : {connectOrCreate:{
+              where: {
+                groupe_id: 1,
+              },
+              create:{
+                nom : "Groupename",
+              }
+            }}
+          }
+        ]
+      }
+
+    }
+  })
 
 });
 

@@ -26,9 +26,9 @@ model Contrainte {
 
 model Sheet {
   sheet_id        Int          @id @default(autoincrement())
-  nom             String
+  nom             String       
   description     String?
-  champs          Field[]
+  groupe          Groupe[]
   
 
   // Childs Sheet
@@ -48,9 +48,6 @@ model Field {
   ordre   	      Int          
   obligatoire     Boolean
 
-  //Sheet
-  sheet      Sheet   @relation(fields: [sheet_id], references: [sheet_id])
-  sheet_id   Int
 
   // Groupe
   groupe          Groupe?      @relation(fields: [groupe_id], references: [groupe_id])
@@ -67,10 +64,15 @@ model Field {
 model Groupe {
   groupe_id       Int          @id @default(autoincrement())
   nom             String
+  ordre           Int
   champs          Field[]
 
   createdAt       DateTime            @default(now())
   updatedAt       DateTime            @updatedAt
+
+  sheet          Sheet?      @relation(fields: [sheet_id], references: [sheet_id])
+  sheet_id       Int?
+
 }
 
 

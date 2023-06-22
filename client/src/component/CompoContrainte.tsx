@@ -296,8 +296,6 @@ const CompoContrainte = () => {
     // Choose request method to create/post or modify/put
     const request = (NewConstraint.contrainte_id === -1) ? axios.post : axios.put;
 
-    console.log('urlStr :>> ', urlStr);
-
     // Send request
     request(urlStr, NewConstraint)
       .then((response) => {
@@ -307,6 +305,20 @@ const CompoContrainte = () => {
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  const handleSauvegardeSubmit = () => {
+
+    const groupesJSON = JSON.stringify(groupes)
+    
+    axios.post('/api/sauvegarde', groupesJSON)
+      .then((response) => {
+        console.log(response.status);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
   }
 
   //FIN GROUPE//
@@ -425,6 +437,11 @@ const CompoContrainte = () => {
               </div>
             </ul>
           </div>
+        </div>
+      </div>
+      <div className="boutonSauvegardeFicheCenter">
+        <div className="boutonSauvegardeFiche">
+          <button type="button" className="saugardeFicheButton" onClick={handleSauvegardeSubmit}>Sauvegarder La Fiche</button>
         </div>
       </div>
     </>
