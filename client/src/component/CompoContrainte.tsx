@@ -156,32 +156,32 @@ const CompoContrainte = () => {
     for (let i = 0; i < groupeCopy.length; i++) {
 
       indexChampClick = groupeCopy[i].champs.findIndex(champ => champ.idc === moveChamp.idc);
+
+      if(indexChampClick === -1){
+        continue;
+      }
+      
       const arrayLimit = (travel !== 1) ? 0 : groupeCopy[i].champs.length - 1;
 
-      if (indexChampClick !== -1 && indexChampClick !== arrayLimit) {
+      if (indexChampClick !== arrayLimit) {
         swipeArrayElem(groupeCopy[i].champs, indexChampClick, indexChampClick + travel);
         break
       }
-      if(indexChampClick === arrayLimit){
 
-        if(arrayLimit === groupeCopy[i].champs.length - 1){
+      else if (indexChampClick === arrayLimit && groupeCopy[i + travel]) {
 
-          console.log('"iujbzesdvuibsdfvui"', "iujbzesdvuibsdfvui")
+        const champtempo = groupeCopy[i].champs[indexChampClick]
 
-          const champtempo = groupeCopy[i].champs[indexChampClick]
+        groupeCopy[i].champs.splice(indexChampClick, 1);
+        
+        if(travel !== 1)
+        groupeCopy[i + travel].champs.push(champtempo)
 
-          groupeCopy[ i ].champs.splice(indexChampClick, 1);
-          setGroupe(groupeCopy);
-
-          console.log('"uuuuuuuuuuuuu"', "uuuuuuuuuuuuu")
-          groupeCopy[ i + 1 ].champs.push(champtempo)
-          setGroupe(groupeCopy)
-
-        }
-        if(arrayLimit === 0){
-
+        else {
+        groupeCopy[i + travel].champs.unshift(champtempo)
         }
 
+        break
 
       }
     }
