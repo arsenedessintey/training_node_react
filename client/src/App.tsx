@@ -3,13 +3,14 @@ import "./App.css";
 import "./component/Groupes.css";
 import "./component/Champs.css";
 import "./component/NewConstraint.css";
-import CompoContrainte from './component/CompoContrainte';
+import AccueilSousFiche from './component/AccueilSousFiche';
+
 
 
 function App() {
   return (
     <div className="App">
-        <CompoContrainte />
+        <AccueilSousFiche />
     </div>
   );
 }

@@ -8,8 +8,11 @@ import image6 from "./FlecheExit.svg"
 import Modal from "./Modal";
 import image7 from "./Monter.svg"
 import image8 from "./Descente.svg"
-import { groupCollapsed } from "console";
 import { swipeArrayElem, swipeArrayElemGroupe } from "../utils/utils";
+
+interface PropsCC {
+  toggleSF: () => void
+}
 
 interface Groupeinter {
   idg: number
@@ -23,7 +26,7 @@ interface Champ {
   contrainteChamps: Constraint
 }
 
-const CompoContrainte = () => {
+const CompoContrainte = (PropsCC: PropsCC) => {
   // Modal Champs
   const [modalChamps, setModalChamps] = useState(false);
 
@@ -366,7 +369,7 @@ const CompoContrainte = () => {
         </Modal>
       )}
 
-      <input type="image" className="Fgauche2" src={image6} />
+      <input type="image" className="Fgauche2" src={image6} onClick={PropsCC.toggleSF} />
 
       <div className="felxRowConstraint">
         <div className="divChamps">

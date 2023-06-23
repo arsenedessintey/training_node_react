@@ -170,14 +170,27 @@ app.post('/api/saugarde', async (req: Request, res: Response) => {
   prisma.sheet.create({
     data: {
       nom:"defaultname",
-      
-      
-      
+      groupe: {
+        connect:{
+          groupe_id:1,
+        },
+        create:{
+          nom:"GroupeNom",
+          ordre: 1,
+          champs: {
+            create:{
+              nom:"ChampsNom",
+              obligatoire: true,
+              ordre:1,
+              constraint:{
 
+              }
+            }
+          }
+        }
+      }
     }
-  })
-
-});
+  })});
 
 
 
