@@ -4,6 +4,33 @@ import cors from 'cors';
 import { Contrainte, PrismaClient } from '@prisma/client';
 
 
+interface Groupeinter {
+  idg: number
+  nomGroupe: string
+  champs: Champ[]
+}
+
+interface Champ {
+  idc: number
+  nomChamps: string
+  contrainteChamps: Constraint
+}
+
+export interface Constraint {
+
+  contrainte_id: number
+  nom: string
+  type_contrainte: string
+  valeur_regex: string
+  Value1 : string
+  Value2 : string
+  Value3 : string
+  Value4: string
+  Value5: string
+  Value6: string
+  Value7: string
+}
+
 export const prisma = new PrismaClient();
 
   const CreateRegex = (req: { body: { Value1: any , Value2 : any, Value3 : any, Value4 : any, Value5 : any, Value6 : any, Value7:any, }; }) => {
@@ -137,7 +164,6 @@ return res.status(200).json(allConstraint);
 });
 
 app.put('/api/constraint/:id', async (req: Request, res: Response) => {
-  // console.log('req.body :>> ', req.body);
   const id:number = Number(req.params.id);
 
   const nom:string = (req.body.nom);
@@ -165,32 +191,69 @@ app.put('/api/constraint/:id', async (req: Request, res: Response) => {
   })
 });
 
-app.post('/api/saugarde', async (req: Request, res: Response) => {
-
-  prisma.sheet.create({
-    data: {
-      nom:"defaultname",
-      groupe: {
-        connect:{
-          groupe_id:1,
-        },
-        create:{
-          nom:"GroupeNom",
-          ordre: 1,
-          champs: {
-            create:{
-              nom:"ChampsNom",
-              obligatoire: true,
-              ordre:1,
-              constraint:{
-
-              }
-            }
+const parseurGroupe = (groupes: Groupeinter[],) => {
+  return groupes.map((groupe, i) => {
+    return {
+      nom: groupe.nomGroupe,
+      ordre: i,
+      champs: {
+        createMany : {
+          data: parseurChamps(groupe.champs)
+        }
+      }
+    }
+  })
+}
+const parseurChamps = (champs: Champ[]) => {
+  return champs.map((champ, i) => {
+    return {
+      create: {
+        nom: champ.nomChamps,
+        obligatoire: true,
+        ordre: i,
+        constraint: {
+          connect: {
+            contrainte_id: champ.contrainteChamps.contrainte_id,
           }
         }
       }
     }
-  })});
+  })
+}
+app.post('/api/sheetModal', async (req: Request, res: Response) => {
+
+ const sheet: Groupeinter[] = req.body
+
+  console.log('sheet', sheet[0].champs)
+
+ try {
+
+  const resPrisma = await prisma.sheet.create({
+    data: {
+      nom: "defaultname",
+      groupe: {
+        createMany: {
+          data: parseurGroupe(sheet)
+        }
+      }
+    }
+  })
+
+  console.log('resPrisma', resPrisma)
+  
+ } catch (error) {
+  res.status(404)
+  console.log('error', error)
+ }
+ res.status(200)
+});
+
+app.get('/api/recherche', async (req: Request, res: Response  ) => {
+
+  const allrecherche = await prisma.sheet.findMany()
+  return res.status(200).json(allrecherche);
+
+});
 
 
 

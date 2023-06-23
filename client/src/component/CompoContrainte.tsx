@@ -312,9 +312,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const handleSauvegardeSubmit = () => {
 
-    const groupesJSON = JSON.stringify(groupes)
-    
-    axios.post('/api/sauvegarde', groupesJSON)
+    axios.post('/api/sheetModal', groupes)
       .then((response) => {
         console.log(response.status);
       })
