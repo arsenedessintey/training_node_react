@@ -14,14 +14,12 @@ const AccueilSousFiche = (props: Props) => {
 
     useEffect(() => {
 
-        // getRecherche()
+        getRecherche()
         
     
       }, []);
 
-    const [recherche, setRecherche] = useState<Recherche[]>([
-        { nom:"AAAAA" }
-    ])
+    const [recherche, setRecherche] = useState<Recherche[]>([])
 
 
     async function getRecherche() {

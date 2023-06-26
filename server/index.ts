@@ -207,19 +207,22 @@ const parseurChamps = (champs: Champ[]) => {
   return champs.map((champ, i) => {
     return {
         nom: champ.nomChamps,
-        obligatoire: true,
+        obligatoire: champ.require,
         ordre: i,
         constraintId: champ.contrainteChamps.contrainte_id
       }
   })
 }
 app.post('/api/sheetModel', async (req: Request, res: Response) => {
-  const groupes: Groupeinter[] = req.body;
+  const groupes: Groupeinter[] = req.body.groupe;
+  const nomFicheS: string = req.body.nomFicheS
+  const descFicheS: string = req.body.descFicheS
+  
   try {
     const sheets = await prisma.sheet.create({
       data: {
-        nom: "Nom de la Sheet",
-        description: "Description de la Sheet",
+        nom: nomFicheS,
+        description: descFicheS,
         groupe: {
           create: parseurGroupe(groupes)
         }
@@ -236,6 +239,14 @@ app.post('/api/sheetModel', async (req: Request, res: Response) => {
   }
   res.status(200).send("new sheet created");
 });
+
+app.get('/api/recherche', async (req: Request, res: Response  ) => {
+
+  const allrecherche = await prisma.sheet.findMany()
+  return res.status(200).json(allrecherche);
+
+});
+
 
 
 

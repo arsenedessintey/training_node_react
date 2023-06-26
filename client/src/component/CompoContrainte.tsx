@@ -101,6 +101,10 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const [mandatoryField, setMandatoryField] = useState(false);
 
+  const [nomFiche, setNomFiche] = useState("")
+
+  const [descFiche,setDescFiche] = useState("")
+
   //FIN GROUPE STATE
 
   async function getConstraint() {
@@ -251,6 +255,16 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     setMandatoryField(checked);
   }
 
+  const handleChangeNomFiche = (e:any) => {
+    const valueAfterNomFiche = e.target.value;
+    setNomFiche(valueAfterNomFiche);
+  }
+
+  const handleChangeDescFiche = (e:any) => {
+    const valueAfterDescFiche = e.target.value;
+    setDescFiche(valueAfterDescFiche);
+  }
+
   const handleSubmitGroupes = (e: any) => {
     e.preventDefault();
 
@@ -336,14 +350,14 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const handleSauvegardeSubmit = () => {
 
-    axios.post('/api/sheetModal', groupes)
+    axios.post('/api/sheetModel', {groupe: groupes, nomFicheS: nomFiche, descFicheS : descFiche })
       .then((response) => {
-        console.log(response.status);
+        console.log(response.status); 
+        PropsCC.setPage("/")
       })
       .catch((error) => {
         console.log(error);
       });
-
   }
 
   //FIN GROUPE//
@@ -396,6 +410,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       <div className="felxRowConstraint">
         <div className="divChamps">
 
+          <input type="text" className="NomFicheCSS" value={nomFiche} onChange={handleChangeNomFiche} placeholder="Nom de la Fiche..."/>
+
           {groupes.map((groupe) => (
             <ul>
               <li key={groupe.idg} className="textgroupe">
@@ -433,14 +449,22 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
               </li>
               
-            </ul>        
+            </ul>   
+            
 
           ))}
+
+          
+
           <div className="groupe">
             <input type="image" className="plus" id="mandatoryGroupe" name="mandatoryGroupe" src={image5} onClick={() => toggleModal(modalGroupes, setModalGroupes)} />
             <label className="insgroupe" htmlFor="mandatoryGroupe">INSERER UN GROUPE</label>
           </div>
+
+          <textarea className="descFicheCSS" value={descFiche} onChange={handleChangeDescFiche} placeholder="Remarque..."/>
+
         </div>
+
 
         <div className="divBaccong">
           <div className="bacCong">

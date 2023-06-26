@@ -13,14 +13,12 @@ function App() {
   const [path, setStatePath] = useState(window.location.pathname);
 
   useEffect(() => {
-    console.log('window.location.href :>> ', window.location.href);
   })
 
   const setPath = (newPath: string) => {
     // const location = new Location();
     // location.pathname =  newPath;
     window.location.pathname = newPath;
-    console.log('window.location.href :>> ', window.location.href);
     setStatePath(newPath);
   }
 

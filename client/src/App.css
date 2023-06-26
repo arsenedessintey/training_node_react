@@ -299,6 +299,28 @@ ul {
   background-color: rgb(236, 236, 236);
 }
 
+.NomFicheCSS{
+  width: 400px;
+  height: 30px;
+  font-size: 20px;
+  display:flex;
+  justify-content: left;
+  margin-top: 20px;
+  margin-left:30px;
+  font-weight: bold;
+}
+
+.descFicheCSS{
+  width: 400px;
+  height: 150px;
+  font-size: 20px;
+  display:flex;
+  justify-content: left;
+  margin-top: 40px;
+  margin-left:30px;
+  font-weight: bold;
+}
+
 @media screen and (max-width: 1700px){
 
   .Modifchamps{
