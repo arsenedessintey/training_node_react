@@ -11,7 +11,7 @@ import image8 from "./Descente.svg"
 import { swipeArrayElem, swipeArrayElemGroupe } from "../utils/utils";
 
 interface PropsCC {
-  toggleSF: () => void
+  setPage: (newPage: string) => void
 }
 
 interface Groupeinter {
@@ -24,6 +24,7 @@ interface Champ {
   idc: number
   nomChamps: string
   contrainteChamps: Constraint
+  require:boolean
 }
 
 const CompoContrainte = (PropsCC: PropsCC) => {
@@ -65,7 +66,22 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   useEffect(() => {
 
     getConstraint()
-    
+
+    if(window.location.toString().includes('/modifySheet') ) {
+
+      // Récupération de l'id avec le type Location de window.location
+
+      // Creattion de la route  /api/sheet/:id {serveur}
+
+      // requet get/select primsa  {serveur}
+
+      // Requete axios su une route du server /api/sheet/:id
+
+      // parse reponse axios pour le type Groupe de cette page {serveur}
+
+      // set sheet/groupe
+      
+    }
 
   }, []);
 
@@ -82,6 +98,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   const [nouveauGroupe, setNouveauGroupe] = useState("");
 
   const [nouveauChamps, setNouveauChamps] = useState("")
+
+  const [mandatoryField, setMandatoryField] = useState(false);
 
   //FIN GROUPE STATE
 
@@ -228,6 +246,11 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   }
 
+  const handleChangeReq = (e:any) => {
+    const { checked } = e.target;
+    setMandatoryField(checked);
+  }
+
   const handleSubmitGroupes = (e: any) => {
     e.preventDefault();
 
@@ -268,7 +291,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     // Add new champs
 
     if(index === -1){
-      groupeCopy[groupeCopy.length - 1].champs.push({ idc: timeId, nomChamps: nouveauChamps, contrainteChamps: selectConstraint });
+
+      groupeCopy[groupeCopy.length - 1].champs.push({ idc: timeId, nomChamps: nouveauChamps, contrainteChamps: selectConstraint, require: mandatoryField });
     }
 
     // save changes
@@ -341,7 +365,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
             <input className="NomchoixChamps" name="selectConstraint" type="text" value={selectConstraint?.nom} disabled /><br></br>
 
             <label className="labelValida" htmlFor="mandatoryField">Champ obligatoire : </label>
-            <input id="mandatoryField" name="mandatoryField" type="checkbox" className="check" />
+            <input id="mandatoryField" name="mandatoryField" type="checkbox" className="check" checked={mandatoryField} onChange={handleChangeReq}/>
 
           </div>
         </Modal>
@@ -367,7 +391,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
         </Modal>
       )}
 
-      <input type="image" className="Fgauche2" src={image6} onClick={PropsCC.toggleSF} />
+      <input type="image" className="Fgauche2" src={image6} onClick={() => PropsCC.setPage("/")} />
 
       <div className="felxRowConstraint">
         <div className="divChamps">

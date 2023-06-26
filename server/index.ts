@@ -14,6 +14,7 @@ interface Champ {
   idc: number
   nomChamps: string
   contrainteChamps: Constraint
+  require:boolean
 }
 
 export interface Constraint {
@@ -191,15 +192,13 @@ app.put('/api/constraint/:id', async (req: Request, res: Response) => {
   })
 });
 
-const parseurGroupe = (groupes: Groupeinter[],) => {
+const parseurGroupe = (groupes: Groupeinter[]) => {
   return groupes.map((groupe, i) => {
     return {
       nom: groupe.nomGroupe,
       ordre: i,
       champs: {
-        createMany : {
-          data: parseurChamps(groupe.champs)
-        }
+        create: parseurChamps(groupe.champs)
       }
     }
   })
@@ -207,52 +206,35 @@ const parseurGroupe = (groupes: Groupeinter[],) => {
 const parseurChamps = (champs: Champ[]) => {
   return champs.map((champ, i) => {
     return {
-      create: {
         nom: champ.nomChamps,
         obligatoire: true,
         ordre: i,
-        constraint: {
-          connect: {
-            contrainte_id: champ.contrainteChamps.contrainte_id,
-          }
-        }
+        constraintId: champ.contrainteChamps.contrainte_id
       }
-    }
   })
 }
-app.post('/api/sheetModal', async (req: Request, res: Response) => {
-
- const sheet: Groupeinter[] = req.body
-
-  console.log('sheet', sheet[0].champs)
-
- try {
-
-  const resPrisma = await prisma.sheet.create({
-    data: {
-      nom: "defaultname",
-      groupe: {
-        createMany: {
-          data: parseurGroupe(sheet)
+app.post('/api/sheetModel', async (req: Request, res: Response) => {
+  const groupes: Groupeinter[] = req.body;
+  try {
+    const sheets = await prisma.sheet.create({
+      data: {
+        nom: "Nom de la Sheet",
+        description: "Description de la Sheet",
+        groupe: {
+          create: parseurGroupe(groupes)
+        }
+      },
+      include: {
+        groupe: {
+          include: { champs: true }
         }
       }
-    }
-  })
-
-  console.log('resPrisma', resPrisma)
-  
- } catch (error) {
-  res.status(404)
-  console.log('error', error)
- }
- res.status(200)
-});
-
-app.get('/api/recherche', async (req: Request, res: Response  ) => {
-
-  const allrecherche = await prisma.sheet.findMany()
-  return res.status(200).json(allrecherche);
-
+    })
+  } catch (error) {
+    console.log('error', error)
+    res.status(404).send("Error sheet creation");
+  }
+  res.status(200).send("new sheet created");
 });
 
 
