@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import NewConstraint, { Constraint } from "./NewConstraint";
 import axios from 'axios';
 import image3 from "./Crayon.svg"
@@ -9,21 +10,29 @@ import Modal from "./Modal";
 import image7 from "./Monter.svg"
 import image8 from "./Descente.svg"
 import { swipeArrayElem, swipeArrayElemGroupe } from "../utils/utils";
+import { json } from "stream/consumers";
 
 interface PropsCC {
   setPage: (newPage: string) => void
 }
 
+export type Sheet = {
+  sheet_id: number
+  nom: string
+  description: string | null,
+  groupe: Groupeinter[]
+}
+
 interface Groupeinter {
-  idg: number
-  nomGroupe: string
+  groupe_id: number
+  nom: string
   champs: Champ[]
 }
 
 interface Champ {
-  idc: number
-  nomChamps: string
-  contrainteChamps: Constraint
+  field_id: number
+  nom: string
+  constraint: Constraint
   require:boolean
 }
 
@@ -67,21 +76,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
     getConstraint()
 
-    if(window.location.toString().includes('/modifySheet') ) {
-
-      // Récupération de l'id avec le type Location de window.location
-
-      // Creattion de la route  /api/sheet/:id {serveur}
-
-      // requet get/select primsa  {serveur}
-
-      // Requete axios su une route du server /api/sheet/:id
-
-      // parse reponse axios pour le type Groupe de cette page {serveur}
-
-      // set sheet/groupe
-      
-    }
+    getSheet()
 
   }, []);
 
@@ -92,7 +87,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   //
 
   const [groupes, setGroupe] = useState<Groupeinter[]>([
-    {idg: timeId , nomGroupe: "Default" , champs:[]}
+    {groupe_id: timeId , nom: "Default" , champs:[]}
   ]);
 
   const [nouveauGroupe, setNouveauGroupe] = useState("");
@@ -112,6 +107,33 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     setConstraint(tmpConstraint);
   }
 
+  async function getSheet(){
+
+    if(window.location.toString().includes('/modifySheet') ) {
+
+      const pathArray = window.location.pathname.toString().split("/")
+
+      const sheet_id = pathArray[pathArray.length-1]
+
+      const sheetSch: Sheet = JSON.parse((await axios.get(`/api/modifyS/${sheet_id}`)).data)
+      
+
+      console.log('sheet.sheet_id :>> ', sheetSch.groupe[0].champs);
+
+            
+      // champ.contrainteChamps.nom
+      const test = sheetSch.groupe[0]
+      console.log('test :>> ', test);
+
+      const newGroupe = sheetSch.groupe
+
+      setGroupe(newGroupe)
+      setNomFiche(sheetSch.nom);
+      setDescFiche(sheetSch.description ?? "");
+
+  }
+}
+
   const changeGroupe = (groupes: string) => {
     toggleModal(modalGroupes, setModalGroupes)
     setSelectedGroupe(groupes);
@@ -119,8 +141,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const changeChamp = (champs: Champ) => {
     toggleModal(modalChamps, setModalChamps)
-    setSelectedChampId(champs.idc);
-    setSelectConstraint(champs.contrainteChamps)
+    setSelectedChampId(champs.field_id);
+    setSelectConstraint(champs.constraint)
   }
   //Modal Contrainte
   const toggleModal = (modal: boolean, setter: (modal: boolean) => void, constraint?: Constraint) => {
@@ -152,7 +174,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const handleDeleteGroupe = (idg: number) => {
     const groupeCopy = [...groupes];
-    const groupeUpt = groupeCopy.filter((groupee) => groupee.idg !== idg);
+    const groupeUpt = groupeCopy.filter((groupee) => groupee.groupe_id !== idg);
     setGroupe(groupeUpt);
   }
 
@@ -162,7 +184,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
     for(let i = 0; i < groupeCopy.length ; i++){
       const indexChamp = groupeCopy[i].champs.findIndex(champ => {
-        return champ.idc === idc
+        return champ.field_id === idc
       } );
       console.log('index :>> ', indexChamp);
       if (indexChamp !== -1){
@@ -180,7 +202,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
     for (let i = 0; i < groupeCopy.length; i++) {
 
-      indexChampClick = groupeCopy[i].champs.findIndex(champ => champ.idc === moveChamp.idc);
+      indexChampClick = groupeCopy[i].champs.findIndex(champ => champ.field_id === moveChamp.field_id);
       // champs not found
       if (indexChampClick === -1) {
         continue;
@@ -223,7 +245,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
     for (let i = 0; i < groupeCopy.length; i++) {
 
-      indexGroupeClick = groupeCopy.findIndex(groupe => groupe.idg === moveGroupe.idg);
+      indexGroupeClick = groupeCopy.findIndex(groupe => groupe.groupe_id === moveGroupe.groupe_id);
       const arrayLimit = (travel!== 1) ? 0 : groupeCopy.length - 1;
 
       if (indexGroupeClick !== -1 && indexGroupeClick !== arrayLimit) {
@@ -270,15 +292,15 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
     const groupeCopy = [...groupes];
 
-    const groupeFound = groupeCopy.find(groupe => groupe.nomGroupe === selectedGroupe);
+    const groupeFound = groupeCopy.find(groupe => groupe.nom === selectedGroupe);
 
     // Modify the groupe
     if(groupeFound !== undefined){
-      groupeFound.nomGroupe = nouveauGroupe;
+      groupeFound.nom = nouveauGroupe;
     }
     // Add new groupe
     else{
-      groupeCopy.push({ idg: timeId, nomGroupe: nouveauGroupe, champs: [] });
+      groupeCopy.push({ groupe_id: timeId, nom: nouveauGroupe, champs: [] });
     }
 
     // save changes
@@ -294,11 +316,11 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     const groupeCopy = [...groupes];
     let index = -1
       for(let i = 0; i < groupeCopy.length ; i++){
-        index = groupeCopy[i].champs.findIndex(champ => champ.idc === selectedChampId);
+        index = groupeCopy[i].champs.findIndex(champ => champ.field_id === selectedChampId);
     // Modify champ
         if(index !== -1) {
           const tmpChamps = groupeCopy[i].champs[index];
-          tmpChamps.nomChamps = nouveauChamps;
+          tmpChamps.nom = nouveauChamps;
           break
         }
      }
@@ -306,7 +328,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
     if(index === -1){
 
-      groupeCopy[groupeCopy.length - 1].champs.push({ idc: timeId, nomChamps: nouveauChamps, contrainteChamps: selectConstraint, require: mandatoryField });
+      groupeCopy[groupeCopy.length - 1].champs.push({ field_id: timeId, nom: nouveauChamps, constraint: selectConstraint, require: mandatoryField });
     }
 
     // save changes
@@ -414,12 +436,12 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
           {groupes.map((groupe) => (
             <ul>
-              <li key={groupe.idg} className="textgroupe">
+              <li key={groupe.groupe_id} className="textgroupe">
 
-                <button type="button" className="croixgroupe" onClick={() => handleDeleteGroupe(groupe.idg)}>✖</button><span 
-                onDoubleClick={() => changeGroupe(groupe.nomGroupe)} 
+                <button type="button" className="croixgroupe" onClick={() => handleDeleteGroupe(groupe.groupe_id)}>✖</button><span 
+                onDoubleClick={() => changeGroupe(groupe.nom)} 
                 className="labelgroupe">
-                <label>- </label> {groupe.nomGroupe} <label>- </label></span>
+                <label>- </label> {groupe.nom} <label>- </label></span>
                 <div className="affichageGroupeDM">
                   <input type="image" className="Descente" src={image8} onClick={() => handleGroupeUpDown(groupe, +1)}/>
                   <input type="image" className="Monter" src={image7}onClick={() => handleGroupeUpDown(groupe, -1)}/>
@@ -433,11 +455,11 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
                     <div className="affichageAllChamps">
                       <div className="champRow">
-                        <input className="affichageNomChamp" value={champ.nomChamps} disabled />
-                        <input className="affichageContrainte" value={champ.contrainteChamps.nom} disabled />
+                        <input className="affichageNomChamp" value={champ.nom} disabled />
+                        <input className="affichageContrainte" value={champ.constraint.nom} disabled />
 
                         <input type="image" className="Modifchamps" src={image3} onClick={() => changeChamp(champ)} />
-                        <button type="button" className="croixchamps" onClick={() => handleDeleteChamps(champ.idc)}>✖</button>
+                        <button type="button" className="croixchamps" onClick={() => handleDeleteChamps(champ.field_id)}>✖</button>
                       <div className="affichageChampDM">
                         <input type="image" className="Monter" src={image7} onClick={() => {handleChampsMove(champ,-1)}}/>
                         <input type="image" className="Descente" src={image8} onClick={() => {handleChampsMove(champ,+1)}}/>
@@ -496,4 +518,5 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     </>
   );
 }
+
 export default CompoContrainte

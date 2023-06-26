@@ -6,8 +6,9 @@ interface Props {
     setPage: (newPage: string) => void
 }
 
-interface Recherche {
-    nom:string,
+interface Recherches {
+    sheet_id:number
+    nom:string
 }
 
 const AccueilSousFiche = (props: Props) => { 
@@ -19,12 +20,12 @@ const AccueilSousFiche = (props: Props) => {
     
       }, []);
 
-    const [recherche, setRecherche] = useState<Recherche[]>([])
+    const [recherches, setRecherches] = useState<Recherches[]>([])
 
 
     async function getRecherche() {
         const tmpRecherche = (await axios.get('/api/recherche')).data;
-        setRecherche(tmpRecherche);
+        setRecherches(tmpRecherche);
       }
 
     return(
@@ -38,10 +39,10 @@ const AccueilSousFiche = (props: Props) => {
         </div>
 
         <div className="CadreRecherche">
-            {recherche.map((recherche) => (
+            {recherches.map((recherche) => (
                 <li key={recherche.nom}>
                 
-                <div onClick={() => props.setPage("/modifySheet")} className="nomDeFiche"><p className="recherchenom">{recherche.nom}</p></div>
+                <div onClick={() => props.setPage("/modifySheet/" + recherche.sheet_id )} className="nomDeFiche"><p className="recherchenom">{recherche.nom}</p></div>
 
                 </li>
 

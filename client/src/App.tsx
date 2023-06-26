@@ -30,7 +30,7 @@ function App() {
     else if (path === '/'){
       return <AccueilSousFiche setPage={setPath}/>
     }
-    else if (path.includes('/modifySheet/')){
+    else if (path.includes('/modifySheet')){
       return <CompoContrainte setPage={setPath}/>
     }
     else{

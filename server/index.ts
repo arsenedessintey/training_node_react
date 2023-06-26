@@ -1,20 +1,19 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { Contrainte, PrismaClient } from '@prisma/client';
-
+import { Contrainte, PrismaClient, Sheet } from '@prisma/client';
 
 interface Groupeinter {
   idg: number
-  nomGroupe: string
+  nom: string
   champs: Champ[]
 }
 
 interface Champ {
   idc: number
-  nomChamps: string
-  contrainteChamps: Constraint
-  require:boolean
+  nom: string
+  constraint: Constraint
+  obligatoire:boolean
 }
 
 export interface Constraint {
@@ -132,6 +131,7 @@ app.post('/api/constraint', async (req: Request, res: Response) => {
 });
 
 app.delete('/api/constraint/:id',  (req: Request, res: Response) => {
+
   const id:number = Number(req.params.id);
 
     prisma.contrainte.delete({
@@ -139,6 +139,7 @@ app.delete('/api/constraint/:id',  (req: Request, res: Response) => {
       contrainte_id: id,
     },
   })
+
   .then((response) => {
     console.log(response);
     return res.status(200).send("Contrainst suppr");
@@ -165,6 +166,7 @@ return res.status(200).json(allConstraint);
 });
 
 app.put('/api/constraint/:id', async (req: Request, res: Response) => {
+
   const id:number = Number(req.params.id);
 
   const nom:string = (req.body.nom);
@@ -195,7 +197,7 @@ app.put('/api/constraint/:id', async (req: Request, res: Response) => {
 const parseurGroupe = (groupes: Groupeinter[]) => {
   return groupes.map((groupe, i) => {
     return {
-      nom: groupe.nomGroupe,
+      nom: groupe.nom,
       ordre: i,
       champs: {
         create: parseurChamps(groupe.champs)
@@ -206,10 +208,10 @@ const parseurGroupe = (groupes: Groupeinter[]) => {
 const parseurChamps = (champs: Champ[]) => {
   return champs.map((champ, i) => {
     return {
-        nom: champ.nomChamps,
-        obligatoire: champ.require,
+        nom: champ.nom,
+        obligatoire: champ.obligatoire,
         ordre: i,
-        constraintId: champ.contrainteChamps.contrainte_id
+        constraintId: champ.constraint.contrainte_id
       }
   })
 }
@@ -217,7 +219,7 @@ app.post('/api/sheetModel', async (req: Request, res: Response) => {
   const groupes: Groupeinter[] = req.body.groupe;
   const nomFicheS: string = req.body.nomFicheS
   const descFicheS: string = req.body.descFicheS
-  
+
   try {
     const sheets = await prisma.sheet.create({
       data: {
@@ -246,6 +248,40 @@ app.get('/api/recherche', async (req: Request, res: Response  ) => {
   return res.status(200).json(allrecherche);
 
 });
+
+app.get("/api/modifyS/:sheet_id",  async (req: Request, res: Response) => {
+
+  const sheet_id:number = Number(req.params.sheet_id);
+  
+
+  const modifyFich = await prisma.sheet.findUnique({
+    where: {
+      sheet_id: sheet_id
+    },
+    include: {
+      groupe: {
+        include: { 
+          champs: {
+            include: {
+              constraint: true
+            }
+          } 
+        }
+      }
+    }
+  })
+    .catch((error) => {
+      
+      console.log(error);
+    });
+
+    console.log('modifyFich :>> ', modifyFich);
+  const sendsheet = JSON.stringify(modifyFich)
+
+  return res.status(200).json(sendsheet)
+  
+
+})
 
 
 
