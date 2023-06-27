@@ -13,6 +13,8 @@ import { swipeArrayElem, swipeArrayElemGroupe } from "../utils/utils";
 import { json } from "stream/consumers";
 import Groupes from "./Groupes";
 import Champs from "./Champs";
+import ModalSansValide from "./ModalSansValide";
+import LienSF from "./LienSF";
 
 interface PropsCC {
   setPage: (newPage: string) => void
@@ -84,6 +86,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
     getSheet()
 
+    getAllSheet()
+
   }, []);
 
   //GROUPE STATE
@@ -106,11 +110,18 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const [descFiche,setDescFiche] = useState("")
 
+  const [allSheet, setAllSheet] = useState<Sheet[]>([])
+
   //FIN GROUPE STATE
 
   async function getConstraint() {
     const tmpConstraint: Constraint[] = (await axios.get('/api/tabCon')).data;
     setConstraint(tmpConstraint);
+  }
+
+  async function getAllSheet(){
+    const AllSheet = (await axios.get('/api/allSheet')).data;
+    setAllSheet(AllSheet);
   }
 
   async function getSheet(){
@@ -388,7 +399,9 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       });
   }
 
-  const handleSubmitLienSF = () => {
+  const handleSubmitLienSF = (e:any) => {
+    e.preventDefault();
+    toggleModal(modalLienSF, setModalLienSF)
     return ;
   }
 
@@ -427,12 +440,11 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       )}
 
       {modalLienSF && (
-        <Modal
+        <ModalSansValide
           toggle={() => toggleModal(modalLienSF, setModalLienSF)}
-          handleSubmit={handleSubmitLienSF}
-          >
-            
-        </Modal>
+        >
+          <LienSF allSheet={allSheet} handleSubmitLienSF={handleSubmitLienSF}/>            
+        </ModalSansValide>
       )}
 
       <input type="image" className="Fgauche2" src={image6} onClick={() => PropsCC.setPage("/")} />
@@ -489,6 +501,10 @@ const CompoContrainte = (PropsCC: PropsCC) => {
           <div className="groupe">
             <input type="image" className="plus" id="mandatoryGroupe" name="mandatoryGroupe" src={image5} onClick={() => toggleModal(modalGroupes, setModalGroupes)} />
             <label className="insgroupe" htmlFor="mandatoryGroupe">INSERER UN GROUPE</label>
+          </div>
+          <div className="groupe">
+            <input type="image" className="plus" id="mandatorySheet" name="mandatorySheet" src={image5} onClick={() => toggleModal(modalLienSF, setModalLienSF)} />
+            <label className="insgroupe" htmlFor="mandatorySheet">INSERER UN LIEN</label>
           </div>
 
           <textarea className="descFicheCSS" value={descFiche} onChange={handleChangeDescFiche} placeholder="Remarque..."/>

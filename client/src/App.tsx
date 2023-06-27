@@ -4,6 +4,7 @@ import "./component/Groupes.css";
 import "./component/Champs.css";
 import "./component/NewConstraint.css";
 import "./component/ASF.css"
+import "./component/LienSF.css";
 import AccueilSousFiche from './component/AccueilSousFiche';
 import CompoContrainte from './component/CompoContrainte';
 

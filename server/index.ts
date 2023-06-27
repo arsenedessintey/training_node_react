@@ -297,6 +297,13 @@ app.get("/api/modifyS/:sheet_id", async (req: Request, res: Response) => {
   return res.status(404).send("Error insertion fiche");
 })
 
+app.get("/api/allSheet", async (req: Request, res: Response) => {
+
+  const allSheet = await prisma.sheet.findMany()
+  return res.status(200).json(allSheet);
+
+})
+
 
 
 
