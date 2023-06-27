@@ -33,7 +33,7 @@ interface Champ {
   field_id: number
   nom: string
   constraint: Constraint
-  require:boolean
+  obligatoire:boolean
 }
 
 const CompoContrainte = (PropsCC: PropsCC) => {
@@ -52,6 +52,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   const emptyConstraint: Constraint = {
     contrainte_id: -1,
     nom: "",
+    activation: true,
     type_contrainte: 'free',
     valeur_regex: "",
     Value1: "",
@@ -158,7 +159,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const handledelete = (id: number) => {
 
-    axios.delete(`/api/constraint/${id}`)
+    axios.put(`/api/constraintDel/${id}`)
       .then((response) => {
         console.log(response.status);
         getConstraint();
@@ -328,7 +329,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
     if(index === -1){
 
-      groupeCopy[groupeCopy.length - 1].champs.push({ field_id: timeId, nom: nouveauChamps, constraint: selectConstraint, require: mandatoryField });
+      groupeCopy[groupeCopy.length - 1].champs.push({ field_id: timeId, nom: nouveauChamps, constraint: selectConstraint, obligatoire: mandatoryField });
     }
 
     // save changes
@@ -383,6 +384,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   }
 
   //FIN GROUPE//
+
 
 
   return (

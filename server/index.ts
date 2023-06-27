@@ -20,6 +20,7 @@ export interface Constraint {
 
   contrainte_id: number
   nom: string
+  activation: boolean
   type_contrainte: string
   valeur_regex: string
   Value1 : string
@@ -118,6 +119,7 @@ app.post('/api/constraint', async (req: Request, res: Response) => {
       nom: nom,
       type_contrainte: type,
       valeur_regex: regexT,
+      activation: true
     }
   })
   .then((response) => {
@@ -130,14 +132,17 @@ app.post('/api/constraint', async (req: Request, res: Response) => {
   })
 });
 
-app.delete('/api/constraint/:id',  (req: Request, res: Response) => {
+app.put('/api/constraintDel/:id',  (req: Request, res: Response) => {
 
   const id:number = Number(req.params.id);
 
-    prisma.contrainte.delete({
+    prisma.contrainte.update({
     where: {
       contrainte_id: id,
     },
+    data: {
+      activation: false,
+    }
   })
 
   .then((response) => {
@@ -160,8 +165,20 @@ app.listen(port, () => {
 
 app.get('/api/tabCon', async (req: Request, res: Response  ) => {
 
-const allConstraint = await prisma.contrainte.findMany()
-return res.status(200).json(allConstraint);
+  prisma.contrainte.findMany(
+    {
+      where: {
+        activation: true
+      }
+    }
+  ).then(allConstraint => {
+    console.log('allConstraint :>> ', allConstraint);
+    return res.status(200).json(allConstraint);
+  })
+    .catch(error => {
+      console.log('error :>> ', error);
+      return res.status(200).send("error find constraint");
+    })
 
 });
 
@@ -249,38 +266,35 @@ app.get('/api/recherche', async (req: Request, res: Response  ) => {
 
 });
 
-app.get("/api/modifyS/:sheet_id",  async (req: Request, res: Response) => {
+app.get("/api/modifyS/:sheet_id", async (req: Request, res: Response) => {
 
-  const sheet_id:number = Number(req.params.sheet_id);
-  
+  const sheet_id: number = Number(req.params.sheet_id);
 
-  const modifyFich = await prisma.sheet.findUnique({
-    where: {
-      sheet_id: sheet_id
-    },
-    include: {
-      groupe: {
-        include: { 
-          champs: {
-            include: {
-              constraint: true
+  try {
+    const modifyFich = await prisma.sheet.findUnique({
+      where: {
+        sheet_id: sheet_id
+      },
+      include: {
+        groupe: {
+          include: {
+            champs: {
+              include: {
+                constraint: true
+              }
             }
-          } 
+          }
         }
       }
-    }
-  })
-    .catch((error) => {
-      
-      console.log(error);
-    });
+    })
 
-    console.log('modifyFich :>> ', modifyFich);
-  const sendsheet = JSON.stringify(modifyFich)
+    const sendsheet = JSON.stringify(modifyFich)
+    return res.status(200).json(sendsheet)
+  } catch (error) {
+    console.log('error :>> ', error);
+  }
 
-  return res.status(200).json(sendsheet)
-  
-
+  return res.status(404).send("Error insertion fiche");
 })
 
 

@@ -18,6 +18,7 @@ export interface Constraint {
 
   contrainte_id: number
   nom: string
+  activation: boolean
   type_contrainte: string
   valeur_regex: string
   Value1 : string

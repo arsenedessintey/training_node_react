@@ -15,6 +15,7 @@ model Contrainte {
   nom             String       @unique
   type_contrainte String
   valeur_regex    String
+  activation      Boolean?     @default(true)
   
   //Champs
   champs          Field[]
