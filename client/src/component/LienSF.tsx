@@ -1,10 +1,9 @@
+import { ChildSheet, Sheet } from "./CompoContrainte"
 
 interface Props {
     allSheet:any
-    handleSubmitLienSF: (e:any) => void
+    handleSubmitLienSF: (childSheet: ChildSheet) => void
 }
-
-
 
 
 
@@ -18,8 +17,8 @@ const LienSF = (props: Props) => {
     return (
 
         <div className="contourLienSF">
-            {props.allSheet.map((allSheets:any) => (
-            <div className="LienSF" onClick={props.handleSubmitLienSF}><p>{allSheets.nom}</p></div>
+            {props.allSheet.map((allSheets: ChildSheet) => (
+                <div className="LienSF" onClick={() => props.handleSubmitLienSF(allSheets)}><p>{allSheets.nom}</p></div>
             ))}
         </div>
 

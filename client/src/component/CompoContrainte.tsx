@@ -10,7 +10,6 @@ import Modal from "./Modal";
 import image7 from "./Monter.svg"
 import image8 from "./Descente.svg"
 import { swipeArrayElem, swipeArrayElemGroupe } from "../utils/utils";
-import { json } from "stream/consumers";
 import Groupes from "./Groupes";
 import Champs from "./Champs";
 import ModalSansValide from "./ModalSansValide";
@@ -25,6 +24,12 @@ export type Sheet = {
   nom: string
   description: string | null,
   groupe: Groupeinter[]
+  chilsheet: ChildSheet[]
+}
+
+export type ChildSheet = {
+  sheet_id: number
+  nom : string
 }
 
 interface Groupeinter {
@@ -111,6 +116,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   const [descFiche,setDescFiche] = useState("")
 
   const [allSheet, setAllSheet] = useState<Sheet[]>([])
+
+  const [lienSF, setLienSF] = useState<ChildSheet[]>([])
 
   //FIN GROUPE STATE
 
@@ -399,10 +406,22 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       });
   }
 
-  const handleSubmitLienSF = (e:any) => {
-    e.preventDefault();
+  const handleSubmitLienSF = (childSheet: ChildSheet) => {
+    
+    const LienSFCopy = [...lienSF];
+    const id = childSheet.sheet_id
+    const nom = childSheet.nom
+
+    LienSFCopy.push({sheet_id: id, nom: nom})
+
+    setLienSF(LienSFCopy)
     toggleModal(modalLienSF, setModalLienSF)
-    return ;
+  }
+
+  const BackHistory = () => {
+
+    window.history.go(-1)
+
   }
 
   //FIN GROUPE//
@@ -443,11 +462,11 @@ const CompoContrainte = (PropsCC: PropsCC) => {
         <ModalSansValide
           toggle={() => toggleModal(modalLienSF, setModalLienSF)}
         >
-          <LienSF allSheet={allSheet} handleSubmitLienSF={handleSubmitLienSF}/>            
+          <LienSF allSheet={allSheet} handleSubmitLienSF={handleSubmitLienSF}/>
         </ModalSansValide>
       )}
 
-      <input type="image" className="Fgauche2" src={image6} onClick={() => PropsCC.setPage("/")} />
+      <input type="image" className="Fgauche2" src={image6} onClick={BackHistory} />
 
       <div className="felxRowConstraint">
         <div className="divChamps">
@@ -493,6 +512,16 @@ const CompoContrainte = (PropsCC: PropsCC) => {
               
             </ul>   
             
+
+          ))}
+
+          {lienSF.map((lienSousFiche) => (
+
+            <li>  
+
+                <div className="CSSLienSousFiche" onClick={() => PropsCC.setPage("/modifySheet/" + lienSousFiche.sheet_id )}><p className="nomLienSousFiche">{lienSousFiche.nom}</p></div>
+
+            </li>
 
           ))}
 

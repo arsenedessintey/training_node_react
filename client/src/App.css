@@ -322,6 +322,27 @@ ul {
   margin-bottom: 40px;
 }
 
+.CSSLienSousFiche{
+
+  width: 484px;
+  height: 3rem;
+  border: solid 2px #282c34;
+  margin-left:111px;
+  top:5px;
+  cursor: pointer;
+  
+  
+}
+
+.nomLienSousFiche{
+  display: flex;
+  justify-content: left;
+  font-size:23px;
+  margin-top: 6px;
+  margin-left:10px;
+  color:rgb(103, 101, 101);
+}
+
 @media screen and (max-width: 1700px){
 
   .Modifchamps{
