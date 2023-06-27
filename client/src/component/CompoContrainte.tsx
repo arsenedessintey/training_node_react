@@ -11,6 +11,8 @@ import image7 from "./Monter.svg"
 import image8 from "./Descente.svg"
 import { swipeArrayElem, swipeArrayElemGroupe } from "../utils/utils";
 import { json } from "stream/consumers";
+import Groupes from "./Groupes";
+import Champs from "./Champs";
 
 interface PropsCC {
   setPage: (newPage: string) => void
@@ -45,6 +47,9 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   //Modal Contraintes
   const [modalContraintes, setModalContraintes] = useState(false);
+
+  //Modal Lien Sous Fiche
+  const [modalLienSF, setModalLienSF] = useState(false);
 
 
   const [constraint, setConstraint] = useState<Constraint[]>([]);
@@ -383,6 +388,10 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       });
   }
 
+  const handleSubmitLienSF = () => {
+    return ;
+  }
+
   //FIN GROUPE//
 
 
@@ -395,17 +404,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
           toggle={() => toggleModal(modalChamps, setModalChamps)}
           handleSubmit={handleSubmitChamps}
         >
-          <div className="divCreaChamps">
-            <br></br>
-            <input className="NomChamps" type="text" placeholder="Nom du Champ..." name="nameField" value={nouveauChamps} onChange={handleChangeChamps}/> <br></br>
-            <br></br>
-            <label className="labelChoixC">Contrainte Utilisé : </label>
-            <input className="NomchoixChamps" name="selectConstraint" type="text" value={selectConstraint?.nom} disabled /><br></br>
-
-            <label className="labelValida" htmlFor="mandatoryField">Champ obligatoire : </label>
-            <input id="mandatoryField" name="mandatoryField" type="checkbox" className="check" checked={mandatoryField} onChange={handleChangeReq}/>
-
-          </div>
+          <Champs nouveauChamps={nouveauChamps} handleChangeChamps={handleChangeChamps} selectConstraint={selectConstraint} mandatoryField={mandatoryField} handleChangeReq={handleChangeReq} />
         </Modal>
       }
 
@@ -414,9 +413,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
           toggle={() => toggleModal(modalGroupes, setModalGroupes)}
           handleSubmit={handleSubmitGroupes}
         >
-          <div className="ContourGroupe">
-            <input type="text" className='inputgroupe' placeholder="Nom du Groupe..." value={nouveauGroupe} onChange={handleChangeGroupe} />
-          </div>
+          <Groupes handleChangeGroupe={handleChangeGroupe} nouveauGroupe={nouveauGroupe} />
         </Modal>
       )}
 
@@ -426,6 +423,15 @@ const CompoContrainte = (PropsCC: PropsCC) => {
           handleSubmit={handleSubmitContraintes}
         >
           <NewConstraint selectConstraint={selectConstraint} setSelectedConstraint={setSelectConstraint} const={getConstraint} />
+        </Modal>
+      )}
+
+      {modalLienSF && (
+        <Modal
+          toggle={() => toggleModal(modalLienSF, setModalLienSF)}
+          handleSubmit={handleSubmitLienSF}
+          >
+            
         </Modal>
       )}
 
