@@ -282,8 +282,8 @@ ul {
 
 .affichageSousFicheDM{
   position: relative;
-  margin-top:-80px;
-  margin-left:20px;
+  margin-top:30px;
+  margin-left:-30px;
 }
 
 .affichageAllChamps{
@@ -350,13 +350,11 @@ ul {
   width: 484px;
   height: 3rem;
   border: solid 2px #282c34;
-  margin-left:120px;
+  margin-left:111px;
   top:5px;
   cursor: pointer;
   margin-top:20px;
   margin-bottom:10px;
-
-  
   
 }
 
@@ -379,12 +377,12 @@ ul {
 
   position:relative;
   z-index: 13;
-
+  margin-top:30px;
   font-size:17px;
   right:56px;
-  bottom: 50px;
   width: 25px;
   height: 26px;
+  margin-left:20px;
 
   font-weight: bold;
   background-color: rgb(255, 255, 255);
@@ -397,8 +395,7 @@ ul {
 
   .croixSousFiche{
 
-    bottom:-15px;
-    right: 29px;
+    bottom:10px;
 
   }
 

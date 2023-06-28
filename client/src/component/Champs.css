@@ -54,7 +54,10 @@
     font-size:18px;
 
 }
-
+.Lienrow{
+    display: flex;
+    flex-direction: row;
+}
 
 
 @media screen and (max-width: 1700px){
@@ -64,10 +67,7 @@
         flex-direction: row;
     }
 
-    .Lienrow{
-        display: flex;
-        flex-direction: row;
-    }
+
 
     .divChamps{
         overflow: scroll;

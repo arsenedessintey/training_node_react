@@ -496,9 +496,12 @@ const CompoContrainte = (PropsCC: PropsCC) => {
         </ModalSansValide>
       )}
 
-      <form id="postSheet" onSubmit={handleSauvegardeSubmit}>
-        <input type="image" className="Fgauche2" src={image6} onClick={BackHistory} />
+      <button type="button" className="Bouton_HautSousFiche Fgauche2" onClick={BackHistory}>
+        <img width={"50px"} src={image6} />
+      </button>
 
+      <form id="postSheet" onSubmit={handleSauvegardeSubmit}>
+        
         <div className="felxRowConstraint">
           <div className="divChamps">
 
