@@ -30,20 +30,12 @@
 .nconstraint{
 
   font-size:16px;
-  width: 110%;
+  width: 89%;
   height: 73px;
   margin-top:10px;
+  right:20px;
 
   border: solid 2px #282c34;
-
-}
- 
-.nnconstraint{
-
-  display:flex;
-  justify-content: left;
-
-  margin-right:20px;
 
 }
 
@@ -63,13 +55,6 @@ ul {
   height: 45rem;
 
   border: solid 3px #282c34;
-
-}
-
-.divBaccong{
-
-  display:flex;
-  justify-content: right;
 
 }
 
@@ -126,6 +111,7 @@ ul {
 .Fgauche {
 
   position:relative;
+  cursor: pointer;
 
   width: 30px;
   margin-right: 320px;
@@ -134,12 +120,41 @@ ul {
 
 .plus{
 
-  position: absolute;
+  /* position: absolute; */
 
   width: 50px;
-  margin-left: -60px;
-  margin-top:25px;
+  /* margin-left: -60px; */
+  /* margin-top:-25px; */
 
+
+}
+
+.Bouton{
+  margin-left:-50px;
+  cursor: pointer;
+  border: 0px;
+  background-color: white;
+}
+
+.insgroupe{
+  margin-bottom:30px;
+  margin-left:10px;
+  font-size:25px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.Bouton_HautSousFiche{
+  cursor: pointer;
+  border: 0px;
+  background-color: white;
+}
+
+
+.Bouton_BasSousFiche{
+  cursor: pointer;
+  border: 0px;
+  background-color: white;
 }
 
 .groupe{
@@ -235,6 +250,7 @@ ul {
 .Modifchamps{
   position:relative;
   z-index: 6;
+  cursor: pointer;
 
   width: 25px;
   top: 13px;
@@ -418,6 +434,7 @@ ul {
   .bacCong{
 
     height: 550px;
+
 
   }
 
