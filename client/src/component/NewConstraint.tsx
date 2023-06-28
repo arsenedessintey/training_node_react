@@ -75,7 +75,7 @@ export default function NewConstraint(props: Props) {
 
   return (
     <div className="divcontrainte">
-        <input type="text" className="Nom" placeholder="Nom.." value={props.selectConstraint.nom} name="nom" onChange={handleChange} />
+        <input type="text" className="Nom" placeholder="Nom.." value={props.selectConstraint.nom} name="nom" onChange={handleChange} required/>
         <br></br>
         <br></br>
         <div className="radio_center">

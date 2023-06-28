@@ -213,7 +213,6 @@ ul {
 .Descente{
   
   width: 25px;
-  margin-left:px;
 }
 
 .affichageNomChamp{
@@ -264,6 +263,11 @@ ul {
   margin-top:-40px;
 }
 
+.affichageSousFicheDM{
+  position: relative;
+  margin-top:-50px;
+}
+
 .affichageAllChamps{
   margin-top: 20px;
   margin-right: 190px;
@@ -278,6 +282,7 @@ ul {
 .boutonSauvegardeFicheCenter{
   display: flex;
   justify-content: right;
+  z-index: 10;
 
   margin-right: 12rem;
   margin-top: -8rem;
@@ -350,7 +355,31 @@ ul {
   font-weight: 600;
 }
 
+.croixSousFiche{
+
+  position:relative;
+  z-index: 13;
+
+  font-size:17px;
+  right:56px;
+  bottom: 50px;
+
+  font-weight: bold;
+  background-color: rgb(255, 255, 255);
+  border: solid 0px #282c34;
+  cursor: pointer;
+
+}
+
 @media screen and (max-width: 1700px){
+
+  .boutonSauvegardeFicheCenter{
+    display: flex;
+    justify-content: right;
+  
+    margin-right: 7.3rem;
+    margin-top: -8rem;
+  }
 
   .CSSLienSousFiche{
 
@@ -388,7 +417,7 @@ ul {
 
   .bacCong{
 
-    height: 600px;
+    height: 550px;
 
   }
 

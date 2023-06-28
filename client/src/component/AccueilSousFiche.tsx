@@ -35,7 +35,7 @@ const AccueilSousFiche = (props: Props) => {
             <button type="button" className="buttonSF" onClick= {() => props.setPage("/createSheet")}>CREER DES FICHES</button>
         </div>
         <div className="centerRecherche">
-            <input type="text" className="Recherche" placeholder="Recherche..." />
+            <input type="text" className="Recherche" placeholder="Recherche..." required/>
         </div>
 
         <div className="CadreRecherche">

@@ -220,6 +220,14 @@ const CompoContrainte = (PropsCC: PropsCC) => {
    }
   }
 
+  const handleDeleteSousFiche = (idsousfiche: number) => {
+    const lienSFCopy = [...lienSF];
+    const lienSFUpt:ChildSheet[] = lienSFCopy.filter((SousFiche) => SousFiche.sheet_id !== idsousfiche);
+    setLienSF(lienSFUpt);
+  }
+
+  
+
   const handleChampsMove = (moveChamp: Champ, travel: -1 | 1) => {
 
     const groupeCopy = [...groupes];
@@ -281,6 +289,27 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     }
 
     setGroupe(groupeCopy);
+
+  }
+
+  const handleSousFicheMove = (moveSousFiche: ChildSheet, travel: -1 | 1) => {
+
+    const lienSFCopy = [...lienSF];
+
+    let indexSousFicheClick = -1;
+
+    for (let i = 0; i < lienSFCopy.length; i++) {
+
+      indexSousFicheClick = lienSFCopy.findIndex(SousFiche => SousFiche.sheet_id === moveSousFiche.sheet_id);
+      const arrayLimit = (travel!== 1) ? 0 : lienSFCopy.length - 1;
+
+      if (indexSousFicheClick !== -1 && indexSousFicheClick !== arrayLimit) {
+        swipeArrayElemGroupe(lienSFCopy, indexSousFicheClick, indexSousFicheClick + travel);
+        break
+      }
+    }
+
+    setLienSF(lienSFCopy);
 
   }
     
@@ -432,146 +461,150 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   return (
     <>
+        {modalChamps &&
+          <Modal
+            toggle={() => toggleModal(modalChamps, setModalChamps)}
+            handleSubmit={handleSubmitChamps}
+          >
+            <Champs nouveauChamps={nouveauChamps} handleChangeChamps={handleChangeChamps} selectConstraint={selectConstraint} mandatoryField={mandatoryField} handleChangeReq={handleChangeReq} />
+          </Modal>
+        }
 
-      {modalChamps &&
-        <Modal
-          toggle={() => toggleModal(modalChamps, setModalChamps)}
-          handleSubmit={handleSubmitChamps}
-        >
-          <Champs nouveauChamps={nouveauChamps} handleChangeChamps={handleChangeChamps} selectConstraint={selectConstraint} mandatoryField={mandatoryField} handleChangeReq={handleChangeReq} />
-        </Modal>
-      }
+        {modalGroupes && (
+          <Modal
+            toggle={() => toggleModal(modalGroupes, setModalGroupes)}
+            handleSubmit={handleSubmitGroupes}
+          >
+            <Groupes handleChangeGroupe={handleChangeGroupe} nouveauGroupe={nouveauGroupe} />
+          </Modal>
+        )}
 
-      {modalGroupes && (
-        <Modal
-          toggle={() => toggleModal(modalGroupes, setModalGroupes)}
-          handleSubmit={handleSubmitGroupes}
-        >
-          <Groupes handleChangeGroupe={handleChangeGroupe} nouveauGroupe={nouveauGroupe} />
-        </Modal>
-      )}
+        {modalContraintes && (
+          <Modal
+            toggle={() => toggleModal(modalContraintes, setModalContraintes)}
+            handleSubmit={handleSubmitContraintes}
+          >
+            <NewConstraint selectConstraint={selectConstraint} setSelectedConstraint={setSelectConstraint} const={getConstraint} />
+          </Modal>
+        )}
 
-      {modalContraintes && (
-        <Modal
-          toggle={() => toggleModal(modalContraintes, setModalContraintes)}
-          handleSubmit={handleSubmitContraintes}
-        >
-          <NewConstraint selectConstraint={selectConstraint} setSelectedConstraint={setSelectConstraint} const={getConstraint} />
-        </Modal>
-      )}
+        {modalLienSF && (
+          <ModalSansValide
+            toggle={() => toggleModal(modalLienSF, setModalLienSF)}
+          >
+            <LienSF allSheet={allSheet} handleSubmitLienSF={handleSubmitLienSF}/>
+          </ModalSansValide>
+        )}
 
-      {modalLienSF && (
-        <ModalSansValide
-          toggle={() => toggleModal(modalLienSF, setModalLienSF)}
-        >
-          <LienSF allSheet={allSheet} handleSubmitLienSF={handleSubmitLienSF}/>
-        </ModalSansValide>
-      )}
+        <input type="image" className="Fgauche2" src={image6} onClick={BackHistory} />
 
-      <input type="image" className="Fgauche2" src={image6} onClick={BackHistory} />
+        <div className="felxRowConstraint">
+          <div className="divChamps">
 
-      <div className="felxRowConstraint">
-        <div className="divChamps">
+            <input type="text" className="NomFicheCSS" value={nomFiche} onChange={handleChangeNomFiche} placeholder="Nom de la Fiche..." required/>
 
-          <input type="text" className="NomFicheCSS" value={nomFiche} onChange={handleChangeNomFiche} placeholder="Nom de la Fiche..."/>
+            {groupes.map((groupe) => (
+              <ul>
+                <li key={groupe.groupe_id} className="textgroupe">
 
-          {groupes.map((groupe) => (
-            <ul>
-              <li key={groupe.groupe_id} className="textgroupe">
+                  <button type="button" className="croixgroupe" onClick={() => handleDeleteGroupe(groupe.groupe_id)}>✖</button><span 
+                  onDoubleClick={() => changeGroupe(groupe.nom)} 
+                  className="labelgroupe">
+                  <label>- </label> {groupe.nom} <label>- </label></span>
+                  <div className="affichageGroupeDM">
+                    <input type="image" className="Descente" src={image8} onClick={() => handleGroupeUpDown(groupe, +1)}/>
+                    <input type="image" className="Monter" src={image7}onClick={() => handleGroupeUpDown(groupe, -1)}/>
+                  </div>
 
-                <button type="button" className="croixgroupe" onClick={() => handleDeleteGroupe(groupe.groupe_id)}>✖</button><span 
-                onDoubleClick={() => changeGroupe(groupe.nom)} 
-                className="labelgroupe">
-                <label>- </label> {groupe.nom} <label>- </label></span>
-                <div className="affichageGroupeDM">
-                  <input type="image" className="Descente" src={image8} onClick={() => handleGroupeUpDown(groupe, +1)}/>
-                  <input type="image" className="Monter" src={image7}onClick={() => handleGroupeUpDown(groupe, -1)}/>
-                </div>
+                </li>
+                
+                <li>
 
-              </li>
-              
-              <li>
+                    {groupe.champs.map((champ) => (
 
-                  {groupe.champs.map((champ) => (
+                      <div key={champ.field_id} className="affichageAllChamps">
+                        <div className="champRow">
+                          <input className="affichageNomChamp" value={champ.nom} disabled />
+                          <input className="affichageContrainte" value={champ.constraint.nom} disabled />
+                          <input type="image" className="Modifchamps" src={image3} onClick={() => changeChamp(champ)} />
+                          <button type="button" className="croixchamps" onClick={() => handleDeleteChamps(champ.field_id)}>✖</button>
+                          <div className="affichageChampDM">
+                            <input type="image" className="Monter" src={image7} onClick={() => {handleChampsMove(champ,-1)}}/>
+                            <input type="image" className="Descente" src={image8} onClick={() => {handleChampsMove(champ,+1)}}/>
 
-                    <div key={champ.field_id} className="affichageAllChamps">
-                      <div className="champRow">
-                        <input className="affichageNomChamp" value={champ.nom} disabled />
-                        <input className="affichageContrainte" value={champ.constraint.nom} disabled />
-
-                        <input type="image" className="Modifchamps" src={image3} onClick={() => changeChamp(champ)} />
-                        <button type="button" className="croixchamps" onClick={() => handleDeleteChamps(champ.field_id)}>✖</button>
-                        <div className="affichageChampDM">
-                          <input type="image" className="Monter" src={image7} onClick={() => {handleChampsMove(champ,-1)}}/>
-                          <input type="image" className="Descente" src={image8} onClick={() => {handleChampsMove(champ,+1)}}/>
-
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
 
-              </li>
+                </li>
+                
+              </ul>   
               
-            </ul>   
+
+            ))}
             
 
-          ))}
-
-          {lienSF.map((lienSousFiche) => (
-
-            <li key={lienSousFiche.sheet_id}>
-              <div className="AllLienSF">
-                <div className="Lienrow">
-                  <div className="CSSLienSousFiche"><a className="Soulignement" href={"/modifySheet/" + lienSousFiche.sheet_id} target='_blank' ><p className="nomLienSousFiche">{lienSousFiche.nom}</p></a></div>
-                </div>
-              </div>
-            </li>
-
-          ))}
-
-          
-
-          <div className="groupe">
-            <input type="image" className="plus" id="mandatoryGroupe" name="mandatoryGroupe" src={image5} onClick={() => toggleModal(modalGroupes, setModalGroupes)} />
-            <label className="insgroupe" htmlFor="mandatoryGroupe">INSERER UN GROUPE</label>
-          </div>
-          <div className="groupe">
-            <input type="image" className="plus" id="mandatorySheet" name="mandatorySheet" src={image5} onClick={() => toggleModal(modalLienSF, setModalLienSF)} />
-            <label className="insgroupe" htmlFor="mandatorySheet">INSERER UN LIEN</label>
-          </div>
-
-          <textarea className="descFicheCSS" value={descFiche} onChange={handleChangeDescFiche} placeholder="Remarque..."/>
-
-        </div>
+            <div className="groupe">
+              <input type="image" className="plus" id="mandatoryGroupe" name="mandatoryGroupe" src={image5} onClick={() => toggleModal(modalGroupes, setModalGroupes)} />
+              <label className="insgroupe" htmlFor="mandatoryGroupe">INSERER UN GROUPE</label>
+            </div>
 
 
-        <div className="divBaccong">
-          <div className="bacCong">
-            <ul>
-              {constraint.map(constr =>
-                <div key={constr.nom} className="nnconstraint">
-                  <div className="nconstraint">
-                    <div className="divcroisupp"><button type="button" className="croixCont" onClick={() => { if (window.confirm("Attention tu vas supprimé une contrainte")) { handledelete(constr.contrainte_id) } }}>✖</button></div>
-                    <div className="divmodif"><input type="image" className="Modif" src={image3} onClick={() => toggleModal(modalContraintes, setModalContraintes, constr)} /></div>
-                    <input type="image" className="Fgauche" src={image4} onClick={() => { toggleModal(modalChamps, setModalChamps, constr) }} />
-                    <div className="divNomRegex"><li className="NameRegex">Nom : {constr.nom}</li></div>
+            {lienSF.map((lienSousFiche) => (
+
+              <li key={lienSousFiche.sheet_id}>
+                <div className="AllLienSF">
+                  <div className="Lienrow">
+                    <div className="CSSLienSousFiche"><a className="Soulignement" href={"/modifySheet/" + lienSousFiche.sheet_id} target='_blank' ><p className="nomLienSousFiche">{lienSousFiche.nom}</p></a></div>
+                    <button type="button" className="croixSousFiche" onClick={() => handleDeleteSousFiche(lienSousFiche.sheet_id)}>✖</button>
+                    <div className="affichageSousFicheDM">
+                            <input type="image" className="Monter" src={image7} onClick={() => {handleSousFicheMove(lienSousFiche,-1)}}/>
+                            <input type="image" className="Descente" src={image8} onClick={() => {handleSousFicheMove(lienSousFiche,+1)}}/>
+                          </div>
                   </div>
                 </div>
-              )}
-              <div className="btn_modal_center">
-                <button onClick={() => toggleModal(modalContraintes, setModalContraintes)} className="btn-modal">
-                  +
-                </button>
-              </div>
-            </ul>
+              </li>
+            ))}
+
+
+            <div className="groupe">
+              <input type="image" className="plus" id="mandatorySheet" name="mandatorySheet" src={image5} onClick={() => toggleModal(modalLienSF, setModalLienSF)} />
+              <label className="insgroupe" htmlFor="mandatorySheet">INSERER UN LIEN</label>
+            </div>
+
+            <textarea className="descFicheCSS" value={descFiche} onChange={handleChangeDescFiche} placeholder="Remarque..."/>
+
+          </div>
+
+
+          <div className="divBaccong">
+            <div className="bacCong">
+              <ul>
+                {constraint.map(constr =>
+                  <div key={constr.nom} className="nnconstraint">
+                    <div className="nconstraint">
+                      <div className="divcroisupp"><button type="button" className="croixCont" onClick={() => { if (window.confirm("Attention tu vas supprimé une contrainte")) { handledelete(constr.contrainte_id) } }}>✖</button></div>
+                      <div className="divmodif"><input type="image" className="Modif" src={image3} onClick={() => toggleModal(modalContraintes, setModalContraintes, constr)} /></div>
+                      <input type="image" className="Fgauche" src={image4} onClick={() => { toggleModal(modalChamps, setModalChamps, constr) }} />
+                      <div className="divNomRegex"><li className="NameRegex">Nom : {constr.nom}</li></div>
+                    </div>
+                  </div>
+                )}
+                <div className="btn_modal_center">
+                  <button onClick={() => toggleModal(modalContraintes, setModalContraintes)} className="btn-modal">
+                    +
+                  </button>
+                </div>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="boutonSauvegardeFicheCenter">
-        <div className="boutonSauvegardeFiche">
-          <button type="button" className="saugardeFicheButton" onClick={handleSauvegardeSubmit}>Sauvegarder La Fiche</button>
+        <div className="boutonSauvegardeFicheCenter">
+          <div className="boutonSauvegardeFiche">
+            <button type="submit" onClick={handleSauvegardeSubmit} className="saugardeFicheButton">Sauvegarder La Fiche</button>
+          </div>
         </div>
-      </div>
     </>
   );
 }

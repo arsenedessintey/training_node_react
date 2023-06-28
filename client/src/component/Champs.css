@@ -14,6 +14,7 @@
     min-width: 30rem;
     background-color: white;
     border: solid 3px #282c34;
+    z-index: 10;
 }
 
 .divCreaChamps{

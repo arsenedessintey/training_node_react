@@ -23,7 +23,7 @@ const Champs = (props: Props) => {
 
         <div className="divCreaChamps">
             <br></br>
-            <input className="NomChamps" type="text" placeholder="Nom du Champ..." name="nameField" value={props.nouveauChamps} onChange={props.handleChangeChamps}/> <br></br>
+            <input className="NomChamps" type="text" placeholder="Nom du Champ..." name="nameField" value={props.nouveauChamps} onChange={props.handleChangeChamps} required/> <br></br>
             <br></br>
             <label className="labelChoixC">Contrainte Utilisé : </label>
             <input className="NomchoixChamps" name="selectConstraint" type="text" value={props.selectConstraint?.nom} disabled /><br></br>
