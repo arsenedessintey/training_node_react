@@ -604,7 +604,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
                 </div>
               )}
               <div className="btn_modal_center">
-                <button onClick={() => toggleModal(modalContraintes, setModalContraintes)} className="btn-modal">
+                <button type="button" onClick={() => toggleModal(modalContraintes, setModalContraintes)} className="btn-modal">
                   +
                 </button>
               </div>

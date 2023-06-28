@@ -130,6 +130,7 @@ ul {
 }
 
 .Bouton{
+  margin-top:20px;
   margin-left:-50px;
   cursor: pointer;
   border: 0px;
@@ -281,7 +282,8 @@ ul {
 
 .affichageSousFicheDM{
   position: relative;
-  margin-top:-50px;
+  margin-top:-80px;
+  margin-left:20px;
 }
 
 .affichageAllChamps{
@@ -348,9 +350,11 @@ ul {
   width: 484px;
   height: 3rem;
   border: solid 2px #282c34;
-  margin-left:111px;
+  margin-left:120px;
   top:5px;
   cursor: pointer;
+  margin-top:20px;
+  margin-bottom:10px;
 
   
   
@@ -379,6 +383,8 @@ ul {
   font-size:17px;
   right:56px;
   bottom: 50px;
+  width: 25px;
+  height: 26px;
 
   font-weight: bold;
   background-color: rgb(255, 255, 255);
@@ -389,6 +395,17 @@ ul {
 
 @media screen and (max-width: 1700px){
 
+  .croixSousFiche{
+
+    bottom:-15px;
+    right: 29px;
+
+  }
+
+  .nomLienSousFich{
+    font-size: 10px;
+  }
+
   .boutonSauvegardeFicheCenter{
     display: flex;
     justify-content: right;
@@ -397,25 +414,31 @@ ul {
     margin-top: -8rem;
   }
 
+  .affichageSousFicheDM{
+    position: relative;
+    margin-top:20px;
+    margin-left:-25px;
+  }
+
+
   .CSSLienSousFiche{
 
-    width: 255px;
     height: 3rem;
     border: solid 2px #282c34;
     margin-left:40px;
     top:5px;
     cursor: pointer;
+    margin-top:10px;
+    margin-bottom: 10px;
 
 
   }
 
   .nomLienSousFiche{
-    display: flex;
-    justify-content: left;
-    font-size:19px;
+
+    font-size:18px;
     margin-top: 10px;
-    margin-left:10px;
-    color:rgb(103, 101, 101);
+
   
   }
 
@@ -430,6 +453,8 @@ ul {
     bottom: 17px;
   
   }
+
+
 
   .bacCong{
 
