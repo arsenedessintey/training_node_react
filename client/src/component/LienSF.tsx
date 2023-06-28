@@ -18,7 +18,7 @@ const LienSF = (props: Props) => {
 
         <div className="contourLienSF">
             {props.allSheet.map((allSheets: ChildSheet) => (
-                <div className="LienSF" onClick={() => props.handleSubmitLienSF(allSheets)}><p>{allSheets.nom}</p></div>
+                <div key={allSheets.sheet_id} className="LienSF" onClick={() => props.handleSubmitLienSF(allSheets)}><p>{allSheets.nom}</p></div>
             ))}
         </div>
 

@@ -17,8 +17,7 @@ function App() {
   })
 
   const setPath = (newPath: string) => {
-    // const location = new Location();
-    // location.pathname =  newPath;
+
     window.location.pathname = newPath;
     setStatePath(newPath);
   }

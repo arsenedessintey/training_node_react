@@ -330,6 +330,7 @@ ul {
   margin-left:111px;
   top:5px;
   cursor: pointer;
+
   
   
 }
@@ -338,12 +339,40 @@ ul {
   display: flex;
   justify-content: left;
   font-size:23px;
-  margin-top: 6px;
+  margin-top: 7px;
   margin-left:10px;
   color:rgb(103, 101, 101);
+
+}
+
+.Soulignement{
+  text-decoration:none;
+  font-weight: 600;
 }
 
 @media screen and (max-width: 1700px){
+
+  .CSSLienSousFiche{
+
+    width: 255px;
+    height: 3rem;
+    border: solid 2px #282c34;
+    margin-left:40px;
+    top:5px;
+    cursor: pointer;
+
+
+  }
+
+  .nomLienSousFiche{
+    display: flex;
+    justify-content: left;
+    font-size:19px;
+    margin-top: 10px;
+    margin-left:10px;
+    color:rgb(103, 101, 101);
+  
+  }
 
   .Modifchamps{
 

@@ -24,7 +24,7 @@ export type Sheet = {
   nom: string
   description: string | null,
   groupe: Groupeinter[]
-  chilsheet: ChildSheet[]
+  childSheet: ChildSheet[]
 }
 
 export type ChildSheet = {
@@ -144,14 +144,16 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
       console.log('sheet.sheet_id :>> ', sheetSch.groupe[0].champs);
 
-            
-      // champ.contrainteChamps.nom
       const test = sheetSch.groupe[0]
       console.log('test :>> ', test);
 
       const newGroupe = sheetSch.groupe
+      const lienSFGet = sheetSch.childSheet
+
+      console.log('lienSFGet :>> ', lienSFGet);
 
       setGroupe(newGroupe)
+      setLienSF(lienSFGet)
       setNomFiche(sheetSch.nom);
       setDescFiche(sheetSch.description ?? "");
 
@@ -396,7 +398,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const handleSauvegardeSubmit = () => {
 
-    axios.post('/api/sheetModel', {groupe: groupes, nomFicheS: nomFiche, descFicheS : descFiche })
+    axios.post('/api/sheetModel', {groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: lienSF })
       .then((response) => {
         console.log(response.status); 
         PropsCC.setPage("/")
@@ -492,18 +494,18 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
                   {groupe.champs.map((champ) => (
 
-                    <div className="affichageAllChamps">
+                    <div key={champ.field_id} className="affichageAllChamps">
                       <div className="champRow">
                         <input className="affichageNomChamp" value={champ.nom} disabled />
                         <input className="affichageContrainte" value={champ.constraint.nom} disabled />
 
                         <input type="image" className="Modifchamps" src={image3} onClick={() => changeChamp(champ)} />
                         <button type="button" className="croixchamps" onClick={() => handleDeleteChamps(champ.field_id)}>✖</button>
-                      <div className="affichageChampDM">
-                        <input type="image" className="Monter" src={image7} onClick={() => {handleChampsMove(champ,-1)}}/>
-                        <input type="image" className="Descente" src={image8} onClick={() => {handleChampsMove(champ,+1)}}/>
+                        <div className="affichageChampDM">
+                          <input type="image" className="Monter" src={image7} onClick={() => {handleChampsMove(champ,-1)}}/>
+                          <input type="image" className="Descente" src={image8} onClick={() => {handleChampsMove(champ,+1)}}/>
 
-                      </div>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -517,10 +519,12 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
           {lienSF.map((lienSousFiche) => (
 
-            <li>  
-
-                <div className="CSSLienSousFiche" onClick={() => PropsCC.setPage("/modifySheet/" + lienSousFiche.sheet_id )}><p className="nomLienSousFiche">{lienSousFiche.nom}</p></div>
-
+            <li key={lienSousFiche.sheet_id}>
+              <div className="AllLienSF">
+                <div className="Lienrow">
+                  <div className="CSSLienSousFiche"><a className="Soulignement" href={"/modifySheet/" + lienSousFiche.sheet_id} target='_blank' ><p className="nomLienSousFiche">{lienSousFiche.nom}</p></a></div>
+                </div>
+              </div>
             </li>
 
           ))}

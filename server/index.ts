@@ -9,6 +9,11 @@ interface Groupeinter {
   champs: Champ[]
 }
 
+export type ChildSheet = {
+  sheet_id: number
+  nom : string
+}
+
 interface Champ {
   idc: number
   nom: string
@@ -232,16 +237,24 @@ const parseurChamps = (champs: Champ[]) => {
       }
   })
 }
+
+// const parseurChildSheet =
+
 app.post('/api/sheetModel', async (req: Request, res: Response) => {
   const groupes: Groupeinter[] = req.body.groupe;
   const nomFicheS: string = req.body.nomFicheS
   const descFicheS: string = req.body.descFicheS
+  const childSheet: ChildSheet[] = req.body.lienSFS
 
+  const childSheetId = childSheet?.map(c => ({ sheet_id: c.sheet_id }))
   try {
     const sheets = await prisma.sheet.create({
       data: {
         nom: nomFicheS,
         description: descFicheS,
+        childSheet: {
+          connect: childSheetId
+        },
         groupe: {
           create: parseurGroupe(groupes)
         }
@@ -284,7 +297,8 @@ app.get("/api/modifyS/:sheet_id", async (req: Request, res: Response) => {
               }
             }
           }
-        }
+        },
+        childSheet: true
       }
     })
 
