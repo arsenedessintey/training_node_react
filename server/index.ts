@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { Contrainte, PrismaClient, Sheet } from '@prisma/client';
+import { Contrainte, PrismaClient } from '@prisma/client';
 
 interface Groupeinter {
   idg: number
@@ -177,7 +177,6 @@ app.get('/api/tabCon', async (req: Request, res: Response  ) => {
       }
     }
   ).then(allConstraint => {
-    console.log('allConstraint :>> ', allConstraint);
     return res.status(200).json(allConstraint);
   })
     .catch(error => {
@@ -245,8 +244,8 @@ app.post('/api/sheetModel', async (req: Request, res: Response) => {
   const nomFicheS: string = req.body.nomFicheS
   const descFicheS: string = req.body.descFicheS
   const childSheet: ChildSheet[] = req.body.lienSFS
-  const activationSheetconst: boolean = req.body.activationSheet
-  const nomVersionconst:string = req.body.nomVersion
+  const activationSheet: boolean = req.body.activationSheet
+  const nomVersion:string = req.body.nomVersion
 
   const childSheetId = childSheet?.map(c => ({ sheet_id: c.sheet_id }))
 
@@ -255,8 +254,8 @@ app.post('/api/sheetModel', async (req: Request, res: Response) => {
       data: {
         nom: nomFicheS,
         description: descFicheS,
-        activationSheet:activationSheetconst,
-        nomVersion:nomVersionconst,
+        activationSheet:activationSheet,
+        nomVersion:nomVersion,
         childSheet: {
           connect: childSheetId
         },
@@ -277,10 +276,44 @@ app.post('/api/sheetModel', async (req: Request, res: Response) => {
   res.status(200).send("new sheet created");
 });
 
+
+app.put('/api/sheetModelId', async (req: Request, res: Response) => {
+    try{
+      const sheetID:number = req.body.sheetIdS
+
+      console.log('req.body :>> ', req.body);
+  
+      const sheetsid = await prisma.sheet.update({
+        where:{
+          sheet_id: sheetID,
+        },
+        data:{
+          activationSheet:false,
+        }
+      })
+    } catch (error) {
+      console.log('error', error)
+      res.status(404).send("Error sheet false");
+    }
+    res.status(200).send("new sheet false");
+
+})
+
 app.get('/api/recherche', async (req: Request, res: Response  ) => {
 
-  const allrecherche = await prisma.sheet.findMany()
-  return res.status(200).json(allrecherche);
+  prisma.sheet.findMany(
+    {
+      where: {
+        activationSheet: true
+      }
+    }
+  ).then(allSheet => {
+    return res.status(200).json(allSheet);
+  })
+    .catch(error => {
+      console.log('error :>> ', error);
+      return res.status(200).send("error find sheet");
+    })
 
 });
 

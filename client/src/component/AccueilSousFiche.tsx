@@ -9,6 +9,7 @@ interface Props {
 interface Recherches {
     sheet_id:number
     nom:string
+    nomVersion:string
 }
 
 const AccueilSousFiche = (props: Props) => { 
@@ -39,7 +40,7 @@ const AccueilSousFiche = (props: Props) => {
                     {recherches.map((recherche) => (
                         <li key={recherche.nom}>
                         
-                        <div onClick={() => props.setPage("/modifySheet/" + recherche.sheet_id )} className="nomDeFiche"><p className="recherchenom">{recherche.nom}</p></div>
+                        <div onClick={() => props.setPage("/modifySheet/" + recherche.sheet_id )} className="nomDeFiche"><p className="recherchenom">{recherche.nom}</p><p className="recherheversion">{recherche.nomVersion}</p></div>
 
                         </li>
 

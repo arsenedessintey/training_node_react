@@ -46,7 +46,7 @@ li{
     margin-top:7px;
     font-size: 25px;
     font-weight: bold;
-    margin-left: 20px;
+    margin-left: 30px;
     display: flex;
     justify-content: left;
 }
@@ -58,4 +58,16 @@ li{
     justify-content: center;
     align-items: center;
     gap:20px;
+}
+
+.recherheversion{
+    margin-top:-38px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 20px;
+    display: flex;
+    justify-content: left;
+    margin-left:2px;
+    color: gray;
+
 }

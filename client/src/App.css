@@ -309,8 +309,8 @@ ul {
 .saugardeFicheButton{
 
   width: 250px;
-  height: 100px;
-  margin-top: 21px;
+  height: 70px;
+  margin-top: 7px;
   font-size: 20px;
   cursor: pointer;
   border: solid 2px #282c34;
@@ -331,9 +331,11 @@ ul {
   margin-left:30px;
   font-weight: bold;
   border:0px;
+  background-color: white;
 }
 
 .VersionFicheCSS{
+  background-color: white;
   width: 400px;
   height: 30px;
   font-size: 15px;

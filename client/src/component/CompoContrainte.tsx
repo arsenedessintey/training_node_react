@@ -119,13 +119,15 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const [nomFiche, setNomFiche] = useState("")
 
-  const [versionFiche, setVersionFiche] = useState("")
+  const [versionFiche, setVersionFiche] = useState("V1")
 
   const [descFiche, setDescFiche] = useState("")
 
   const [allSheet, setAllSheet] = useState<Sheet[]>([])
 
   const [lienSF, setLienSF] = useState<ChildSheet[]>([])
+
+  const [sheetId, setSheetId] = useState(-1)
 
   //FIN GROUPE STATE
 
@@ -150,17 +152,14 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       const sheetSch: Sheet = JSON.parse((await axios.get(`/api/modifyS/${sheet_id}`)).data)
 
 
-      console.log('sheet.sheet_id :>> ', sheetSch.groupe[0].champs);
-
-      const test = sheetSch.groupe[0]
-      console.log('test :>> ', test);
-
       const newGroupe = sheetSch.groupe
       const lienSFGet = sheetSch.childSheet
-
-      console.log('lienSFGet :>> ', lienSFGet);
+      const Version = sheetSch.nomVersion
+      const Sheet__id = sheetSch.sheet_id
 
       setGroupe(newGroupe)
+      setSheetId(Sheet__id)
+      setVersionFiche(Version)
       setLienSF(lienSFGet)
       setNomFiche(sheetSch.nom);
       setDescFiche(sheetSch.description ?? "");
@@ -439,7 +438,31 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       });
   }
 
-  const handleSauvegardeSubmit = () => {
+  const handleSauvegardeSubmitID = (e:any) => {
+    e.preventDefault();
+
+    console.log('sheetId :>> ', {sheetID:sheetId});
+
+    axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: lienSF, nomVersion: versionFiche, activationSheet: true })
+      .then((response) => {
+        console.log(response.status);
+        PropsCC.setPage("/")
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    axios.put('/api/sheetModelId', {sheetIdS: sheetId})
+      .then((response) => {
+        console.log(response.status);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  const handleSauvegardeSubmit = (e:any) => {
+    e.preventDefault();
 
     axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: lienSF, nomVersion: versionFiche, activationSheet: true })
       .then((response) => {
@@ -513,9 +536,9 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       {modalVersion && (
         <Modal
           toggle={() => toggleModal(modalVersion, setModalVersion)}
-          handleSubmit={handleSauvegardeSubmit}
+          handleSubmit={handleSauvegardeSubmitID}
         >
-          <VersionFiche versionFiche={versionFiche} handleChangeVersionFiche={handleChangeVersionFiche} nomFiche={nomFiche} handleChangeNomFiche={handleChangeNomFiche}/>
+          <VersionFiche versionFiche={versionFiche} handleChangeVersionFiche={handleChangeVersionFiche} nomFiche={nomFiche} handleChangeNomFiche={handleChangeNomFiche} sheetId={sheetId}/>
         </Modal>
       )}
 
@@ -523,12 +546,12 @@ const CompoContrainte = (PropsCC: PropsCC) => {
         <img width={"50px"} src={image6} />
       </button>
 
-      <form id="postSheet">
+      <form id="postSheet" onSubmit={handleSauvegardeSubmit}>
         
         <div className="felxRowConstraint">
           <div className="divChamps">
 
-            <input type="text" className="NomFicheCSS" value={nomFiche} onChange={handleChangeNomFiche} placeholder="Nom de la Fiche" disabled/><br></br>
+            <input type="text" className="NomFicheCSS" value={nomFiche} onChange={handleChangeNomFiche} placeholder="Nom de la Fiche" required disabled={sheetId !== -1}/><br></br>
             <input type="text" className="VersionFicheCSS" value={versionFiche} onChange={handleChangeVersionFiche} placeholder="Version de la Fiche" disabled/>
 
             {groupes.map((groupe) => (
@@ -638,8 +661,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
               </ul>
             </div>
 
-
-              <button type="button" onClick={() => toggleModal(modalVersion, setModalVersion)} form="postSheet" className="saugardeFicheButton">Sauvegarder La Fiche</button>
+              <button type="submit" form="postSheet" className="saugardeFicheButton" disabled={sheetId !== -1}>Créer La Fiche</button>
+              <button type="button" onClick={(e) => {e.preventDefault(); toggleModal(modalVersion, setModalVersion)}} className="saugardeFicheButton"disabled={sheetId === -1}>Changer La Version</button>
 
           </div>
         </div>
