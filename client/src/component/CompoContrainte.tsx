@@ -595,28 +595,31 @@ const CompoContrainte = (PropsCC: PropsCC) => {
           </div>
 
 
-
-          <div className="bacCong">
-            <ul>
-              {constraint.map(constr =>
-                <div key={constr.nom} className="nconstraint">
-                  <div className="divcroisupp"><button type="button" className="croixCont" onClick={() => { if (window.confirm("Attention tu vas supprimé une contrainte")) { handledelete(constr.contrainte_id) } }}>✖</button></div>
-                  <div className="divmodif"><input type="image" className="Modif" src={image3} onClick={() => toggleModal(modalContraintes, setModalContraintes, constr)} /></div>
-                  <img className="Fgauche" src={image4} onClick={() => { toggleModal(modalChamps, setModalChamps, constr) }} />
-                  <div className="divNomRegex"><li className="NameRegex">Nom : {constr.nom}</li></div>
+          <div className="CadreBacSave">
+            <div className="bacCong">
+              <ul>
+                {constraint.map(constr =>
+                  <div key={constr.nom} className="nconstraint">
+                    <div className="divcroisupp"><button type="button" className="croixCont" onClick={() => { if (window.confirm("Attention tu vas supprimé une contrainte")) { handledelete(constr.contrainte_id) } }}>✖</button></div>
+                    <div className="divmodif"><input type="image" className="Modif" src={image3} onClick={() => toggleModal(modalContraintes, setModalContraintes, constr)} /></div>
+                    <img className="Fgauche" src={image4} onClick={() => { toggleModal(modalChamps, setModalChamps, constr) }} />
+                    <div className="divNomRegex"><li className="NameRegex">Nom : {constr.nom}</li></div>
+                  </div>
+                )}
+                <div className="btn_modal_center">
+                  <button type="button" onClick={() => toggleModal(modalContraintes, setModalContraintes)} className="btn-modal">
+                    +
+                  </button>
                 </div>
-              )}
-              <div className="btn_modal_center">
-                <button type="button" onClick={() => toggleModal(modalContraintes, setModalContraintes)} className="btn-modal">
-                  +
-                </button>
-              </div>
-            </ul>
+              </ul>
+            </div>
+
+
+              <button type="submit" form="postSheet" className="saugardeFicheButton">Sauvegarder La Fiche</button>
+
           </div>
-          </div>
-          <div className="boutonSauvegardeFicheCenter">
-            <button type="submit" form="postSheet" className="saugardeFicheButton">Sauvegarder La Fiche</button>
-          </div>
+        </div>
+         
       </form>
 
     </>

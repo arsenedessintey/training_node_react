@@ -31,23 +31,27 @@ const AccueilSousFiche = (props: Props) => {
     return(
 
     <>
-        <div className="buttonSFcenter">
-            <button type="button" className="buttonSF" onClick= {() => props.setPage("/createSheet")}>CREER DES FICHES</button>
-        </div>
-        <div className="centerRecherche">
-            <input type="text" className="Recherche" placeholder="Recherche..." required/>
-        </div>
 
-        <div className="CadreRecherche">
-            {recherches.map((recherche) => (
-                <li key={recherche.nom}>
+
+        <div className="CentereRecherche">
+            <div className=" CadreRecherche">
+
+                    {recherches.map((recherche) => (
+                        <li key={recherche.nom}>
+                        
+                        <div onClick={() => props.setPage("/modifySheet/" + recherche.sheet_id )} className="nomDeFiche"><p className="recherchenom">{recherche.nom}</p></div>
+
+                        </li>
+
+                    ))}
+                </div>
                 
-                <div onClick={() => props.setPage("/modifySheet/" + recherche.sheet_id )} className="nomDeFiche"><p className="recherchenom">{recherche.nom}</p></div>
 
-                </li>
 
-            ))}
+                <button type="button" className="buttonSF" onClick= {() => props.setPage("/createSheet")}>CREER DES FICHES</button>
+
         </div>
+        
     </>
 
 
