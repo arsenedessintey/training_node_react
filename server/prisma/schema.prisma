@@ -30,6 +30,8 @@ model Sheet {
   nom             String       
   description     String?
   groupe          Groupe[]
+  nomVersion      String
+  activationSheet Boolean
   
 
   // Childs Sheet
@@ -41,6 +43,8 @@ model Sheet {
 
   createdAt       DateTime            @default(now())
   updatedAt       DateTime            @updatedAt
+
+  @@unique([nom, nomVersion])
 }
 
 model Field {

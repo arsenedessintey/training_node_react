@@ -245,13 +245,18 @@ app.post('/api/sheetModel', async (req: Request, res: Response) => {
   const nomFicheS: string = req.body.nomFicheS
   const descFicheS: string = req.body.descFicheS
   const childSheet: ChildSheet[] = req.body.lienSFS
+  const activationSheetconst: boolean = req.body.activationSheet
+  const nomVersionconst:string = req.body.nomVersion
 
   const childSheetId = childSheet?.map(c => ({ sheet_id: c.sheet_id }))
+
   try {
     const sheets = await prisma.sheet.create({
       data: {
         nom: nomFicheS,
         description: descFicheS,
+        activationSheet:activationSheetconst,
+        nomVersion:nomVersionconst,
         childSheet: {
           connect: childSheetId
         },

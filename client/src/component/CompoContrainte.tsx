@@ -14,6 +14,7 @@ import Groupes from "./Groupes";
 import Champs from "./Champs";
 import ModalSansValide from "./ModalSansValide";
 import LienSF from "./LienSF";
+import VersionFiche from "./VersionFiche";
 
 interface PropsCC {
   setPage: (newPage: string) => void
@@ -25,6 +26,8 @@ export type Sheet = {
   description: string | null,
   groupe: Groupeinter[]
   childSheet: ChildSheet[]
+  activationSheet: Boolean
+  nomVersion: string
 }
 
 export type ChildSheet = {
@@ -57,6 +60,9 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   //Modal Lien Sous Fiche
   const [modalLienSF, setModalLienSF] = useState(false);
+
+  //Modal VersionFiche
+  const [modalVersion, setModalVersion] = useState(false)
 
 
   const [constraint, setConstraint] = useState<Constraint[]>([]);
@@ -112,6 +118,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   const [mandatoryField, setMandatoryField] = useState(false);
 
   const [nomFiche, setNomFiche] = useState("")
+
+  const [versionFiche, setVersionFiche] = useState("")
 
   const [descFiche, setDescFiche] = useState("")
 
@@ -337,6 +345,12 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     setNomFiche(valueAfterNomFiche);
   }
 
+  const handleChangeVersionFiche = (e:any) => {
+    const valueAfterVersionFiche = e.target.value;
+    setVersionFiche(valueAfterVersionFiche);
+
+  }
+
   const handleChangeDescFiche = (e: any) => {
     const valueAfterDescFiche = e.target.value;
     setDescFiche(valueAfterDescFiche);
@@ -383,7 +397,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
     if (index === -1) {
 
-      groupeCopy[groupeCopy.length - 1].champs.push({ field_id: timeId, nom: nouveauChamps, constraint: selectConstraint, obligatoire: mandatoryField });
+      groupeCopy[groupeCopy.length - 1].champs.push({ field_id: timeId, nom: nouveauChamps, constraint: selectConstraint, obligatoire: mandatoryField});
     }
 
     // save changes
@@ -427,7 +441,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const handleSauvegardeSubmit = () => {
 
-    axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: lienSF })
+    axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: lienSF, nomVersion: versionFiche, activationSheet: true })
       .then((response) => {
         console.log(response.status);
         PropsCC.setPage("/")
@@ -496,16 +510,26 @@ const CompoContrainte = (PropsCC: PropsCC) => {
         </ModalSansValide>
       )}
 
+      {modalVersion && (
+        <Modal
+          toggle={() => toggleModal(modalVersion, setModalVersion)}
+          handleSubmit={handleSauvegardeSubmit}
+        >
+          <VersionFiche versionFiche={versionFiche} handleChangeVersionFiche={handleChangeVersionFiche} nomFiche={nomFiche} handleChangeNomFiche={handleChangeNomFiche}/>
+        </Modal>
+      )}
+
       <button type="button" className="Bouton_HautSousFiche Fgauche2" onClick={BackHistory}>
         <img width={"50px"} src={image6} />
       </button>
 
-      <form id="postSheet" onSubmit={handleSauvegardeSubmit}>
+      <form id="postSheet">
         
         <div className="felxRowConstraint">
           <div className="divChamps">
 
-            <input type="text" className="NomFicheCSS" value={nomFiche} onChange={handleChangeNomFiche} placeholder="Nom de la Fiche..." required />
+            <input type="text" className="NomFicheCSS" value={nomFiche} onChange={handleChangeNomFiche} placeholder="Nom de la Fiche" disabled/><br></br>
+            <input type="text" className="VersionFicheCSS" value={versionFiche} onChange={handleChangeVersionFiche} placeholder="Version de la Fiche" disabled/>
 
             {groupes.map((groupe) => (
               <ul key={groupe.groupe_id}>
@@ -615,7 +639,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
             </div>
 
 
-              <button type="submit" form="postSheet" className="saugardeFicheButton">Sauvegarder La Fiche</button>
+              <button type="button" onClick={() => toggleModal(modalVersion, setModalVersion)} form="postSheet" className="saugardeFicheButton">Sauvegarder La Fiche</button>
 
           </div>
         </div>
