@@ -44,6 +44,9 @@ model Sheet {
   createdAt       DateTime            @default(now())
   updatedAt       DateTime            @updatedAt
 
+  dossier          Dossier?      @relation(fields: [dossier_id], references: [dossier_id])
+  dossier_id       Int?
+
   @@unique([nom, nomVersion])
 }
 
@@ -78,6 +81,15 @@ model Groupe {
   sheet          Sheet?      @relation(fields: [sheet_id], references: [sheet_id])
   sheet_id       Int?
 
+}
+
+model Dossier {
+  dossier_id     Int          @id @default(autoincrement())
+  nom            String
+  sheet          Sheet[]      
+
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
 }
 
 

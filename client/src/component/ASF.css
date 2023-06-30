@@ -77,3 +77,8 @@ li{
     flex-direction: column;
     align-items: center;
 }
+
+.button_ASF{
+    display:flex;
+    flex-direction: column;
+}
