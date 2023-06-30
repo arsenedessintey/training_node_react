@@ -359,12 +359,21 @@ app.get("/api/modifyS/:sheet_id", async (req: Request, res: Response) => {
   return res.status(404).send("Error insertion fiche");
 })
 
-app.get("/api/allSheet", async (req: Request, res: Response) => {
+app.get("/api/allSheet/:idrecherche", async (req: Request, res: Response) => {
+
+  const id_sheetNOT:number = Number(req.params.idrecherche);
 
   const allSheet = await prisma.sheet.findMany(
     {
       where: {
+        NOT:{
+          sheet_id : id_sheetNOT,
+
+        },
+
+        parentSheet:null,
         activationSheet: true
+
       }
     }
   )

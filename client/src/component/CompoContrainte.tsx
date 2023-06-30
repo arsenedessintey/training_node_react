@@ -97,8 +97,6 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
     getSheet()
 
-    getAllSheet()
-
   }, []);
 
   //GROUPE STATE
@@ -138,10 +136,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     setConstraint(tmpConstraint);
   }
 
-  async function getAllSheet() {
-    const AllSheet = (await axios.get('/api/allSheet')).data;
-    setAllSheet(AllSheet);
-  }
+
 
   async function getSheet() {
 
@@ -166,7 +161,14 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       setNomFiche(sheetSch.nom);
       setDescFiche(sheetSch.description ?? "");
 
+      getAllSheet(Sheet__id)
+
     }
+  }
+  
+  async function getAllSheet(idsheeet:number) {
+    const AllSheet = (await axios.get(`/api/allSheet/${idsheeet}`)).data;
+    setAllSheet(AllSheet);
   }
 
   const changeGroupe = (groupes: string) => {
@@ -215,7 +217,6 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const handleDeleteChamps = (idc: number) => {
     const groupeCopy = [...groupes];
-    console.log('efzefezfcez :>> ', idc);
 
     for (let i = 0; i < groupeCopy.length; i++) {
       const indexChamp = groupeCopy[i].champs.findIndex(champ => {
