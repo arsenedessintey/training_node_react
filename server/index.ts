@@ -349,7 +349,13 @@ app.get("/api/modifyS/:sheet_id", async (req: Request, res: Response) => {
 
 app.get("/api/allSheet", async (req: Request, res: Response) => {
 
-  const allSheet = await prisma.sheet.findMany()
+  const allSheet = await prisma.sheet.findMany(
+    {
+      where: {
+        activationSheet: true
+      }
+    }
+  )
   return res.status(200).json(allSheet);
 
 })
