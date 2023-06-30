@@ -43,7 +43,7 @@ const AccueilSousFiche = (props: Props) => {
       const handleSubmitDossier = (e:any) => {
         e.preventDefault()
 
-        axios.post('/api/Dossier', nouveauDossier)
+        axios.post('/api/Dossier', {nomDossier: nouveauDossier})
             .then((response) => {
                 console.log(response.status);
                 toggleModalASF(modalDossier, setModalDossier)
@@ -62,11 +62,11 @@ const AccueilSousFiche = (props: Props) => {
             setNouveauDossier(valueAfterDossier);
       }
 
-    // async function getDossier() {
-    //     const tmpDossier = (await axios.get('/api/Dossier')).data;
-    //     setDossier(tmpDossier)
+    async function getDossier() {
+        const tmpDossier = (await axios.get('/api/DossierGet')).data;
+        setDossier(tmpDossier)
         
-    // }
+    }
 
     async function getRecherche() {
         const tmpRecherche = (await axios.get('/api/recherche')).data;

@@ -402,6 +402,35 @@ app.delete('/api/sheetModelModif/:sheetId', async (req: Request, res: Response) 
 
 })
 
+app.post('/api/Dossier', async (req: Request, res: Response) => {
+
+  const groupenom = req.body.nomDossier
+
+  await prisma.dossier.create({
+    data:{
+      nom: groupenom
+    }
+  }
+  )      
+  .then((dossier) => {
+    console.log('sheet :>> ', dossier);
+    res.status(200).send("new doss create");
+  })
+  .catch(error => {
+    console.log('error', error)
+    res.status(404).send("Error doss creation");
+  })
+
+})
+
+app.get('/api/DossierGet', async (req: Request, res: Response) => {
+
+  const allDossier = await prisma.dossier.findMany({})
+  return res.status(200).json(allDossier);
+
+})
+
+
 
 
 
