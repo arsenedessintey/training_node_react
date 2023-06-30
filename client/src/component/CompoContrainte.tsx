@@ -129,6 +129,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const [sheetId, setSheetId] = useState(-1)
 
+  const [errorVersion, setErrorVersion] = useState("")
+
   //FIN GROUPE STATE
 
   async function getConstraint() {
@@ -438,23 +440,33 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       });
   }
 
-  const handleSauvegardeSubmitID = (e:any) => {
+  const disableSheet = (sheetID: number) => {
+    return axios.put('/api/sheetModelId', {sheetIdS: sheetId})
+  }
+
+  const addSheetVersion = () => {
+    return axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: lienSF, nomVersion: versionFiche, activationSheet: true })
+  }
+
+  const handleSauvegardeSubmitID = (e: any) => {
     e.preventDefault();
 
-    console.log('sheetId :>> ', {sheetID:sheetId});
+    console.log('sheetId :>> ', { sheetID: sheetId });
 
-    axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: lienSF, nomVersion: versionFiche, activationSheet: true })
+    disableSheet(sheetId)
       .then((response) => {
-        console.log(response.status);
-        PropsCC.setPage("/")
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    axios.put('/api/sheetModelId', {sheetIdS: sheetId})
-      .then((response) => {
-        console.log(response.status);
+        addSheetVersion()
+          .then((response) => {
+            console.log(response.status);
+            PropsCC.setPage("/")
+          })
+          .catch((error) => {
+            console.log(error);
+            if(error.response.data === "Not unique sheet id") {
+              // Afficher que la version existe déjà
+              setErrorVersion("Cette Version est déjà utilisé");
+            }
+          });
       })
       .catch((error) => {
         console.log(error);
@@ -562,7 +574,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
           toggle={() => toggleModal(modalVersion, setModalVersion)}
           handleSubmit={handleSauvegardeSubmitID}
         >
-          <VersionFiche versionFiche={versionFiche} handleChangeVersionFiche={handleChangeVersionFiche} nomFiche={nomFiche} handleChangeNomFiche={handleChangeNomFiche} sheetId={sheetId}/>
+          <VersionFiche versionFiche={versionFiche} handleChangeVersionFiche={handleChangeVersionFiche} nomFiche={nomFiche} handleChangeNomFiche={handleChangeNomFiche} sheetId={sheetId} Version={errorVersion}/>
         </Modal>
       )}
 

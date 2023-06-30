@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { Contrainte, PrismaClient } from '@prisma/client';
+import { Contrainte, PrismaClient, Prisma } from '@prisma/client';
 
 interface Groupeinter {
   idg: number
@@ -249,36 +249,44 @@ app.post('/api/sheetModel', async (req: Request, res: Response) => {
 
   const childSheetId = childSheet?.map(c => ({ sheet_id: c.sheet_id }))
 
-  try {
-    const sheets = await prisma.sheet.create({
-      data: {
-        nom: nomFicheS,
-        description: descFicheS,
-        activationSheet:activationSheet,
-        nomVersion:nomVersion,
-        childSheet: {
-          connect: childSheetId
-        },
-        groupe: {
-          create: parseurGroupe(groupes)
-        }
+  prisma.sheet.create({
+    data: {
+      nom: nomFicheS,
+      description: descFicheS,
+      activationSheet:activationSheet,
+      nomVersion:nomVersion,
+      childSheet: {
+        connect: childSheetId
       },
-      include: {
-        groupe: {
-          include: { champs: true }
-        }
+      groupe: {
+        create: parseurGroupe(groupes)
       }
-    })
-  } catch (error) {
-    console.log('error', error)
-    res.status(404).send("Error sheet creation");
-  }
-  res.status(200).send("new sheet created");
+    },
+    include: {
+      groupe: {
+        include: { champs: true }
+      }
+    }
+  })
+  .then((sheet) => {
+    console.log('sheet :>> ', sheet);
+    res.status(200).send("new sheet created");
+  }).catch(error => {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002' && error.meta?.target === "Sheet_nom_nomVersion_key") {
+      // The .code property can be accessed in a type-safe manner
+      console.log('error.meta.target :>> ', error.meta.target);
+      res.status(404).send("Not unique sheet id");
+      
+    } else {
+          console.log('error', error)
+          res.status(404).send("Error sheet creation");
+    }
+  })
 });
 
 
 app.put('/api/sheetModelId', async (req: Request, res: Response) => {
-    try{
+
       const sheetID:number = req.body.sheetIdS
       
       const sheetsid = await prisma.sheet.update({
@@ -289,11 +297,15 @@ app.put('/api/sheetModelId', async (req: Request, res: Response) => {
           activationSheet:false,
         }
       })
-    } catch (error) {
-      console.log('error', error)
-      res.status(404).send("Error sheet false");
-    }
-    res.status(200).send("new sheet false");
+      .then((sheet) => {
+        console.log('sheet :>> ', sheet);
+        res.status(200).send("new sheet change");
+      })
+      .catch(error => {
+        console.log('error', error)
+        res.status(404).send("Error sheet creation");
+      })
+
 
 })
 
