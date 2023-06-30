@@ -474,6 +474,30 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       });
   }
 
+  const handleSubmitModificationFiche = (e:any) => {
+    e.preventDefault();
+
+    axios.delete(`/api/sheetModelModif/${sheetId}`)
+    .then((response) => {
+      console.log(response.status);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+    axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: lienSF, nomVersion: versionFiche, activationSheet: true})
+    .then((response) => {
+      console.log(response.status);
+      PropsCC.setPage("/")
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+    
+
+}
+
   const handleSubmitLienSF = (childSheet: ChildSheet) => {
 
     const LienSFCopy = [...lienSF];
@@ -663,6 +687,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
               <button type="submit" form="postSheet" className="saugardeFicheButton" disabled={sheetId !== -1}>Créer La Fiche</button>
               <button type="button" onClick={(e) => {e.preventDefault(); toggleModal(modalVersion, setModalVersion)}} className="saugardeFicheButton"disabled={sheetId === -1}>Changer La Version</button>
+              <button type="button" onClick={handleSubmitModificationFiche} className="saugardeFicheButton"disabled={sheetId === -1}>Modifier La Fiche</button>
 
           </div>
         </div>

@@ -280,9 +280,7 @@ app.post('/api/sheetModel', async (req: Request, res: Response) => {
 app.put('/api/sheetModelId', async (req: Request, res: Response) => {
     try{
       const sheetID:number = req.body.sheetIdS
-
-      console.log('req.body :>> ', req.body);
-  
+      
       const sheetsid = await prisma.sheet.update({
         where:{
           sheet_id: sheetID,
@@ -355,6 +353,30 @@ app.get("/api/allSheet", async (req: Request, res: Response) => {
   return res.status(200).json(allSheet);
 
 })
+
+app.delete('/api/sheetModelModif/:sheetId', async (req: Request, res: Response) => {
+
+  try {
+    const id_sheet:number = Number(req.params.sheetId);
+
+
+    const ModifFiche = await prisma.sheet.delete({
+      where: {
+        sheet_id: id_sheet,
+      },
+      })
+    
+    
+  } catch (error) {
+    console.log('error :>> ', error);
+  }
+  return res.status(404).send("Error Modif fiche");
+
+
+})
+
+
+
 
 
 

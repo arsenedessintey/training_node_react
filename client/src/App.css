@@ -308,9 +308,10 @@ ul {
 
 .saugardeFicheButton{
 
-  width: 250px;
-  height: 70px;
+  width: 200px;
+  height: 45px;
   margin-top: 7px;
+  margin-right:10px;
   font-size: 20px;
   cursor: pointer;
   border: solid 2px #282c34;
@@ -459,11 +460,6 @@ ul {
 
   }
 
-  .croixchamps{
-
-    bottom: 17px;
-  
-  }
 
 
 
