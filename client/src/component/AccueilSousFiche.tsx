@@ -1,17 +1,27 @@
 import React, { useState, useEffect } from "react";
-import CompoContrainte from "./CompoContrainte";
+import CompoContrainte, { Sheet } from "./CompoContrainte";
 import axios from "axios";
 import Modal from "./Modal";
 import Dossier from "./Dossier";
+import ChoixFicheDossier from "./ChoixFicheDossier";
+import ModalSansValide from "./ModalSansValide";
+import imageDossier from "./Dossier.svg"
+import AffichageDossier from "./AffichageDossier";
 
 interface Props {
     setPage: (newPage: string) => void
 }
 
-interface Recherches {
+export interface Recherches {
     sheet_id:number
     nom:string
     nomVersion:string
+}
+
+export interface Dossiers {
+    dossier_id:number
+    nom:string   
+    sheet:Sheet[]     
 }
 
 const AccueilSousFiche = (props: Props) => { 
@@ -20,9 +30,15 @@ const AccueilSousFiche = (props: Props) => {
 
     const [modalDossier, setModalDossier] = useState(false)
 
-    const [dossier, setDossier] = useState([])
+    const [modalChoixFiche, setModalChoixFiche] = useState(false)
+
+    const [dossiers, setDossier] = useState<Dossiers[]>([])
 
     const [nouveauDossier , setNouveauDossier] = useState("")
+
+    const [selectedIdDossier, setSelectedIdDossier] = useState(-1)
+
+    const [modalAffichageDossier, setModalAffichageDossier] = useState(false)
 
     const toggleModalASF = (modal: boolean, setter: (modal: boolean) => void) => {
 
@@ -35,7 +51,7 @@ const AccueilSousFiche = (props: Props) => {
 
         getRecherche()
 
-        // getDossier()
+        getDossier()
         
     
       }, []);
@@ -52,8 +68,6 @@ const AccueilSousFiche = (props: Props) => {
                 console.log(error);
             });
 
-        console.log('"ok" :>> ', "ok");
-
       }
 
       const handleChangeDossier = (e:any) => {
@@ -65,13 +79,22 @@ const AccueilSousFiche = (props: Props) => {
     async function getDossier() {
         const tmpDossier = (await axios.get('/api/DossierGet')).data;
         setDossier(tmpDossier)
-        
     }
 
     async function getRecherche() {
         const tmpRecherche = (await axios.get('/api/recherche')).data;
         setRecherches(tmpRecherche);
       }
+
+      const idDossierRecup = (idDossier:number) => {
+
+        toggleModalASF(modalAffichageDossier, setModalAffichageDossier)
+
+        setSelectedIdDossier(idDossier)
+
+
+      }
+
 
     return(
 
@@ -85,6 +108,24 @@ const AccueilSousFiche = (props: Props) => {
             </Modal>
         }
 
+        {modalChoixFiche &&
+            <ModalSansValide
+            toggle={() => toggleModalASF(modalChoixFiche, setModalChoixFiche)}
+            >
+                <ChoixFicheDossier recherches={recherches} toggle={() => toggleModalASF(modalChoixFiche, setModalChoixFiche)} idDossier={selectedIdDossier} />
+            </ModalSansValide>
+        
+        }
+
+        {modalAffichageDossier &&
+            <ModalSansValide
+            toggle={() => toggleModalASF(modalAffichageDossier, setModalAffichageDossier)}
+            
+            >
+                <AffichageDossier toggleDossier={() => toggleModalASF(modalChoixFiche, setModalChoixFiche)}/>
+            </ModalSansValide>
+        }
+
         <div className="CentereRecherche">
             <div className=" CadreRecherche">
 
@@ -92,11 +133,22 @@ const AccueilSousFiche = (props: Props) => {
                         <li key={recherche.nom}>
                         
                         <div onClick={() => props.setPage("/modifySheet/" + recherche.sheet_id )} className="nomDeFiche"><p className="recherchenom">{recherche.nom}</p><p className="recherheversion">{recherche.nomVersion}</p></div>
+                        
 
                         </li>
 
                     ))}
-                </div>
+
+                    {dossiers.map((dossier) => (
+                        <li key={dossier.dossier_id}>
+
+                             <div onClick={() => idDossierRecup(dossier.dossier_id)} className="nomDeFiche"><img className="dossier" src={imageDossier}/><p className="recherchedoss">{dossier.nom}</p></div>
+
+
+                        </li>
+
+                    ))}
+            </div>
                 
 
                 <div className="button_ASF">

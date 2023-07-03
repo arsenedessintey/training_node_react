@@ -56,7 +56,7 @@ CREATE TABLE `Groupe` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Dossier` (
+CREATE TABLE `dossier` (
     `dossier_id` INTEGER NOT NULL AUTO_INCREMENT,
     `nom` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -69,7 +69,7 @@ CREATE TABLE `Dossier` (
 ALTER TABLE `Sheet` ADD CONSTRAINT `Sheet_parentSheetId_fkey` FOREIGN KEY (`parentSheetId`) REFERENCES `Sheet`(`sheet_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Sheet` ADD CONSTRAINT `Sheet_dossier_id_fkey` FOREIGN KEY (`dossier_id`) REFERENCES `Dossier`(`dossier_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `Sheet` ADD CONSTRAINT `Sheet_dossier_id_fkey` FOREIGN KEY (`dossier_id`) REFERENCES `dossier`(`dossier_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Field` ADD CONSTRAINT `Field_groupe_id_fkey` FOREIGN KEY (`groupe_id`) REFERENCES `Groupe`(`groupe_id`) ON DELETE SET NULL ON UPDATE CASCADE;

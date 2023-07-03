@@ -5,6 +5,7 @@ import "./component/Champs.css";
 import "./component/NewConstraint.css";
 import "./component/ASF.css"
 import "./component/LienSF.css";
+import "./component/ChoixFicheDossier.css"
 import AccueilSousFiche from './component/AccueilSousFiche';
 import CompoContrainte from './component/CompoContrainte';
 
@@ -17,9 +18,10 @@ function App() {
   })
 
   const setPath = (newPath: string) => {
-
+    
     window.location.pathname = newPath;
     setStatePath(newPath);
+
   }
 
   const  getPageComponent = () => {

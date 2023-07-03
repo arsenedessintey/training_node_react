@@ -42,6 +42,15 @@ li{
 
 }
 
+.nomDeFiche2{
+    border: solid 3px #ff8800;
+    height: 50px;
+    justify-content: left;
+    cursor: pointer;
+    margin:10px;
+    min-width: 20rem;
+}
+
 .recherchenom{
     margin-top:7px;
     font-size: 25px;
@@ -81,4 +90,26 @@ li{
 .button_ASF{
     display:flex;
     flex-direction: column;
+}
+
+.dossier{
+    display: flex;
+    width: 40px;
+    margin-top:5px;
+    margin-left:30px;
+}
+
+.recherchedoss{
+    margin-top:-37px;
+    font-size: 25px;
+    font-weight: bold;
+    margin-left: 80px;
+    display: flex;
+    justify-content: left;
+}
+
+.boutonAffichageDoss{
+    width: 50px;
+    height: 50px;
+    font-size: 27px;
 }

@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { Contrainte, PrismaClient, Prisma } from '@prisma/client';
+import { connect } from 'http2';
 
 interface Groupeinter {
   idg: number
@@ -35,6 +36,28 @@ export interface Constraint {
   Value5: string
   Value6: string
   Value7: string
+}
+
+export interface Recherches {
+  sheet_id:number
+  nom:string
+  nomVersion:string
+}
+
+export interface Dossiers {
+  dossier_id:number
+  nom:string   
+  sheet:Sheet[]     
+}
+
+export type Sheet = {
+  sheet_id: number
+  nom: string
+  description: string | null,
+  groupe: Groupeinter[]
+  childSheet: ChildSheet[]
+  activationSheet: Boolean
+  nomVersion: string
 }
 
 export const prisma = new PrismaClient();
@@ -430,6 +453,54 @@ app.get('/api/DossierGet', async (req: Request, res: Response) => {
 
 })
 
+const parseurTabChoix = (tabChoix: Recherches[]) => {
+  return tabChoix.map((choix) => {
+    return {
+        sheet_id:choix.sheet_id
+      }
+  })
+}
+
+
+app.put("/api/FicheChoixCo/:idDossier", async (req: Request, res: Response) => {
+
+  const tabChoix = req.body.tab
+  const dossier:number = Number(req.params.idDossier);
+
+  await prisma.dossier.update({
+    where:{
+      dossier_id: dossier
+    },
+    data:{
+      sheet:{ 
+        connect: parseurTabChoix(tabChoix)
+
+    }
+      
+    }
+
+  })
+})
+
+app.put("/api/FicheChoixDisco/:idDossier", async (req: Request, res: Response) => {
+
+  const tabChoix = req.body.tab
+  const dossier:number = Number(req.params.idDossier);
+
+  await prisma.dossier.update({
+    where:{
+      dossier_id: dossier
+    },
+    data:{
+      sheet:{ 
+        connect: parseurTabChoix(tabChoix)
+
+    }
+      
+    }
+
+  })
+})
 
 
 
