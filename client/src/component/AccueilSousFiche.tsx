@@ -120,7 +120,6 @@ const AccueilSousFiche = (props: Props) => {
         {modalAffichageDossier &&
             <ModalSansValide
             toggle={() => toggleModalASF(modalAffichageDossier, setModalAffichageDossier)}
-            
             >
                 <AffichageDossier toggleDossier={() => toggleModalASF(modalChoixFiche, setModalChoixFiche)}/>
             </ModalSansValide>

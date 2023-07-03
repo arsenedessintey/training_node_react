@@ -11,18 +11,12 @@ interface Props {
 
 const AffichageDossier = (props: Props) => {
 
-
-
-
-
-
     return (
         <>
         
             <div className="cadreChoixFiche">
                 <button className="boutonAffichageDoss" type="button" onClick={props.toggleDossier}>+</button>
             </div>
-
         </>
         
 
