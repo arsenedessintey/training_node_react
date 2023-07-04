@@ -86,7 +86,8 @@ model Groupe {
 model Dossier {
   dossier_id     Int          @id @default(autoincrement())
   nom            String
-  sheet          Sheet[]      
+  sheet          Sheet[]  
+  activationdoss Boolean    
 
   createdAt      DateTime            @default(now())
   updatedAt      DateTime            @updatedAt

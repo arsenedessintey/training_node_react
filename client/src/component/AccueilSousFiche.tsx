@@ -7,6 +7,7 @@ import ChoixFicheDossier from "./ChoixFicheDossier";
 import ModalSansValide from "./ModalSansValide";
 import imageDossier from "./Dossier.svg"
 import AffichageDossier from "./AffichageDossier";
+import DossAllFiche from "./DossAllFiche";
 
 interface Props {
     setPage: (newPage: string) => void
@@ -40,6 +41,8 @@ const AccueilSousFiche = (props: Props) => {
 
     const [modalAffichageDossier, setModalAffichageDossier] = useState(false)
 
+    const [modalDossAllFiche, setModalDossAllFiche] = useState(false)
+
     const toggleModalASF = (modal: boolean, setter: (modal: boolean) => void) => {
 
         setNouveauDossier("")
@@ -63,6 +66,7 @@ const AccueilSousFiche = (props: Props) => {
             .then((response) => {
                 console.log(response.status);
                 toggleModalASF(modalDossier, setModalDossier)
+                window.history.go(0)
             })
             .catch((error) => {
                 console.log(error);
@@ -76,24 +80,38 @@ const AccueilSousFiche = (props: Props) => {
             setNouveauDossier(valueAfterDossier);
       }
 
-    async function getDossier() {
-        const tmpDossier = (await axios.get('/api/DossierGet')).data;
-        setDossier(tmpDossier)
-    }
+        async function getDossier() {
+            const tmpDossier = (await axios.get('/api/DossierGet')).data;
+            setDossier(tmpDossier)
+        }
 
-    async function getRecherche() {
-        const tmpRecherche = (await axios.get('/api/recherche')).data;
-        setRecherches(tmpRecherche);
-      }
+        async function getRecherche() {
+            const tmpRecherche = (await axios.get('/api/recherche')).data;
+            setRecherches(tmpRecherche);
+        }
 
-      const idDossierRecup = (idDossier:number) => {
+        const idDossierRecup = (idDossier:number) => {
 
-        toggleModalASF(modalAffichageDossier, setModalAffichageDossier)
+            toggleModalASF(modalAffichageDossier, setModalAffichageDossier)
 
-        setSelectedIdDossier(idDossier)
+            setSelectedIdDossier(idDossier)
 
 
-      }
+        }
+
+        const handleDeleteDossier = (id: number) => {
+
+            axios.put(`/api/DossierDel/${id}`)
+              .then((response) => {
+                console.log(response.status);
+                window.history.go(0)
+        
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+        
+          }
 
 
     return(
@@ -108,6 +126,16 @@ const AccueilSousFiche = (props: Props) => {
             </Modal>
         }
 
+
+        {modalAffichageDossier &&
+            <ModalSansValide
+            toggle={() => toggleModalASF(modalAffichageDossier, setModalAffichageDossier)}
+            >
+                <AffichageDossier toggleDossier={() => toggleModalASF(modalChoixFiche, setModalChoixFiche)} idDossier={selectedIdDossier} handleSubmitDelDossier={handleDeleteDossier}/>
+            </ModalSansValide>
+        }
+
+        
         {modalChoixFiche &&
             <ModalSansValide
             toggle={() => toggleModalASF(modalChoixFiche, setModalChoixFiche)}
@@ -117,31 +145,24 @@ const AccueilSousFiche = (props: Props) => {
         
         }
 
-        {modalAffichageDossier &&
+        {modalDossAllFiche && 
             <ModalSansValide
-            toggle={() => toggleModalASF(modalAffichageDossier, setModalAffichageDossier)}
+            toggle={() => toggleModalASF(modalDossAllFiche,setModalDossAllFiche)}
             >
-                <AffichageDossier toggleDossier={() => toggleModalASF(modalChoixFiche, setModalChoixFiche)}/>
+                    <DossAllFiche recherches={recherches}/>
             </ModalSansValide>
         }
 
         <div className="CentereRecherche">
             <div className=" CadreRecherche">
 
-                    {recherches.map((recherche) => (
-                        <li key={recherche.nom}>
-                        
-                        <div onClick={() => props.setPage("/modifySheet/" + recherche.sheet_id )} className="nomDeFiche"><p className="recherchenom">{recherche.nom}</p><p className="recherheversion">{recherche.nomVersion}</p></div>
-                        
-
-                        </li>
-
-                    ))}
-
                     {dossiers.map((dossier) => (
                         <li key={dossier.dossier_id}>
 
-                             <div onClick={() => idDossierRecup(dossier.dossier_id)} className="nomDeFiche"><img className="dossier" src={imageDossier}/><p className="recherchedoss">{dossier.nom}</p></div>
+                             <div onClick={() => idDossierRecup(dossier.dossier_id)} className="nomDeFiche">
+                                <img className="dossier" src={imageDossier}/>
+                                <p className="recherchedoss">{dossier.nom}</p>
+                             </div>
 
 
                         </li>
@@ -151,6 +172,7 @@ const AccueilSousFiche = (props: Props) => {
                 
 
                 <div className="button_ASF">
+                    <button type="button" className="buttonSF" onClick={() => toggleModalASF(modalDossAllFiche, setModalDossAllFiche)}>FICHES</button>
                     <button type="button" className="buttonSF" onClick= {() => props.setPage("/createSheet")}>CREER DES FICHES</button>
                     <button type="button" className="buttonSF" onClick= {() => toggleModalASF(modalDossier, setModalDossier)}>CREER UN DOSSIER</button>
                 </div>

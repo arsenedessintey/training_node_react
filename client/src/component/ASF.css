@@ -39,6 +39,7 @@ li{
     cursor: pointer;
     margin:10px;
     min-width: 20rem;
+    z-index: 1;
 
 }
 
@@ -109,7 +110,65 @@ li{
 }
 
 .boutonAffichageDoss{
+    background-color: #d2d2d2;
+    margin-bottom:10px;
+
     width: 50px;
     height: 50px;
     font-size: 27px;
+    border:2px solid black;
+    cursor: pointer;
 }
+
+.boutonAffichageDoss:hover{
+    background-color: rgb(236, 236, 236);
+
+}
+
+.cadreAffiFiche{
+    width: 500px;
+    height: 450px;
+    border:2px solid black;
+    margin: 10px;
+    overflow-y: scroll;
+}
+
+.croixDossier{
+
+    position:relative;
+  
+    font-size:30px;
+  
+    font-weight: bold;
+    background-color: white;
+    border: solid 0px #282c34;
+    cursor: pointer;
+
+    display:flex;
+    margin-left: 74rem;
+    margin-top: -4rem;
+    z-index: 2;
+  
+  }
+
+  .supprDoss{
+    background-color: #d2d2d2;
+    margin-bottom:10px;
+    width: 170px;
+    height: 60px;
+    font-size: 20px;
+    border:2px solid black;
+    margin-left:280px;
+    cursor: pointer;
+  }
+
+  .supprDoss:hover{
+    background-color:  rgb(236, 236, 236) ;
+  }
+
+  .ContourDossAllFiche{
+    width: 1000px;
+    height: 500px;
+    margin:10px;
+    border:2px solid black;
+  }

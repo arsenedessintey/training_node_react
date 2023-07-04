@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom"
 import { Dossiers, Recherches } from "./AccueilSousFiche"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
 
 interface Props {
@@ -13,6 +13,13 @@ interface Props {
 const ChoixFicheDossier = (props: Props) => {
 
     const [tabFicheChoix, setTabFicheChoix] = useState<Recherches[]>([])
+
+    useEffect(() => {
+
+        getAAffichageDossier() 
+        
+    
+      }, []);
 
     const handleSubmitChoixFicheClick = (fiche: Recherches) => {
         const tabFicheChoixCopy = [...tabFicheChoix];
@@ -35,22 +42,42 @@ const ChoixFicheDossier = (props: Props) => {
         return (idst === -1) ? "nomDeFiche" : "nomDeFiche2";
     }
 
-    const handleSubmitFicheChoixCo =(e:any) => {
-        e.preventDefault()
+    const handleSubmitFicheChoixCo =() => {
 
-        axios.put(`/api/FicheChoixCo/${props.idDossier}`, {tab: tabFicheChoix})
-            .then((response) => {
-                console.log(response.status);
-                props.toggle()
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-
-        props.toggle()
-
+        axios.put(`/api/FicheChoixDisco/${props.idDossier}`,{sheet: props.recherches})
+        .then((response) => {
+            console.log(response.status);
+            connectSheetDossier()
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 
     }
+
+    const connectSheetDossier = () => {
+
+        axios.put(`/api/FicheChoixCo/${props.idDossier}`, {tab: tabFicheChoix})
+        .then((response) => {
+            console.log(response.status);
+            props.toggle()
+            window.history.go(0)
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+    }
+
+
+    async function getAAffichageDossier() {
+        const tmpADossier: Dossiers = (await axios.get(`/api/AffichageDossier/${props.idDossier}`)).data;
+
+        const tabsheetdoss = tmpADossier.sheet
+
+        setTabFicheChoix(tabsheetdoss);
+  }
+
 
     
 

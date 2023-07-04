@@ -129,6 +129,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const [errorVersion, setErrorVersion] = useState("")
 
+  const [creaFiche, setCreaFiche] = useState("Créer La Fiche")
+
   //FIN GROUPE STATE
 
   async function getConstraint() {
@@ -141,6 +143,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   async function getSheet() {
 
     if (window.location.toString().includes('/modifySheet')) {
+
+      setCreaFiche("Dupliquer la Fiche")
 
       const pathArray = window.location.pathname.toString().split("/")
 
@@ -588,7 +592,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
         <div className="felxRowConstraint">
           <div className="divChamps">
 
-            <input type="text" className="NomFicheCSS" value={nomFiche} onChange={handleChangeNomFiche} placeholder="Nom de la Fiche" required disabled={sheetId !== -1}/><br></br>
+            <input type="text" className="NomFicheCSS" value={nomFiche} onChange={handleChangeNomFiche} placeholder="Nom de la Fiche" required /><br></br>
             <input type="text" className="VersionFicheCSS" value={versionFiche} onChange={handleChangeVersionFiche} placeholder="Version de la Fiche" disabled/>
 
             {groupes.map((groupe) => (
@@ -698,7 +702,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
               </ul>
             </div>
 
-              <button type="submit" form="postSheet" className="saugardeFicheButton" disabled={sheetId !== -1}>Créer La Fiche</button>
+              <button type="submit" form="postSheet" className="saugardeFicheButton">{creaFiche}</button>
               <button type="button" onClick={(e) => {e.preventDefault(); toggleModal(modalVersion, setModalVersion)}} className="saugardeFicheButton"disabled={sheetId === -1}>Changer La Version</button>
               <button type="button" onClick={handleSubmitModificationFiche} className="saugardeFicheButton"disabled={sheetId === -1}>Modifier La Fiche</button>
 

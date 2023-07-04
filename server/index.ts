@@ -47,7 +47,8 @@ export interface Recherches {
 export interface Dossiers {
   dossier_id:number
   nom:string   
-  sheet:Sheet[]     
+  sheet:Sheet[]  
+  activationdoss:boolean
 }
 
 export type Sheet = {
@@ -431,7 +432,8 @@ app.post('/api/Dossier', async (req: Request, res: Response) => {
 
   await prisma.dossier.create({
     data:{
-      nom: groupenom
+      nom: groupenom,
+      activationdoss:true,
     }
   }
   )      
@@ -448,9 +450,37 @@ app.post('/api/Dossier', async (req: Request, res: Response) => {
 
 app.get('/api/DossierGet', async (req: Request, res: Response) => {
 
-  const allDossier = await prisma.dossier.findMany({})
+  const allDossier = await prisma.dossier.findMany({
+    where:{
+      activationdoss:true,
+    }
+  })
   return res.status(200).json(allDossier);
 
+})
+
+app.put('/api/DossierDel/:id', async (req: Request, res: Response) => {
+
+  const idDossier:number = Number(req.params.id);
+  console.log('idDossier :>> ', idDossier);
+
+  const DelDossier = await prisma.dossier.update({
+    where:{
+      dossier_id: idDossier
+    },
+    data:{
+      activationdoss:false,
+    }
+
+  })  
+  .then((DelDossier) => {
+    console.log('sheet :>> ', DelDossier);
+    res.status(200).send("new doss create");
+  })
+  .catch(error => {
+    console.log('error', error)
+    res.status(404).send("Error doss creation");
+  })
 })
 
 const parseurTabChoix = (tabChoix: Recherches[]) => {
@@ -465,9 +495,10 @@ const parseurTabChoix = (tabChoix: Recherches[]) => {
 app.put("/api/FicheChoixCo/:idDossier", async (req: Request, res: Response) => {
 
   const tabChoix = req.body.tab
+  console.log('tabCHoix :>> ', tabChoix);
   const dossier:number = Number(req.params.idDossier);
 
-  await prisma.dossier.update({
+  const ConnectFicheDossier = await prisma.dossier.update({
     where:{
       dossier_id: dossier
     },
@@ -479,28 +510,70 @@ app.put("/api/FicheChoixCo/:idDossier", async (req: Request, res: Response) => {
       
     }
 
+  })  
+  .then((ConnectFicheDossier) => {
+    console.log('sheet :>> ', ConnectFicheDossier);
+    res.status(200).send("new doss create");
+  })
+  .catch(error => {
+    console.log('error', error)
+    res.status(404).send("Error doss creation");
   })
 })
+
+const parseurDisco = (sheet: Recherches[]) => {
+  return sheet.map((shee) => {
+    return {
+        sheet_id:shee.sheet_id
+      }
+  })
+}
 
 app.put("/api/FicheChoixDisco/:idDossier", async (req: Request, res: Response) => {
 
-  const tabChoix = req.body.tab
+  const sheet = req.body.sheet
   const dossier:number = Number(req.params.idDossier);
 
-  await prisma.dossier.update({
+  const DiscoFicheDossier = await prisma.dossier.update({
     where:{
       dossier_id: dossier
     },
     data:{
       sheet:{ 
-        connect: parseurTabChoix(tabChoix)
+        disconnect: parseurDisco(sheet)
 
     }
       
     }
 
   })
+  .then((DiscoFicheDossier) => {
+    console.log('sheet :>> ', DiscoFicheDossier);
+    res.status(200).send("new doss create");
+  })
+  .catch(error => {
+    console.log('error', error)
+    res.status(404).send("Error doss creation");
+  })
 })
+
+app.get("/api/AffichageDossier/:idDossier", async (req: Request, res: Response) => {
+
+  const dossier_id: number = Number(req.params.idDossier);
+
+    const AffichageDossier = await prisma.dossier.findUnique({
+      where: {
+        dossier_id: dossier_id
+      },
+      include: {
+        sheet: true
+      }
+    })
+    return res.status(200).json(AffichageDossier);
+
+})
+
+
 
 
 
