@@ -45,7 +45,7 @@ export interface Recherches {
 }
 
 export interface Dossiers {
-  dossier_id:number 
+  dossier_id: number 
   nom:string   
   sheet:Sheet[]  
   activationdoss:boolean
@@ -325,14 +325,20 @@ app.put('/api/switchVersion/:sheetID', async (req: Request, res: Response) => {
           },
           data:{
             activationSheet:false,
+          },
+          include: {
+            dossier: true
           }
         })
       .then((sheet) => {
         console.log('sheet :>> ', sheet);
 
+        if(!sheet.dossier_id)
+          return res.status(200).send("new sheet change");
+
         prisma.dossier.update({
           where:{
-            dossier_id: sheet.dossier_id
+            dossier_id: sheet.dossier_id ?? undefined
           },
           data:{
             sheet:{
