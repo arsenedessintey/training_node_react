@@ -445,8 +445,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       });
   }
 
-  const disableSheet = (sheetID: number) => {
-    return axios.put('/api/sheetModelId', {sheetIdS: sheetId})
+  const disableSheet = (sheetID: number, newSheetId?: number) => {
+    return axios.put(`/api/switchVersion/${sheetID}?newSheetId=${newSheetId}`)
   }
 
   const addSheetVersion = () => {
@@ -456,25 +456,30 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   const handleSauvegardeSubmitID = (e: any) => {
     e.preventDefault();
 
-    console.log('sheetId :>> ', { sheetID: sheetId });
-
-    disableSheet(sheetId)
+    addSheetVersion ()
       .then((response) => {
-        addSheetVersion()
+        const JSONsheet: Sheet = (response).data
+        console.log('JSONsheet :>> ', JSONsheet);
+
+        const nswSheetID = JSONsheet.sheet_id
+
+        disableSheet(sheetId, nswSheetID)
           .then((response) => {
             console.log(response.status);
             PropsCC.setPage("/")
           })
           .catch((error) => {
             console.log(error);
-            if(error.response.data === "Not unique sheet id") {
-              // Afficher que la version existe déjà
-              setErrorVersion("Cette Version est déjà utilisé");
-            }
           });
+
       })
+
       .catch((error) => {
         console.log(error);
+        if(error.response.data === "Not unique sheet id") {
+          // Afficher que la version existe déjà
+          setErrorVersion("Cette Version est déjà utilisé");
+        }
       });
   }
 

@@ -45,7 +45,7 @@ export interface Recherches {
 }
 
 export interface Dossiers {
-  dossier_id:number
+  dossier_id:number 
   nom:string   
   sheet:Sheet[]  
   activationdoss:boolean
@@ -289,12 +289,13 @@ app.post('/api/sheetModel', async (req: Request, res: Response) => {
     include: {
       groupe: {
         include: { champs: true }
-      }
+      },
+      dossier : true
     }
   })
   .then((sheet) => {
     console.log('sheet :>> ', sheet);
-    res.status(200).send("new sheet created");
+    res.status(200).json(sheet);
   }).catch(error => {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002' && error.meta?.target === "Sheet_nom_nomVersion_key") {
       // The .code property can be accessed in a type-safe manner
@@ -309,27 +310,79 @@ app.post('/api/sheetModel', async (req: Request, res: Response) => {
 });
 
 
-app.put('/api/sheetModelId', async (req: Request, res: Response) => {
+app.put('/api/switchVersion/:sheetID', async (req: Request, res: Response) => {
 
-      const sheetID:number = req.body.sheetIdS
-      
-      const sheetsid = await prisma.sheet.update({
-        where:{
-          sheet_id: sheetID,
-        },
-        data:{
-          activationSheet:false,
-        }
-      })
+      const sheetID:number = Number(req.params.sheetID)
+      const newSheetId: number = Number(req.query.newSheetId);
+      console.log('newSheetId :>> ', newSheetId);
+
+      if(isNaN(newSheetId) || isNaN(sheetID))
+        return res.status(404).send("Error sheet creation");
+
+        prisma.sheet.update({
+          where:{
+            sheet_id: sheetID,
+          },
+          data:{
+            activationSheet:false,
+          }
+        })
       .then((sheet) => {
         console.log('sheet :>> ', sheet);
-        res.status(200).send("new sheet change");
+
+        prisma.dossier.update({
+          where:{
+            dossier_id: sheet.dossier_id
+          },
+          data:{
+            sheet:{
+              connect:{
+                sheet_id: newSheetId
+    
+              },
+            }
+          }
+        })
+        .then((dossier)=>{
+          console.log('dossier :>> ', dossier);
+          res.status(200).send("new sheet change");
+        })
+        .catch(e => {
+          console.log('e :>> ', e);
+          res.status(400).send("new sheet not change");
+        })
+
+        
       })
       .catch(error => {
         console.log('error', error)
         res.status(404).send("Error sheet creation");
       })
 
+
+})
+
+app.put('/api/DesacSheet/:id', async (req: Request, res: Response) => {
+
+  const desacsheetID:number = Number(req.params.id)  
+
+  const DelDossier = await prisma.sheet.update({
+    where:{
+      sheet_id: desacsheetID
+    },
+    data:{
+      activationSheet:false,
+    }
+
+  })  
+  .then((DelDossier) => {
+    console.log('sheet :>> ', DelDossier);
+    res.status(200).send("new doss create");
+  })
+  .catch(error => {
+    console.log('error', error)
+    res.status(404).send("Error doss creation");
+  })
 
 })
 
@@ -563,10 +616,15 @@ app.get("/api/AffichageDossier/:idDossier", async (req: Request, res: Response) 
 
     const AffichageDossier = await prisma.dossier.findUnique({
       where: {
-        dossier_id: dossier_id
+        
+        dossier_id:dossier_id
       },
-      include: {
-        sheet: true
+      select: {
+        sheet : {
+          where: {
+            activationSheet: true
+          }
+        }
       }
     })
     return res.status(200).json(AffichageDossier);

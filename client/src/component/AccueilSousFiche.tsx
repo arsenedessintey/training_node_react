@@ -113,6 +113,19 @@ const AccueilSousFiche = (props: Props) => {
         
           }
 
+        const handleSubmitDesacSheet = (id: number) => {
+
+        axios.put(`/api/DesacSheet/${id}`)
+        .then((response) => {
+            console.log(response.status);
+            window.history.go(0)
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    
+        }
+
 
     return(
 
@@ -149,7 +162,7 @@ const AccueilSousFiche = (props: Props) => {
             <ModalSansValide
             toggle={() => toggleModalASF(modalDossAllFiche,setModalDossAllFiche)}
             >
-                    <DossAllFiche recherches={recherches}/>
+                    <DossAllFiche recherches={recherches} handleSubmitDesacSheet={handleSubmitDesacSheet}/>
             </ModalSansValide>
         }
 

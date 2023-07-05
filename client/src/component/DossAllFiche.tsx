@@ -2,6 +2,7 @@ import { Recherches } from "./AccueilSousFiche"
 
 interface Props {
     recherches:any
+    handleSubmitDesacSheet: (id:number) => void
 }
 
 
@@ -27,6 +28,7 @@ const DossAllFiche = (props: Props) => {
                     <p className="recherchenom">{rech.nom}</p>
                     <p className="recherheversion">{rech.nomVersion}</p>
                     </a>
+                    <button type="button" className="Button_desacSheet" onClick={() => props.handleSubmitDesacSheet(rech.sheet_id)}>✖</button>
                     </div>
                 </li>
 
