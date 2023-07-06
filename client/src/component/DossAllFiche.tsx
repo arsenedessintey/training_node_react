@@ -28,7 +28,7 @@ const DossAllFiche = (props: Props) => {
                     <p className="recherchenom">{rech.nom}</p>
                     <p className="recherheversion">{rech.nomVersion}</p>
                     </a>
-                    <button type="button" className="Button_desacSheet" onClick={() => props.handleSubmitDesacSheet(rech.sheet_id)}>✖</button>
+                    <button type="button" className="Button_desacSheet" onClick={() => { if (window.confirm("Attention tu vas supprimer une Fiche")) {props.handleSubmitDesacSheet(rech.sheet_id)}}}>✖</button>
                     </div>
                 </li>
 

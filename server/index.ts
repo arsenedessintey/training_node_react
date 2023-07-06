@@ -20,6 +20,7 @@ interface Champ {
   nom: string
   constraint: Constraint
   obligatoire:boolean
+  explication:string
 }
 
 export interface Constraint {
@@ -91,11 +92,11 @@ export const prisma = new PrismaClient();
   }
 
   if(MMAAAA === "true"){
-    regexT = "^[0-9]{1,2}\/[0-9]{4}$"
+    regexT = "^\d{4}\/(0?[1-9]|1[012])"
   }
 
   if(DDMMAAAA === "true"){
-    regexT = "^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$"
+    regexT = "^\d{4}\/(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])$"
   }
 
   if(Liste !== ""){
@@ -256,7 +257,8 @@ const parseurChamps = (champs: Champ[]) => {
         nom: champ.nom,
         obligatoire: champ.obligatoire,
         ordre: i,
-        constraintId: champ.constraint.contrainte_id
+        constraintId: champ.constraint.contrainte_id,
+        explication: champ.explication
       }
   })
 }

@@ -29,7 +29,7 @@
 
 .nconstraint{
 
-  font-size:16px;
+  font-size:13px;
   width: 89%;
   height: 73px;
   margin-top:10px;
@@ -71,7 +71,7 @@ ul {
   height: 50px;
   margin-top:10px;
   margin-right: 30px;
-  font-size:20px;
+  font-size:17px;
   
   cursor: pointer;
   border: solid 2px #282c34;
@@ -102,8 +102,8 @@ ul {
 .NameRegex{
 
   font-weight: bold;
-  font-size: 20px;
-  margin-top:-55px;
+  font-size: 17px;
+  margin-top:-45px;
   padding:0px;
 
 }
@@ -140,7 +140,7 @@ ul {
 .insgroupe{
   margin-bottom:30px;
   margin-left:10px;
-  font-size:25px;
+  font-size:22px;
   font-weight: bold;
   margin-bottom: 30px;
 }
@@ -164,7 +164,7 @@ ul {
   position: relative;
 
   width: 400px;
-  font-size: 30px;
+  font-size: 27px;
   margin-top:-5px;
   margin-left: 80px;
   margin-bottom:20px;
@@ -191,7 +191,7 @@ ul {
 
   position:relative;
 
-  font-size:18px;
+  font-size:15px;
 
   background-color: white;
   border: solid 0px #282c34;
@@ -209,7 +209,7 @@ ul {
 
   position:relative;
 
-  font-size:30px;
+  font-size:27px;
 
   font-weight: bold;
   background-color: white;
@@ -236,37 +236,39 @@ ul {
   height: 3rem;
   border: solid 2px #282c34;
   margin-right:20px;
-  font-size:23px;
+  font-size:20px;
   
 }
 
 .affichageContrainte{
-  z-index: 10;
+  z-index: 1;
   width: 20rem;
   height: 3rem;
   border: solid 2px #282c34;
-  font-size:23px;
+  font-size:20px;
 }
 
 .Modifchamps{
-  position:relative;
+  position: relative;
   z-index: 6;
   cursor: pointer;
-
   width: 25px;
-  top: 13px;
-  right: 30px;
+  height: 25px;
+  margin-top: 17px;
+  font-size: 15px;
+  top: 18px;
+  right: 29px;
 }
 
 .croixchamps{
 
-  position:relative;
+  position: relative;
+  width: 25px;
+  height: 1px;
   z-index: 5;
-
-  font-size:17px;
-  right:56px;
+  font-size: 20px;
+  right: 56px;
   bottom: 13px;
-
   font-weight: bold;
   background-color: rgb(255, 255, 255);
   border: solid 0px #282c34;
@@ -312,7 +314,7 @@ ul {
   height: 45px;
   margin-top: 7px;
   margin-right:10px;
-  font-size: 20px;
+  font-size: 17px;
   cursor: pointer;
   border: solid 2px #282c34;
   background-color: #d2d2d2;
@@ -323,9 +325,9 @@ ul {
 }
 
 .NomFicheCSS{
-  width: 400px;
+  width: 750px;
   height: 30px;
-  font-size: 25px;
+  font-size: 22px;
   display:flex;
   justify-content: left;
   margin-top: 20px;
@@ -339,7 +341,7 @@ ul {
   background-color: white;
   width: 400px;
   height: 30px;
-  font-size: 15px;
+  font-size: 12px;
   display:flex;
   justify-content: left;
   margin-top: -30px;
@@ -351,7 +353,7 @@ ul {
 .descFicheCSS{
   width: 400px;
   height: 150px;
-  font-size: 20px;
+  font-size: 17px;
   display:flex;
   justify-content: left;
   margin-top: 40px;
@@ -376,7 +378,7 @@ ul {
 .nomLienSousFiche{
   display: flex;
   justify-content: left;
-  font-size:23px;
+  font-size:20px;
   margin-top: 7px;
   margin-left:10px;
   color:rgb(103, 101, 101);
@@ -394,7 +396,7 @@ ul {
   position:relative;
   z-index: 13;
   margin-top:30px;
-  font-size:17px;
+  font-size:14px;
   right:56px;
   width: 25px;
   height: 26px;
@@ -409,27 +411,31 @@ ul {
 
 .ErrorVersion{
   color:red;
-  font-size:25px;
+  font-size:22px;
 }
 
 @media screen and (max-width: 1700px){
 
+  .croixchamps{
+
+    bottom: 0px;
+    font-weight: bold;
+    background-color: rgb(0, 0, 0);
+    border: solid 0px #282c34;
+    cursor: pointer;
+  
+  }
+
+  .Modifchamps{
+
+    top: 13px;
+
+  }
+
   .croixSousFiche{
 
-    bottom:10px;
+    bottom:9px;
 
-  }
-
-  .nomLienSousFich{
-    font-size: 10px;
-  }
-
-  .boutonSauvegardeFicheCenter{
-    display: flex;
-    justify-content: right;
-  
-    margin-right: 7.3rem;
-    margin-top: -8rem;
   }
 
   .affichageSousFicheDM{
@@ -452,22 +458,11 @@ ul {
 
   }
 
-  .nomLienSousFiche{
-
-    font-size:18px;
-    margin-top: 10px;
-
-  
-  }
-
   .Modifchamps{
 
     top: 7px;
 
   }
-
-
-
 
   .bacCong{
 
@@ -482,23 +477,6 @@ ul {
     margin-top:-5px;
 
   }
-
-}
-
-
-@media screen and (max-width: 1240px){
-
-  .affichageNomChamp{
-
-    font-size:20px;
-    
-  }
-  
-  .affichageContrainte{
-  
-    font-size:20px;
-  }
-  
 
 }
 

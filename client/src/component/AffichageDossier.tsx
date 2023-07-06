@@ -53,7 +53,7 @@ const AffichageDossier = (props: Props) => {
                 
             </div>
             <button className="boutonAffichageDoss" type="button" onClick={props.toggleDossier}>+</button>
-            <button className="supprDoss" type="button" onClick={() => {if (window.confirm("Attention tu vas supprimé un Dossier")) {props.handleSubmitDelDossier(props.idDossier)}}}>Supprimer le Dossier</button>
+            <button className="supprDoss" type="button" onClick={() => {if (window.confirm("Attention tu vas supprimer un Dossier")) {props.handleSubmitDelDossier(props.idDossier)}}}>Supprimer le Dossier</button>
         </>
         
 

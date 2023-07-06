@@ -55,6 +55,7 @@ model Field {
   nom             String
   ordre   	      Int          
   obligatoire     Boolean
+  explication     String
 
 
   // Groupe

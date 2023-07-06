@@ -46,6 +46,7 @@ interface Champ {
   nom: string
   constraint: Constraint
   obligatoire: boolean
+  explication:string
 }
 
 const CompoContrainte = (PropsCC: PropsCC) => {
@@ -63,6 +64,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   //Modal VersionFiche
   const [modalVersion, setModalVersion] = useState(false)
+
+  const [explicationS, setExplicationS] = useState("")
 
 
   const [constraint, setConstraint] = useState<Constraint[]>([]);
@@ -145,6 +148,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     if (window.location.toString().includes('/modifySheet')) {
 
       setCreaFiche("Dupliquer la Fiche")
+
+      setVersionFiche("V1")
 
       const pathArray = window.location.pathname.toString().split("/")
 
@@ -403,7 +408,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
     if (index === -1) {
 
-      groupeCopy[groupeCopy.length - 1].champs.push({ field_id: timeId, nom: nouveauChamps, constraint: selectConstraint, obligatoire: mandatoryField});
+      groupeCopy[groupeCopy.length - 1].champs.push({ field_id: timeId, nom: nouveauChamps, constraint: selectConstraint, obligatoire: mandatoryField, explication: explicationS});
     }
 
     // save changes
@@ -411,6 +416,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     setNouveauChamps("");
     setSelectedChampId(-1)
     toggleModal(modalChamps, setModalChamps)
+    console.log('groupeCopy :>> ', groupeCopy);
   }
 
 
@@ -483,10 +489,12 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       });
   }
 
-  const handleSauvegardeSubmit = (e:any) => {
+   const handleSauvegardeSubmit = async (e:any) => {
     e.preventDefault();
 
-    axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: lienSF, nomVersion: versionFiche, activationSheet: true })
+    setVersionFiche("V1")
+
+    await axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: lienSF, nomVersion: versionFiche, activationSheet: true })
       .then((response) => {
         console.log(response.status);
         PropsCC.setPage("/")
@@ -538,6 +546,11 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   }
 
+  const handleChangeTextAreaChamps = (e:any) => {
+    const valueTextAreaChamps = e.target.value;
+    setExplicationS(valueTextAreaChamps);
+  }
+
   //FIN GROUPE//
 
 
@@ -549,7 +562,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
           toggle={() => toggleModal(modalChamps, setModalChamps)}
           handleSubmit={handleSubmitChamps}
         >
-          <Champs nouveauChamps={nouveauChamps} handleChangeChamps={handleChangeChamps} selectConstraint={selectConstraint} mandatoryField={mandatoryField} handleChangeReq={handleChangeReq} />
+          <Champs nouveauChamps={nouveauChamps} handleChangeChamps={handleChangeChamps} selectConstraint={selectConstraint} mandatoryField={mandatoryField} 
+          handleChangeReq={handleChangeReq} explicationS={explicationS} handleChangeTextAreaChamps={handleChangeTextAreaChamps}/>
         </Modal>
       }
 
@@ -693,7 +707,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
               <ul>
                 {constraint.map(constr =>
                   <div key={constr.nom} className="nconstraint">
-                    <div className="divcroisupp"><button type="button" className="croixCont" onClick={() => { if (window.confirm("Attention tu vas supprimé une contrainte")) { handledelete(constr.contrainte_id) } }}>✖</button></div>
+                    <div className="divcroisupp"><button type="button" className="croixCont" onClick={() => { if (window.confirm("Attention tu vas supprimer une contrainte")) { handledelete(constr.contrainte_id) } }}>✖</button></div>
                     <div className="divmodif"><input type="image" className="Modif" src={image3} onClick={() => toggleModal(modalContraintes, setModalContraintes, constr)} /></div>
                     <img className="Fgauche" src={image4} onClick={() => { toggleModal(modalChamps, setModalChamps, constr) }} />
                     <div className="divNomRegex"><li className="NameRegex">Nom : {constr.nom}</li></div>
@@ -707,7 +721,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
               </ul>
             </div>
 
-              <button type="submit" form="postSheet" className="saugardeFicheButton">{creaFiche}</button>
+              <button type="submit" form="postSheet" className="saugardeFicheButton"> {creaFiche}</button>
               <button type="button" onClick={(e) => {e.preventDefault(); toggleModal(modalVersion, setModalVersion)}} className="saugardeFicheButton"disabled={sheetId === -1}>Changer La Version</button>
               <button type="button" onClick={handleSubmitModificationFiche} className="saugardeFicheButton"disabled={sheetId === -1}>Modifier La Fiche</button>
 

@@ -82,22 +82,24 @@ const ChoixFicheDossier = (props: Props) => {
     
 
     return (
+        <>
+            <div className="cadreChoixFiche">
+                {props.recherches.map((recherche: Recherches) => (
+                    <li key={recherche.sheet_id}>
+                        <div
+                            onClick={() => handleSubmitChoixFicheClick(recherche)}
+                            className={isSelected(recherche)}
+                        >
+                            <p className="recherchenom">{recherche.nom}</p>
+                            <p className="recherheversion">{recherche.nomVersion}</p>
+                        </div>
+                    </li>
 
-        <div className="cadreChoixFiche">
-            {props.recherches.map((recherche: Recherches) => (
-                <li key={recherche.sheet_id}>
-                    <div
-                        onClick={() => handleSubmitChoixFicheClick(recherche)}
-                        className={isSelected(recherche)}
-                    >
-                        <p className="recherchenom">{recherche.nom}</p>
-                        <p className="recherheversion">{recherche.nomVersion}</p>
-                    </div>
-                </li>
-
-            ))}
+                ))}
+            </div>
             <button onClick={handleSubmitFicheChoixCo} className="ModalButton" type="button">Valider</button>
-        </div>
+        </>
+        
     )
 }
 

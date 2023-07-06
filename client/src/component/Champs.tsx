@@ -5,6 +5,8 @@ interface Props {
     handleChangeChamps: (e:any) => void
     mandatoryField: any
     handleChangeReq: (e:any) => void
+    explicationS:any
+    handleChangeTextAreaChamps : (e:any) => void
 
 }
 
@@ -25,6 +27,7 @@ const Champs = (props: Props) => {
             <br></br>
             <input className="NomChamps" type="text" placeholder="Nom du Champ..." name="nameField" value={props.nouveauChamps} onChange={props.handleChangeChamps} required/> <br></br>
             <br></br>
+            <textarea className="TextAreaChamp" placeholder="Explication..." value={props.explicationS} onChange={props.handleChangeTextAreaChamps}/><br></br>
             <label className="labelChoixC">Contrainte Utilisé : </label>
             <input className="NomchoixChamps" name="selectConstraint" type="text" value={props.selectConstraint?.nom} disabled /><br></br>
 

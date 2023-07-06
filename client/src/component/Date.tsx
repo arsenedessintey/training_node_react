@@ -7,8 +7,8 @@ export default function Date () {
     const tabDate = [
         {
             id: "Dateid",
-            MMAAAA: "Format MM/AAAA :",
-            DDMMAAAA: "Format DD/MM/AAAA :",
+            MMAAAA: "Format YYYY/MM :",
+            DDMMAAAA: "Format YYYY/MM/DD :",
  
         }
     ]

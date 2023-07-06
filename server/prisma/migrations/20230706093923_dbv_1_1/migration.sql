@@ -35,6 +35,7 @@ CREATE TABLE `Field` (
     `nom` VARCHAR(191) NOT NULL,
     `ordre` INTEGER NOT NULL,
     `obligatoire` BOOLEAN NOT NULL,
+    `explication` VARCHAR(191) NOT NULL,
     `groupe_id` INTEGER NULL,
     `constraintId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),

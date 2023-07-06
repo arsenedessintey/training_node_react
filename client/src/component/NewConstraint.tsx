@@ -6,6 +6,7 @@ import Date from './Date'
 import Liste from './Liste';
 import Libre from './Libre';
 import Adresse from './Adresse';
+import CaseACocher from './CaseACocher';
 
 
 interface Props {
@@ -55,10 +56,14 @@ export default function NewConstraint(props: Props) {
       compo: <Liste />,
     },
     { value: "mac/wifi", 
-      label: "Adresse Mac/Wifi", 
-      desc:"Format perméttant d'utiliser uniquement des adresses mac ou wifi", 
+      label: "Ethernet/Wifi", 
+      desc:"Format perméttant d'utiliser uniquement des adresses mac ethernet ou wifi", 
       compo: <Adresse />
-    }
+    },
+    { value: "checkbox",
+      label: "Coche",
+      desc: "Permet l'utilisation de case à cocher lors du remplissage",
+      compo: <CaseACocher/>}
   ]
 
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
