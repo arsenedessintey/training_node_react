@@ -55,7 +55,7 @@ model Field {
   nom             String
   ordre   	      Int          
   obligatoire     Boolean
-  explication     String
+  explication     String       @db.VarChar(2048)
 
 
   // Groupe

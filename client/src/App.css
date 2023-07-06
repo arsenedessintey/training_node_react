@@ -414,7 +414,34 @@ ul {
   font-size:22px;
 }
 
+.TextAreaExplication {
+  background-color: rgb(255, 255, 255);
+  display:flex;
+  margin-left:72px;
+  height: 6rem;
+  width: 51.75rem;
+  margin-top:-30px;
+  border:2px solid black;
+  font-size: 15px;
+}
+
+.TextAreaExplication2 {
+  display: none;
+}
+
 @media screen and (max-width: 1700px){
+
+  .TextAreaExplication {
+    position:relative;
+    background-color: rgb(255, 255, 255);
+    display:flex;
+    right:72px;
+    height: 3rem;
+    width: 35rem;
+    margin-top:00px;
+    border:2px solid black;
+    font-size: 20px;
+  }
 
   .croixchamps{
 

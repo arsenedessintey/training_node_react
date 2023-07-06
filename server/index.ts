@@ -253,6 +253,7 @@ const parseurGroupe = (groupes: Groupeinter[]) => {
 }
 const parseurChamps = (champs: Champ[]) => {
   return champs.map((champ, i) => {
+
     return {
         nom: champ.nom,
         obligatoire: champ.obligatoire,

@@ -47,6 +47,7 @@ interface Champ {
   constraint: Constraint
   obligatoire: boolean
   explication:string
+  display: boolean
 }
 
 const CompoContrainte = (PropsCC: PropsCC) => {
@@ -409,7 +410,14 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
     if (index === -1) {
 
-      groupeCopy[groupeCopy.length - 1].champs.push({ field_id: timeId, nom: nouveauChamps, constraint: selectConstraint, obligatoire: mandatoryField, explication: explicationS});
+      groupeCopy[groupeCopy.length - 1].champs.push({
+        field_id: timeId,
+        nom: nouveauChamps,
+        constraint: selectConstraint, 
+        obligatoire: mandatoryField, 
+        explication: explicationS, 
+        display: false
+      });
     }
 
     // save changes
@@ -417,7 +425,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     setNouveauChamps("");
     setSelectedChampId(-1)
     toggleModal(modalChamps, setModalChamps)
-    console.log('groupeCopy :>> ', groupeCopy);
+    console.log('explicationS :>> ', explicationS.length);
   }
 
 
@@ -552,6 +560,19 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     setExplicationS(valueTextAreaChamps);
   }
 
+  const explicationCss = (champ:Champ) => {
+    return (champ.display) ? "TextAreaExplication" : "TextAreaExplication2";
+}
+
+const handleDoubleSubmitChamps = (groupeIdx: number, champIdx:number) => {
+
+  let tmpGr = [...groupes];
+  let tmpDisplay = tmpGr[groupeIdx].champs[champIdx].display
+  tmpGr[groupeIdx].champs[champIdx].display = !tmpDisplay;
+  setGroupe((tmpGr))
+
+}
+
   //FIN GROUPE//
 
 
@@ -615,7 +636,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
             <input type="text" className="NomFicheCSS" value={nomFiche} onChange={handleChangeNomFiche} placeholder="Nom de la Fiche" required /><br></br>
             <input type="text" className="VersionFicheCSS" value={versionFiche} onChange={handleChangeVersionFiche} placeholder="Version de la Fiche" disabled/>
 
-            {groupes.map((groupe) => (
+            {groupes.map((groupe, grIdx) => (
               <ul key={groupe.groupe_id}>
                 <li className="textgroupe">
 
@@ -636,10 +657,10 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
                 <li>
 
-                  {groupe.champs.map((champ) => (
+                  {groupe.champs.map((champ, champIdx) => (
 
                     <div key={champ.field_id} className="affichageAllChamps">
-                      <div className="champRow">
+                      <div className="champRow" onDoubleClick={() => handleDoubleSubmitChamps(grIdx, champIdx)} >
                         <input className="affichageNomChamp" value={champ.nom} disabled />
                         <input className="affichageContrainte" value={champ.constraint.nom} disabled />
                         <img className="Modifchamps" src={image3} onClick={() => changeChamp(champ)} />
@@ -651,8 +672,11 @@ const CompoContrainte = (PropsCC: PropsCC) => {
                           <button type="button" className="Bouton_BasSousFiche" onClick={() => { handleChampsMove(champ, +1) }}>
                             <img className="Descente" src={image8} />
                           </button>
-                        </div>
+                        </div><br></br><br></br>
+                        
                       </div>
+                      <textarea className={explicationCss(champ) } value={champ.explication} disabled/>
+                      {/* <textarea className={'e' } value={champ.explication} disabled/> */}
                     </div>
                   ))}
 
