@@ -149,7 +149,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
       setCreaFiche("Dupliquer la Fiche")
 
-      setVersionFiche("V1")
+      
 
       const pathArray = window.location.pathname.toString().split("/")
 
@@ -171,6 +171,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       setDescFiche(sheetSch.description ?? "");
 
       getAllSheet(Sheet__id)
+      setVersionFiche("V1")
 
     }
   }
