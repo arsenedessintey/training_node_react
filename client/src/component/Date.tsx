@@ -33,15 +33,15 @@ export default function Date () {
             <div className="divRegex">
                     {tabDate.map(({ id, MMAAAA, DDMMAAAA }) => {
                         return (<div key={id} >
-                            <input value="" style={{display:"none"}}></input>
-                            <input value="" style={{display:"none"}}></input>
-                            <input value="" style={{display:"none"}}></input>
-                            <input value="" style={{display:"none"}}></input>
+                            <input defaultValue="" style={{display:"none"}}></input>
+                            <input defaultValue="" style={{display:"none"}}></input>
+                            <input defaultValue="" style={{display:"none"}}></input>
+                            <input defaultValue="" style={{display:"none"}}></input>
                             <label>{MMAAAA}</label>
                             <input className="CheckMMAAAA" type="checkbox" id={id} name="MMAAAA" value={date.MMAAAA.toString()} onChange={handleChange}  /><br></br>
                             <label>{DDMMAAAA}</label>
                             <input className="CheckDDMMAAAA" type="checkbox" id={id} name="DDMMAAAA" value={date.DDMMAAAA.toString()} onChange={handleChange}  /><br></br>
-                            <input value="" style={{display:"none"}}></input>
+                            <input defaultValue="" style={{display:"none"}}></input>
                         </div>)
                     })}
             </div>

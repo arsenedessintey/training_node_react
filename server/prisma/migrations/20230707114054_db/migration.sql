@@ -20,7 +20,6 @@ CREATE TABLE `Sheet` (
     `description` VARCHAR(191) NULL,
     `nomVersion` VARCHAR(191) NOT NULL,
     `activationSheet` BOOLEAN NOT NULL,
-    `parentSheetId` INTEGER NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `dossier_id` INTEGER NULL,
@@ -37,6 +36,7 @@ CREATE TABLE `Field` (
     `obligatoire` BOOLEAN NOT NULL,
     `explication` VARCHAR(2048) NOT NULL,
     `groupe_id` INTEGER NULL,
+    `sheet_id` INTEGER NULL,
     `constraintId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
@@ -68,13 +68,13 @@ CREATE TABLE `dossier` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Sheet` ADD CONSTRAINT `Sheet_parentSheetId_fkey` FOREIGN KEY (`parentSheetId`) REFERENCES `Sheet`(`sheet_id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE `Sheet` ADD CONSTRAINT `Sheet_dossier_id_fkey` FOREIGN KEY (`dossier_id`) REFERENCES `dossier`(`dossier_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Field` ADD CONSTRAINT `Field_groupe_id_fkey` FOREIGN KEY (`groupe_id`) REFERENCES `Groupe`(`groupe_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Field` ADD CONSTRAINT `Field_sheet_id_fkey` FOREIGN KEY (`sheet_id`) REFERENCES `Sheet`(`sheet_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Field` ADD CONSTRAINT `Field_constraintId_fkey` FOREIGN KEY (`constraintId`) REFERENCES `Contrainte`(`contrainte_id`) ON DELETE RESTRICT ON UPDATE CASCADE;

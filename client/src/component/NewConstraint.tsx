@@ -7,6 +7,7 @@ import Liste from './Liste';
 import Libre from './Libre';
 import Adresse from './Adresse';
 import CaseACocher from './CaseACocher';
+import LienconstSF from './LienconstSF';
 
 
 interface Props {
@@ -25,10 +26,12 @@ export interface Constraint {
   Value1 : string
   Value2 : string
   Value3 : string
-  Value4: string
-  Value5: string
-  Value6: string
-  Value7: string
+  Value4 : string
+  Value5 : string
+  Value6 : string
+  Value7 : string
+  Value8 : string
+  Value9 : string
 }
 
 export default function NewConstraint(props: Props) {
@@ -63,7 +66,14 @@ export default function NewConstraint(props: Props) {
     { value: "checkbox",
       label: "Coche",
       desc: "Permet l'utilisation de case à cocher lors du remplissage",
-      compo: <CaseACocher/>}
+      compo: <CaseACocher/>
+    },
+    {
+      value:"link",
+      label:"SousFiche",
+      desc:"Cette contrainte permet d'insérer des sous fiche aux champs",
+      compo: <LienconstSF/>
+    }
   ]
 
   const handleChange = (e: { target: { name: any; value: any; }; }) => {

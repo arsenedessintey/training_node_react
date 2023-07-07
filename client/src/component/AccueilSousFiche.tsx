@@ -88,6 +88,7 @@ const AccueilSousFiche = (props: Props) => {
         async function getRecherche() {
             const tmpRecherche = (await axios.get('/api/recherche')).data;
             setRecherches(tmpRecherche);
+            console.log('tmpRecherche :>> ', tmpRecherche);
         }
 
         const idDossierRecup = (idDossier:number) => {

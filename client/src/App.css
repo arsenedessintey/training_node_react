@@ -91,6 +91,7 @@ ul {
 
   width: 20px;
   margin-top:-5px;
+  cursor: pointer;
 
 }
 
@@ -232,6 +233,8 @@ ul {
 }
 
 .affichageNomChamp{
+
+  cursor: pointer;
   width: 30rem;
   height: 3rem;
   border: solid 2px #282c34;
@@ -241,6 +244,17 @@ ul {
 }
 
 .affichageContrainte{
+
+  z-index: 1;
+  width: 20rem;
+  height: 3rem;
+  border: solid 2px #282c34;
+  font-size:20px;
+}
+
+.affichageContrainteS{
+
+  cursor: pointer;
   z-index: 1;
   width: 20rem;
   height: 3rem;
@@ -386,6 +400,7 @@ ul {
 }
 
 .Soulignement{
+  cursor:pointer;
   text-decoration:none;
   font-weight: 600;
   color: black;

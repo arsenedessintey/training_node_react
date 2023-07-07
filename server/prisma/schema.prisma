@@ -33,13 +33,7 @@ model Sheet {
   nomVersion      String
   activationSheet Boolean
   
-
-  // Childs Sheet
-  childSheet  Sheet[] @relation("childParentFiche")
-
-  // Parent Sheet
-  parentSheet Sheet? @relation("childParentFiche", fields: [parentSheetId], references: [sheet_id])
-  parentSheetId Int?
+  Field           Field[]
 
   createdAt       DateTime            @default(now())
   updatedAt       DateTime            @updatedAt
@@ -62,6 +56,10 @@ model Field {
   groupe          Groupe?      @relation(fields: [groupe_id], references: [groupe_id])
   groupe_id       Int?
 
+  // Childs Sheet
+  sheet           Sheet?        @relation(fields: [sheet_id], references: [sheet_id])
+  sheet_id        Int?
+  
   //Constraint
   constraint Contrainte @relation(fields: [constraintId], references: [contrainte_id])
   constraintId Int

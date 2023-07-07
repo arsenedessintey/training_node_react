@@ -25,7 +25,6 @@ export type Sheet = {
   nom: string
   description: string | null,
   groupe: Groupeinter[]
-  childSheet: ChildSheet[]
   activationSheet: Boolean
   nomVersion: string
 }
@@ -48,6 +47,7 @@ interface Champ {
   obligatoire: boolean
   explication:string
   display: boolean
+  childSheet: ChildSheet[]
 }
 
 const CompoContrainte = (PropsCC: PropsCC) => {
@@ -68,6 +68,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const [explicationS, setExplicationS] = useState("")
 
+  const [valueSelect, setValueSelect] = useState("")
+
 
   const [constraint, setConstraint] = useState<Constraint[]>([]);
 
@@ -83,8 +85,9 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     Value4: "",
     Value5: "",
     Value6: "",
-    Value7: ""
-
+    Value7: "",
+    Value8: "",
+    Value9: "",
   }
 
 
@@ -100,6 +103,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     getConstraint()
 
     getSheet()
+
+    getAllSheetSelect()
 
   }, []);
 
@@ -126,6 +131,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   const [descFiche, setDescFiche] = useState("")
 
   const [allSheet, setAllSheet] = useState<Sheet[]>([])
+
+  const [allSheetSlect, setAllSheetSelect] = useState<Sheet[]>([])
 
   const [lienSF, setLienSF] = useState<ChildSheet[]>([])
 
@@ -160,14 +167,12 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
 
       const newGroupe = sheetSch.groupe
-      const lienSFGet = sheetSch.childSheet
       const Version = sheetSch.nomVersion
       const Sheet__id = sheetSch.sheet_id
 
       setGroupe(newGroupe)
       setSheetId(Sheet__id)
       setVersionFiche(Version)
-      setLienSF(lienSFGet)
       setNomFiche(sheetSch.nom);
       setDescFiche(sheetSch.description ?? "");
 
@@ -179,7 +184,12 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   
   async function getAllSheet(idsheeet:number) {
     const AllSheet = (await axios.get(`/api/allSheet/${idsheeet}`)).data;
-    setAllSheet(AllSheet);
+    setAllSheet(AllSheet)
+  }
+
+  async function getAllSheetSelect() {
+    const AllSheetSelect = (await axios.get(`/api/allSheetSelect`)).data;
+    setAllSheetSelect(AllSheetSelect);
   }
 
   const changeGroupe = (groupes: string) => {
@@ -416,6 +426,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
         constraint: selectConstraint, 
         obligatoire: mandatoryField, 
         explication: explicationS, 
+        childSheet: lienSF,
         display: false
       });
     }
@@ -442,6 +453,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       Value5: e.target[12].value,
       Value6: e.target[13].value,
       Value7: e.target[14].value,
+      Value8: e.target[15].value,
+      Value9: e.target[16].value,
     }
 
     // Choose url path to create or modify
@@ -503,7 +516,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
     setVersionFiche("V1")
 
-    await axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: lienSF, nomVersion: versionFiche, activationSheet: true })
+    await axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: valueSelect, nomVersion: versionFiche, activationSheet: true })
       .then((response) => {
         console.log(response.status);
         PropsCC.setPage("/")
@@ -573,6 +586,11 @@ const handleDoubleSubmitChamps = (groupeIdx: number, champIdx:number) => {
 
 }
 
+const handleChangeSelect = (e:any) => {
+  const valueSlectChamp = e.target.value;
+  setValueSelect(valueSlectChamp);
+}
+
   //FIN GROUPE//
 
 
@@ -585,7 +603,8 @@ const handleDoubleSubmitChamps = (groupeIdx: number, champIdx:number) => {
           handleSubmit={handleSubmitChamps}
         >
           <Champs nouveauChamps={nouveauChamps} handleChangeChamps={handleChangeChamps} selectConstraint={selectConstraint} mandatoryField={mandatoryField} 
-          handleChangeReq={handleChangeReq} explicationS={explicationS} handleChangeTextAreaChamps={handleChangeTextAreaChamps}/>
+          handleChangeReq={handleChangeReq} explicationS={explicationS} handleChangeTextAreaChamps={handleChangeTextAreaChamps} allSheetSlect={allSheetSlect}
+          handleChangeSelect={handleChangeSelect}/>
         </Modal>
       }
 
@@ -660,9 +679,22 @@ const handleDoubleSubmitChamps = (groupeIdx: number, champIdx:number) => {
                   {groupe.champs.map((champ, champIdx) => (
 
                     <div key={champ.field_id} className="affichageAllChamps">
-                      <div className="champRow" onDoubleClick={() => handleDoubleSubmitChamps(grIdx, champIdx)} >
-                        <input className="affichageNomChamp" value={champ.nom} disabled />
-                        <input className="affichageContrainte" value={champ.constraint.nom} disabled />
+                      <div className="champRow"  >
+
+                        {champ.constraint.type_contrainte === "link"
+                        ?<span>
+                          <span onDoubleClick={() => handleDoubleSubmitChamps(grIdx, champIdx)}><input className="affichageNomChamp" value={champ.nom} disabled /></span>
+                          <a className="Soulignement" href={"/modifySheet/" + valueSelect} target='_blank'>
+                            <input className="affichageContrainteS" value={champ.constraint.nom} disabled />
+                          </a>
+                          
+                        </span>
+                        :<span>
+                          <span onDoubleClick={() => handleDoubleSubmitChamps(grIdx, champIdx)}><input className="affichageNomChamp" value={champ.nom} disabled /></span>
+                          <input className="affichageContrainte" value={champ.constraint.nom} disabled />
+                        </span>
+                        }
+
                         <img className="Modifchamps" src={image3} onClick={() => changeChamp(champ)} />
                         <button type="button" className="croixchamps" onClick={() => handleDeleteChamps(champ.field_id)}>✖</button>
                         <div className="affichageChampDM">
@@ -676,7 +708,6 @@ const handleDoubleSubmitChamps = (groupeIdx: number, champIdx:number) => {
                         
                       </div>
                       <textarea className={explicationCss(champ) } value={champ.explication} disabled/>
-                      {/* <textarea className={'e' } value={champ.explication} disabled/> */}
                     </div>
                   ))}
 
@@ -695,33 +726,6 @@ const handleDoubleSubmitChamps = (groupeIdx: number, champIdx:number) => {
               </button>
             </div>
 
-
-            {lienSF.map((lienSousFiche) => (
-
-              <li key={lienSousFiche.sheet_id}>
-                <div className="Lienrow">
-                  <div className="CSSLienSousFiche"><a className="Soulignement" href={"/modifySheet/" + lienSousFiche.sheet_id} target='_blank' ><p className="nomLienSousFiche">{lienSousFiche.nom}</p></a></div>
-                  <button type="button" className="croixSousFiche" onClick={() => handleDeleteSousFiche(lienSousFiche.sheet_id)}>✖</button>
-                  <div className="affichageSousFicheDM">
-                    <button type="button" className="Bouton_HautSousFiche" onClick={() => { handleSousFicheMove(lienSousFiche, -1) }}>
-                      <img className="Monter" src={image7} />
-                    </button>
-                    <button type="button" className="Bouton_BasSousFiche" onClick={() => { handleSousFicheMove(lienSousFiche, +1) }}>
-                      <img className="Descente" src={image8} />
-                    </button>
-                  </div>
-                </div>
-              </li>
-            ))}
-
-
-            <div className="groupe">
-              <button type="button" className="Bouton" onClick={() => toggleModal(modalLienSF, setModalLienSF)}>
-                <img className="plus" src={image5} alt="Add" />
-                <label className="insgroupe" htmlFor="mandatorySheet">INSERER UN LIEN</label>
-              </button>
-            </div>
-
             <textarea className="descFicheCSS" value={descFiche} onChange={handleChangeDescFiche} placeholder="Remarque..." />
 
           </div>
@@ -733,7 +737,7 @@ const handleDoubleSubmitChamps = (groupeIdx: number, champIdx:number) => {
                 {constraint.map(constr =>
                   <div key={constr.nom} className="nconstraint">
                     <div className="divcroisupp"><button type="button" className="croixCont" onClick={() => { if (window.confirm("Attention tu vas supprimer une contrainte")) { handledelete(constr.contrainte_id) } }}>✖</button></div>
-                    <div className="divmodif"><input type="image" className="Modif" src={image3} onClick={() => toggleModal(modalContraintes, setModalContraintes, constr)} /></div>
+                    <div className="divmodif"><img className="Modif" src={image3} onClick={() => toggleModal(modalContraintes, setModalContraintes, constr)} /></div>
                     <img className="Fgauche" src={image4} onClick={() => { toggleModal(modalChamps, setModalChamps, constr) }} />
                     <div className="divNomRegex"><li className="NameRegex">Nom : {constr.nom}</li></div>
                   </div>

@@ -7,7 +7,7 @@
 .cadre_radio{
 
     padding: 4.5px;
-    width: 440px;
+    width: 550px;
     height: 100px;
 
     border: solid 2px #282c34;
@@ -23,7 +23,7 @@
 
 .Nom{
 
-    width: 445px;
+    width: 555px;
     height: 35px;
     font-size: 17px;
 
@@ -33,7 +33,7 @@
 
 .Regex{
 
-    width: 445px;
+    width: 555px;
     height: 35px;
     font-size: 17px;
 
@@ -49,7 +49,7 @@ input::placeholder{
 
 .Regexcheck{
 
-    width: 450px;
+    width: 560px;
     height: 100px;
 
     border: solid 2px #282c34;

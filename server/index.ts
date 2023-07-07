@@ -12,7 +12,6 @@ interface Groupeinter {
 
 export type ChildSheet = {
   sheet_id: number
-  nom : string
 }
 
 interface Champ {
@@ -21,6 +20,7 @@ interface Champ {
   constraint: Constraint
   obligatoire:boolean
   explication:string
+  childSheet : ChildSheet
 }
 
 export interface Constraint {
@@ -37,6 +37,9 @@ export interface Constraint {
   Value5: string
   Value6: string
   Value7: string
+  Value8: string
+  Value9: string
+
 }
 
 export interface Recherches {
@@ -57,22 +60,21 @@ export type Sheet = {
   nom: string
   description: string | null,
   groupe: Groupeinter[]
-  childSheet: ChildSheet[]
   activationSheet: Boolean
   nomVersion: string
 }
 
 export const prisma = new PrismaClient();
 
-  const CreateRegex = (req: { body: { Value1: any , Value2 : any, Value3 : any, Value4 : any, Value5 : any, Value6 : any, Value7:any, }; }) => {
+  const CreateRegex = (req: { body: { Value1: any , Value2 : any, Value3 : any, Value4 : any, Value5 : any, Value6 : any, Value7:any, Value8:any, Value9:any }; }) => {
     
-  const minLength = (req.body.Value1);
-  const maxLength = (req.body.Value2);
-  const onlyNum = (req.body.Value3);
-  const onlyLett = (req.body.Value4);
-  const MMAAAA = (req.body.Value5);
-  const DDMMAAAA = (req.body.Value6);
-  const Liste = (req.body.Value7);
+  const minLength = (req.body.Value3);
+  const maxLength = (req.body.Value4);
+  const onlyNum = (req.body.Value5);
+  const onlyLett = (req.body.Value6);
+  const MMAAAA = (req.body.Value7);
+  const DDMMAAAA = (req.body.Value8);
+  const Liste = (req.body.Value9);
   let regexT = "Aucun"
 
   if(minLength !== ""){
@@ -240,18 +242,18 @@ app.put('/api/constraint/:id', async (req: Request, res: Response) => {
   })
 });
 
-const parseurGroupe = (groupes: Groupeinter[]) => {
+const parseurGroupe = (groupes: Groupeinter[], childSheetId:{ sheet_id: number }[]) => {
   return groupes.map((groupe, i) => {
     return {
       nom: groupe.nom,
       ordre: i,
       champs: {
-        create: parseurChamps(groupe.champs)
+        create: parseurChamps(groupe.champs, childSheetId)
       }
     }
   })
 }
-const parseurChamps = (champs: Champ[]) => {
+const parseurChamps = (champs: Champ[], childSheetId:{ sheet_id: number }[]) => {
   return champs.map((champ, i) => {
 
     return {
@@ -259,7 +261,8 @@ const parseurChamps = (champs: Champ[]) => {
         obligatoire: champ.obligatoire,
         ordre: i,
         constraintId: champ.constraint.contrainte_id,
-        explication: champ.explication
+        explication: champ.explication,
+        sheet: childSheetId && {connect : {sheet_id: champ.childSheet.sheet_id}}
       }
   })
 }
@@ -270,11 +273,9 @@ app.post('/api/sheetModel', async (req: Request, res: Response) => {
   const groupes: Groupeinter[] = req.body.groupe;
   const nomFicheS: string = req.body.nomFicheS
   const descFicheS: string = req.body.descFicheS
-  const childSheet: ChildSheet[] = req.body.lienSFS
+  const childSheetId: ChildSheet[] = req.body.lienSFS
   const activationSheet: boolean = req.body.activationSheet
   const nomVersion:string = req.body.nomVersion
-
-  const childSheetId = childSheet?.map(c => ({ sheet_id: c.sheet_id }))
 
   prisma.sheet.create({
     data: {
@@ -282,16 +283,13 @@ app.post('/api/sheetModel', async (req: Request, res: Response) => {
       description: descFicheS,
       activationSheet:activationSheet,
       nomVersion:nomVersion,
-      childSheet: {
-        connect: childSheetId
-      },
       groupe: {
-        create: parseurGroupe(groupes)
+        create: parseurGroupe(groupes, childSheetId)
       }
     },
     include: {
       groupe: {
-        include: { champs: true }
+        include: { champs: {include: {sheet: true}} }
       },
       dossier : true
     }
@@ -432,7 +430,6 @@ app.get("/api/modifyS/:sheet_id", async (req: Request, res: Response) => {
             }
           }
         },
-        childSheet: true
       }
     })
 
@@ -457,13 +454,27 @@ app.get("/api/allSheet/:idrecherche", async (req: Request, res: Response) => {
 
         },
 
-        parentSheet:null,
         activationSheet: true
 
       }
     }
   )
   return res.status(200).json(allSheet);
+
+})
+
+app.get('/api/allSheetSelect', async (req: Request, res: Response) => {
+
+  const allSheetSelect = await prisma.sheet.findMany(
+    {
+      where: {
+
+        activationSheet: true
+
+      }
+    }
+  )
+  return res.status(200).json(allSheetSelect);
 
 })
 
@@ -557,7 +568,6 @@ const parseurTabChoix = (tabChoix: Recherches[]) => {
 app.put("/api/FicheChoixCo/:idDossier", async (req: Request, res: Response) => {
 
   const tabChoix = req.body.tab
-  console.log('tabCHoix :>> ', tabChoix);
   const dossier:number = Number(req.params.idDossier);
 
   const ConnectFicheDossier = await prisma.dossier.update({

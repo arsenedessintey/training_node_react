@@ -60,9 +60,9 @@ export default function CodeBar () {
                         <input className="CheckNum" type="checkbox" id={id} name="onlyNum" value={codeBar.onlyNum.toString()} onChange={handleChange} /><br></br>
                         <label>{onlyLett}</label>
                         <input className="CheckLett"type="checkbox" id={id} name="onlyLett" value={codeBar.onlyLett.toString()} onChange={handleChange}  /><br></br>
-                        <input value="" style={{display:"none"}}></input>
-                        <input value="" style={{display:"none"}}></input>
-                        <input value="" style={{display:"none"}}></input>
+                        <input defaultValue="" style={{display:"none"}}></input>
+                        <input defaultValue="" style={{display:"none"}}></input>
+                        <input defaultValue="" style={{display:"none"}}></input>
                     </div>)
                     })}
             </div>
