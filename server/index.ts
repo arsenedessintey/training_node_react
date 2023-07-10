@@ -11,7 +11,7 @@ interface Groupeinter {
 }
 
 export type ChildSheet = {
-  sheet_id: number
+  sheet_id: number 
 }
 
 interface Champ {
@@ -256,16 +256,17 @@ const parseurGroupe = (groupes: Groupeinter[]) => {
 const parseurChamps = (champs: Champ[]) => {
   return champs.map((champ, i) => {
 
+    console.log('champ.sheet_id :>> ', champ.sheet_id);
 
-    const convertSheet_idInt = parseInt(champ.sheet_id)
-
+    const convertSheet_idInt = (champ.sheet_id)? parseInt(champ.sheet_id) : null;
+    
     return {
         nom: champ.nom,
         obligatoire: champ.obligatoire,
         ordre: i,
         constraintId: champ.constraint.contrainte_id,
         explication: champ.explication,
-        sheet_id : convertSheet_idInt
+        sheet_id : convertSheet_idInt 
       }
   })
 }

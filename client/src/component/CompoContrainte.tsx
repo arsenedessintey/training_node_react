@@ -92,10 +92,6 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const [selectedChampId, setSelectedChampId] = useState<number>(-1);
 
-  const [selectedGroupeId, setSelectedGroupeId] = useState<number>(-1);
-
-
-
   useEffect(() => {
 
     getConstraint()
@@ -192,10 +188,9 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     setAllSheetSelect(AllSheetSelect);
   }
 
-  const changeGroupe = (groupes: Groupeinter) => {
+  const changeGroupe = (groupes: string) => {
     toggleModal(modalGroupes, setModalGroupes)
-    setSelectedGroupeId(groupes.groupe_id)
-    setNouveauGroupe(groupes.nom)
+    setSelectedGroupe(groupes);
   }
 
   const changeChamp = (champs: Champ) => {
@@ -388,14 +383,11 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
     const groupeCopy = [...groupes];
 
-    let groupeFound = -1
-
-    groupeFound = groupeCopy.findIndex(groupe => groupe.groupe_id === selectedGroupeId);
+    const groupeFound = groupeCopy.find(groupe => groupe.nom === selectedGroupe);
 
     // Modify the groupe
-    if (groupeFound !== -1) {
-      const groupeIdx = groupeCopy[groupeFound]
-      groupeIdx.nom = nouveauGroupe;
+    if (groupeFound !== undefined) {
+      groupeFound.nom = nouveauGroupe;
     }
     // Add new groupe
     else {
@@ -650,7 +642,7 @@ const handleChangeSelect = (e:any) => {
                 <li className="textgroupe">
 
                   <button type="button" className="croixgroupe" onClick={() => handleDeleteGroupe(groupe.groupe_id)}>✖</button><span
-                    onDoubleClick={() => changeGroupe(groupe)}
+                    onDoubleClick={() => changeGroupe(groupe.nom)}
                     className="labelgroupe">
                     <label>- </label> {groupe.nom} <label>- </label></span>
                   <div className="affichageGroupeDM">

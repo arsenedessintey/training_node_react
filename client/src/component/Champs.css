@@ -93,8 +93,9 @@
         overflow-x: hidden;
         width: 70%;
         height: 43rem;
-        min-width: 30rem;
+        min-width: 54rem;
         background-color: white;
         border: solid 3px #282c34;
     }
+
 }
