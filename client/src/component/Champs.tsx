@@ -29,7 +29,7 @@ console.log('props.nouveauChamps :>> ', props.nouveauChamps);
         <>
             <div className="divCreaChamps">
                 <br></br>
-                <input className="NomChamps" type="text" placeholder="Nom du Champ..." name="nameField" value={props.nouveauChamps} onChange={props.handleChangeChamps}/> <br></br>
+                <input className="NomChamps" type="text" placeholder="Nom du Champ..." name="nameField" value={props.nouveauChamps} onChange={props.handleChangeChamps} required/> <br></br>
                 <br></br>
                 <div>
 
