@@ -19,28 +19,33 @@ interface Props {
 
 const Champs = (props: Props) => {
 
-    console.log('allSheet :>> ', props.allSheetSlect);
 
 
 
-
+console.log('props.nouveauChamps :>> ', props.nouveauChamps);
 
 
     return (
         <>
             <div className="divCreaChamps">
                 <br></br>
-                <input className="NomChamps" type="text" placeholder="Nom du Champ..." name="nameField" value={props.nouveauChamps} onChange={props.handleChangeChamps} required/> <br></br>
+                <input className="NomChamps" type="text" placeholder="Nom du Champ..." name="nameField" value={props.nouveauChamps} onChange={props.handleChangeChamps}/> <br></br>
                 <br></br>
                 <div>
+
                     {
                     props.selectConstraint?.type_contrainte === "link" ?
-                    <select className="SelectChamps" onChange={props.handleChangeSelect}>
-                        <option>Choisir un Lien</option>
-                        {props.allSheetSlect.map((sheet:Sheet) => (
-                            <option key={sheet.sheet_id} value={sheet.sheet_id}>{sheet.nom}</option>
-                        ))}
-                    </select>
+                    <span>
+
+                        <label className="labelChoixC"> Choisir un lien :</label>
+                        <select className="SelectChamps" onChange={props.handleChangeSelect} required>
+                            {props.allSheetSlect.map((sheet:Sheet) => (
+                                <option key={sheet.sheet_id} value={sheet.sheet_id}>{sheet.nom}</option>
+                            ))}
+                        </select>
+
+                    </span>
+
                     : 
                     <label></label>
                     } 

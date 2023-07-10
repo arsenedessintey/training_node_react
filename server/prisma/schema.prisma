@@ -61,7 +61,7 @@ model Field {
   sheet_id        Int?
   
   //Constraint
-  constraint Contrainte @relation(fields: [constraintId], references: [contrainte_id])
+  constraint      Contrainte    @relation(fields: [constraintId], references: [contrainte_id])
   constraintId Int
 
   createdAt       DateTime            @default(now())

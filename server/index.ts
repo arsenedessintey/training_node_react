@@ -20,7 +20,7 @@ interface Champ {
   constraint: Constraint
   obligatoire:boolean
   explication:string
-  childSheet : ChildSheet
+  sheet_id: string
 }
 
 export interface Constraint {
@@ -242,19 +242,22 @@ app.put('/api/constraint/:id', async (req: Request, res: Response) => {
   })
 });
 
-const parseurGroupe = (groupes: Groupeinter[], childSheetId:{ sheet_id: number }[]) => {
+const parseurGroupe = (groupes: Groupeinter[]) => {
   return groupes.map((groupe, i) => {
     return {
       nom: groupe.nom,
       ordre: i,
       champs: {
-        create: parseurChamps(groupe.champs, childSheetId)
+        create: parseurChamps(groupe.champs)
       }
     }
   })
 }
-const parseurChamps = (champs: Champ[], childSheetId:{ sheet_id: number }[]) => {
+const parseurChamps = (champs: Champ[]) => {
   return champs.map((champ, i) => {
+
+
+    const convertSheet_idInt = parseInt(champ.sheet_id)
 
     return {
         nom: champ.nom,
@@ -262,7 +265,7 @@ const parseurChamps = (champs: Champ[], childSheetId:{ sheet_id: number }[]) => 
         ordre: i,
         constraintId: champ.constraint.contrainte_id,
         explication: champ.explication,
-        sheet: childSheetId && {connect : {sheet_id: champ.childSheet.sheet_id}}
+        sheet_id : convertSheet_idInt
       }
   })
 }
@@ -273,7 +276,6 @@ app.post('/api/sheetModel', async (req: Request, res: Response) => {
   const groupes: Groupeinter[] = req.body.groupe;
   const nomFicheS: string = req.body.nomFicheS
   const descFicheS: string = req.body.descFicheS
-  const childSheetId: ChildSheet[] = req.body.lienSFS
   const activationSheet: boolean = req.body.activationSheet
   const nomVersion:string = req.body.nomVersion
 
@@ -284,8 +286,7 @@ app.post('/api/sheetModel', async (req: Request, res: Response) => {
       activationSheet:activationSheet,
       nomVersion:nomVersion,
       groupe: {
-        create: parseurGroupe(groupes, childSheetId)
-      }
+        create: parseurGroupe(groupes)}
     },
     include: {
       groupe: {

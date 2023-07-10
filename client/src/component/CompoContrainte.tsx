@@ -12,8 +12,6 @@ import image8 from "./Descente.svg"
 import { swipeArrayElem, swipeArrayElemGroupe } from "../utils/utils";
 import Groupes from "./Groupes";
 import Champs from "./Champs";
-import ModalSansValide from "./ModalSansValide";
-import LienSF from "./LienSF";
 import VersionFiche from "./VersionFiche";
 
 interface PropsCC {
@@ -29,11 +27,6 @@ export type Sheet = {
   nomVersion: string
 }
 
-export type ChildSheet = {
-  sheet_id: number
-  nom: string
-}
-
 interface Groupeinter {
   groupe_id: number
   nom: string
@@ -47,7 +40,7 @@ interface Champ {
   obligatoire: boolean
   explication:string
   display: boolean
-  childSheet: ChildSheet[]
+  sheet_id:string
 }
 
 const CompoContrainte = (PropsCC: PropsCC) => {
@@ -68,7 +61,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const [explicationS, setExplicationS] = useState("")
 
-  const [valueSelect, setValueSelect] = useState("")
+  const [valueSelect, setValueSelect] = useState<string>("")
 
 
   const [constraint, setConstraint] = useState<Constraint[]>([]);
@@ -91,12 +84,17 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   }
 
 
+
   const [selectConstraint, setSelectConstraint] = useState<Constraint>(
     emptyConstraint
   );
   const [selectedGroupe, setSelectedGroupe] = useState<string>("");
 
   const [selectedChampId, setSelectedChampId] = useState<number>(-1);
+
+  const [selectedGroupeId, setSelectedGroupeId] = useState<number>(-1);
+
+
 
   useEffect(() => {
 
@@ -134,13 +132,12 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const [allSheetSlect, setAllSheetSelect] = useState<Sheet[]>([])
 
-  const [lienSF, setLienSF] = useState<ChildSheet[]>([])
-
   const [sheetId, setSheetId] = useState(-1)
 
   const [errorVersion, setErrorVersion] = useState("")
 
   const [creaFiche, setCreaFiche] = useState("Créer La Fiche")
+  
 
   //FIN GROUPE STATE
 
@@ -149,7 +146,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     setConstraint(tmpConstraint);
   }
 
-
+  
 
   async function getSheet() {
 
@@ -167,12 +164,15 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
 
       const newGroupe = sheetSch.groupe
+      console.log('sheeSch.groupe :>> ', sheetSch.groupe);
       const Version = sheetSch.nomVersion
       const Sheet__id = sheetSch.sheet_id
+      
 
       setGroupe(newGroupe)
       setSheetId(Sheet__id)
       setVersionFiche(Version)
+
       setNomFiche(sheetSch.nom);
       setDescFiche(sheetSch.description ?? "");
 
@@ -192,15 +192,18 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     setAllSheetSelect(AllSheetSelect);
   }
 
-  const changeGroupe = (groupes: string) => {
+  const changeGroupe = (groupes: Groupeinter) => {
     toggleModal(modalGroupes, setModalGroupes)
-    setSelectedGroupe(groupes);
+    setSelectedGroupeId(groupes.groupe_id)
+    setNouveauGroupe(groupes.nom)
   }
 
   const changeChamp = (champs: Champ) => {
     toggleModal(modalChamps, setModalChamps)
     setSelectedChampId(champs.field_id);
     setSelectConstraint(champs.constraint)
+    setNouveauChamps(champs.nom)
+    setExplicationS(champs.explication)
   }
   //Modal Contrainte
   const toggleModal = (modal: boolean, setter: (modal: boolean) => void, constraint?: Constraint) => {
@@ -210,6 +213,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     setSelectedGroupe("")
     setNouveauChamps("")
     setSelectedChampId(-1)
+    setExplicationS("")
 
     setter(!modal);
   };
@@ -251,11 +255,11 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     }
   }
 
-  const handleDeleteSousFiche = (idsousfiche: number) => {
-    const lienSFCopy = [...lienSF];
-    const lienSFUpt: ChildSheet[] = lienSFCopy.filter((SousFiche) => SousFiche.sheet_id !== idsousfiche);
-    setLienSF(lienSFUpt);
-  }
+  // const handleDeleteSousFiche = (idsousfiche: number) => {
+  //   const lienSFCopy = [...lienSF];
+  //   const lienSFUpt: ChildSheet[] = lienSFCopy.filter((SousFiche) => SousFiche.sheet_id !== idsousfiche);
+  //   setLienSF(lienSFUpt);
+  // }
 
 
 
@@ -323,26 +327,26 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   }
 
-  const handleSousFicheMove = (moveSousFiche: ChildSheet, travel: -1 | 1) => {
+  // const handleSousFicheMove = (moveSousFiche: ChildSheet, travel: -1 | 1) => {
 
-    const lienSFCopy = [...lienSF];
+  //   const lienSFCopy = [...lienSF];
 
-    let indexSousFicheClick = -1;
+  //   let indexSousFicheClick = -1;
 
-    for (let i = 0; i < lienSFCopy.length; i++) {
+  //   for (let i = 0; i < lienSFCopy.length; i++) {
 
-      indexSousFicheClick = lienSFCopy.findIndex(SousFiche => SousFiche.sheet_id === moveSousFiche.sheet_id);
-      const arrayLimit = (travel !== 1) ? 0 : lienSFCopy.length - 1;
+  //     indexSousFicheClick = lienSFCopy.findIndex(SousFiche => SousFiche.sheet_id === moveSousFiche.sheet_id);
+  //     const arrayLimit = (travel !== 1) ? 0 : lienSFCopy.length - 1;
 
-      if (indexSousFicheClick !== -1 && indexSousFicheClick !== arrayLimit) {
-        swipeArrayElemGroupe(lienSFCopy, indexSousFicheClick, indexSousFicheClick + travel);
-        break
-      }
-    }
+  //     if (indexSousFicheClick !== -1 && indexSousFicheClick !== arrayLimit) {
+  //       swipeArrayElemGroupe(lienSFCopy, indexSousFicheClick, indexSousFicheClick + travel);
+  //       break
+  //     }
+  //   }
 
-    setLienSF(lienSFCopy);
+  //   setLienSF(lienSFCopy);
 
-  }
+  // }
 
   const handleChangeGroupe = (e: any) => {
 
@@ -384,11 +388,14 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
     const groupeCopy = [...groupes];
 
-    const groupeFound = groupeCopy.find(groupe => groupe.nom === selectedGroupe);
+    let groupeFound = -1
+
+    groupeFound = groupeCopy.findIndex(groupe => groupe.groupe_id === selectedGroupeId);
 
     // Modify the groupe
-    if (groupeFound !== undefined) {
-      groupeFound.nom = nouveauGroupe;
+    if (groupeFound !== -1) {
+      const groupeIdx = groupeCopy[groupeFound]
+      groupeIdx.nom = nouveauGroupe;
     }
     // Add new groupe
     else {
@@ -413,6 +420,9 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       if (index !== -1) {
         const tmpChamps = groupeCopy[i].champs[index];
         tmpChamps.nom = nouveauChamps;
+        tmpChamps.explication = explicationS
+
+
         break
       }
     }
@@ -426,7 +436,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
         constraint: selectConstraint, 
         obligatoire: mandatoryField, 
         explication: explicationS, 
-        childSheet: lienSF,
+        sheet_id: valueSelect,
         display: false
       });
     }
@@ -434,6 +444,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     // save changes
     setGroupe(groupeCopy);
     setNouveauChamps("");
+    setExplicationS("")
     setSelectedChampId(-1)
     toggleModal(modalChamps, setModalChamps)
     console.log('explicationS :>> ', explicationS.length);
@@ -478,7 +489,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   }
 
   const addSheetVersion = () => {
-    return axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: lienSF, nomVersion: versionFiche, activationSheet: true })
+    return axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: valueSelect, nomVersion: versionFiche, activationSheet: true })
   }
 
   const handleSauvegardeSubmitID = (e: any) => {
@@ -516,7 +527,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
     setVersionFiche("V1")
 
-    await axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: valueSelect, nomVersion: versionFiche, activationSheet: true })
+    await axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, Sheet_id: valueSelect, nomVersion: versionFiche, activationSheet: true })
       .then((response) => {
         console.log(response.status);
         PropsCC.setPage("/")
@@ -537,7 +548,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       console.log(error);
     });
 
-    axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: lienSF, nomVersion: versionFiche, activationSheet: true})
+    axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, Sheet_id: valueSelect, nomVersion: versionFiche, activationSheet: true})
     .then((response) => {
       console.log(response.status);
       PropsCC.setPage("/")
@@ -549,19 +560,6 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     
 
 }
-
-  const handleSubmitLienSF = (childSheet: ChildSheet) => {
-
-    const LienSFCopy = [...lienSF];
-    const id = childSheet.sheet_id
-    const nom = childSheet.nom
-
-    LienSFCopy.push({ sheet_id: id, nom: nom })
-
-    setLienSF(LienSFCopy)
-    toggleModal(modalLienSF, setModalLienSF)
-  }
-
   const BackHistory = () => {
 
     window.history.go(-1)
@@ -626,14 +624,6 @@ const handleChangeSelect = (e:any) => {
         </Modal>
       )}
 
-      {modalLienSF && (
-        <ModalSansValide
-          toggle={() => toggleModal(modalLienSF, setModalLienSF)}
-        >
-          <LienSF allSheet={allSheet} handleSubmitLienSF={handleSubmitLienSF} />
-        </ModalSansValide>
-      )}
-
       {modalVersion && (
         <Modal
           toggle={() => toggleModal(modalVersion, setModalVersion)}
@@ -660,7 +650,7 @@ const handleChangeSelect = (e:any) => {
                 <li className="textgroupe">
 
                   <button type="button" className="croixgroupe" onClick={() => handleDeleteGroupe(groupe.groupe_id)}>✖</button><span
-                    onDoubleClick={() => changeGroupe(groupe.nom)}
+                    onDoubleClick={() => changeGroupe(groupe)}
                     className="labelgroupe">
                     <label>- </label> {groupe.nom} <label>- </label></span>
                   <div className="affichageGroupeDM">
@@ -684,7 +674,7 @@ const handleChangeSelect = (e:any) => {
                         {champ.constraint.type_contrainte === "link"
                         ?<span>
                           <span onDoubleClick={() => handleDoubleSubmitChamps(grIdx, champIdx)}><input className="affichageNomChamp" value={champ.nom} disabled /></span>
-                          <a className="Soulignement" href={"/modifySheet/" + valueSelect} target='_blank'>
+                          <a className="Soulignement" href={"/modifySheet/" + champ.sheet_id} target='_blank'>
                             <input className="affichageContrainteS" value={champ.constraint.nom} disabled />
                           </a>
                           
