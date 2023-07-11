@@ -16,10 +16,12 @@ const Nom = (props: Props) => {
 
 
     return (
+        <>
+            <div className="ContourGroupe">
+                <input type="text" className='inputgroupe' placeholder="Nom de la fiche..." value={props.nomFiche} onChange={props.handleChangeNomFiche} required />
+            </div>
+        </>
 
-        <div className="ContourGroupe">
-        <input type="text" className='inputgroupe' placeholder="Nom de la fiche..." value={props.nomFiche} onChange={props.handleChangeNomFiche} required/>
-        </div>
 
     )
 }
