@@ -571,7 +571,6 @@ const handleDoubleSubmitChamps = (groupeIdx: number, champIdx:number) => {
 const handleChangeSelect = (e:any) => {
   const valueSlectChamp = e.target.value;
   setValueSelect(valueSlectChamp);
-  console.log('valueSlectChamp :>> ', valueSlectChamp);
 
 
 
@@ -668,7 +667,7 @@ const handleChangeSelect = (e:any) => {
                     <div key={champ.field_id} className="affichageAllChamps">
                       <div className="champRow"  >
 
-                        {champ.constraint.type_contrainte !== "link" || valueSelect === "..."
+                        {champ.constraint.type_contrainte !== "link"
                           ? <span>
                             <span onDoubleClick={() => handleDoubleSubmitChamps(grIdx, champIdx)}><input className="affichageNomChamp" value={champ.nom} disabled /></span>
                             <input className="affichageContrainte" value={champ.constraint.nom} disabled />
