@@ -92,8 +92,6 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const [selectedChampId, setSelectedChampId] = useState<number>(-1);
 
-  const [selectedConstraintId, setSelectedConstaintId] = useState("")
-
   useEffect(() => {
 
     getConstraint()
@@ -438,7 +436,11 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
       groupe.champs.forEach(champ => {
 
-        const VerifConstraint = champ.constraint.contrainte_id.find(constraint => constraint.contrainte_id === )
+        if(champ.constraint.contrainte_id === selectConstraint.contrainte_id){
+
+            champ.constraint.nom = selectConstraint.nom
+
+        }
         
       });
 
@@ -653,7 +655,7 @@ const handleChangeSelect = (e:any) => {
                         ?<span>
                           <span onDoubleClick={() => handleDoubleSubmitChamps(grIdx, champIdx)}><input className="affichageNomChamp" value={champ.nom} disabled /></span>
                           <a className="Soulignement" href={"/modifySheet/" + champ.sheet_id} target='_blank'>
-                            <input className="affichageContrainteS" value={champ.constraint.nom} disabled />
+                            <input className="affichageContrainte" value={champ.constraint.nom} disabled />
                           </a>
                           
                         </span>
