@@ -13,6 +13,7 @@ import { setPath, swipeArrayElem, swipeArrayElemGroupe } from "../utils/utils";
 import Groupes from "./Groupes";
 import Champs from "./Champs";
 import VersionFiche from "./VersionFiche";
+import Nom from "./Nom";
 
 interface PropsCC {
   setPage: (newPage: string) => void
@@ -91,6 +92,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   const [selectedGroupe, setSelectedGroupe] = useState<string>("");
 
   const [selectedChampId, setSelectedChampId] = useState<number>(-1);
+
+  const [modalNom, setModalNom] = useState(false)
 
   useEffect(() => {
 
@@ -616,16 +619,25 @@ const handleChangeSelect = (e:any) => {
         </Modal>
       )}
 
+      {modalNom && (
+        <Modal
+          toggle={() => toggleModal(modalNom, setModalNom)}
+          handleSubmit={handleSauvegardeSubmit}
+        >
+          <Nom nomFiche={nomFiche} handleChangeNomFiche={handleChangeNomFiche}/>
+        </Modal>
+      )}
+
       <button type="button" className="Bouton_HautSousFiche Fgauche2" onClick={BackHistory}>
         <img width={"50px"} src={image6} />
       </button>
 
-      <form id="postSheet" onSubmit={handleSauvegardeSubmit}>
+      <form id="postSheet" onClick={() => toggleModal(modalNom, setModalNom)}>
         
         <div className="felxRowConstraint">
           <div className="divChamps">
 
-            <input type="text" className="NomFicheCSS" value={nomFiche} onChange={handleChangeNomFiche} placeholder="Nom de la Fiche" required /><br></br>
+            <input type="text" className="NomFicheCSS" value={nomFiche} onChange={handleChangeNomFiche} placeholder="Nom de la Fiche..." required disabled/><br></br>
             <input type="text" className="VersionFicheCSS" value={versionFiche} onChange={handleChangeVersionFiche} placeholder="Version de la Fiche" disabled/>
 
             {groupes.map((groupe, grIdx) => (
@@ -723,7 +735,7 @@ const handleChangeSelect = (e:any) => {
               </ul>
             </div>
 
-              <button type="submit" form="postSheet" className="saugardeFicheButton"> {creaFiche}</button>
+              <button type="button" form="postSheet" className="saugardeFicheButton"> {creaFiche}</button>
               <button type="button" onClick={(e) => {e.preventDefault(); toggleModal(modalVersion, setModalVersion)}} className="saugardeFicheButton"disabled={sheetId === -1}>Changer La Version</button>
               <button type="button" onClick={handleSubmitModificationFiche} className="saugardeFicheButton"disabled={sheetId === -1}>Modifier La Fiche</button>
 
