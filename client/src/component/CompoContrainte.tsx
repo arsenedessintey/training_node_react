@@ -176,6 +176,10 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
       
 
+    }catch (error) {
+
+      setPath("pageNotFound")
+
     }
   }
 }
