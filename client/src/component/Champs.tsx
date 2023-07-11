@@ -39,13 +39,16 @@ console.log('props.nouveauChamps :>> ', props.nouveauChamps);
 
                         <label className="labelChoixC"> Choisir un lien :</label>
                         <select className="SelectChamps" onChange={props.handleChangeSelect} required>
+                            <option>...</option>
                             {props.allSheetSlect.map((sheet:Sheet) => (
-                                <option key={sheet.sheet_id} value={sheet.sheet_id}>{sheet.nom}</option>
+                                <option key={sheet.sheet_id} value={sheet.sheet_id}>{sheet.sheet_id}</option>
+                                
                             ))}
+                            
                         </select>
+                        
 
                     </span>
-
                     : 
                     <label></label>
                     } 

@@ -451,10 +451,6 @@ app.get("/api/allSheet/:idrecherche", async (req: Request, res: Response) => {
   const allSheet = await prisma.sheet.findMany(
     {
       where: {
-        NOT:{
-          sheet_id : id_sheetNOT,
-
-        },
 
         activationSheet: true
 
