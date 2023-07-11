@@ -37,7 +37,7 @@ const Champs = (props: Props) => {
                     props.selectConstraint?.type_contrainte === "link" ?
                     <span>
 
-                        <label className="labelChoixC"> Choisir un lien :</label>
+                        <label className="labelChoixC"> Choisir une sousFiche :</label>
                         <select className="SelectChamps" onChange={props.handleChangeSelect} required multiple>
                             {props.allSheetSlect.map((sheet:Sheet) => (
                                 <option key={sheet.sheet_id} value={sheet.sheet_id}>{sheet.sheet_id}</option>
