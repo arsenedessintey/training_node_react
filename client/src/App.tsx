@@ -8,6 +8,7 @@ import "./component/LienSF.css";
 import "./component/ChoixFicheDossier.css"
 import AccueilSousFiche from './component/AccueilSousFiche';
 import CompoContrainte from './component/CompoContrainte';
+import { setPath } from './utils/utils';
 
 
 
@@ -16,13 +17,6 @@ function App() {
 
   useEffect(() => {
   })
-
-  const setPath = (newPath: string) => {
-    
-    window.location.pathname = newPath;
-    setStatePath(newPath);
-
-  }
 
   const  getPageComponent = () => {
 

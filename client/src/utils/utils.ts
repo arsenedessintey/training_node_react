@@ -32,3 +32,10 @@ export function swipeArrayElemGroupe<T>(array: T[], index1: number, index2: numb
     
         return array;
 }
+
+export const setPath = (value: any) => {
+    
+    window.location.pathname = value;
+
+
+  }

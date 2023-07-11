@@ -9,7 +9,7 @@ import image6 from "./FlecheExit.svg"
 import Modal from "./Modal";
 import image7 from "./Monter.svg"
 import image8 from "./Descente.svg"
-import { swipeArrayElem, swipeArrayElemGroupe } from "../utils/utils";
+import { setPath, swipeArrayElem, swipeArrayElemGroupe } from "../utils/utils";
 import Groupes from "./Groupes";
 import Champs from "./Champs";
 import VersionFiche from "./VersionFiche";
@@ -154,8 +154,9 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
       const sheet_id = pathArray[pathArray.length - 1]
 
-      const sheetSch: Sheet = JSON.parse((await axios.get(`/api/modifyS/${sheet_id}`)).data)
-
+      try {
+        
+        const sheetSch: Sheet = JSON.parse((await axios.get(`/api/modifyS/${sheet_id}`)).data)
 
       const newGroupe = sheetSch.groupe
       console.log('sheeSch.groupe :>> ', sheetSch.groupe);
@@ -171,9 +172,11 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       setDescFiche(sheetSch.description ?? "");
 
       getAllSheet(Sheet__id)
+      setVersionFiche("V1")
 
     }
   }
+}
   
   async function getAllSheet(idsheeet:number) {
     const AllSheet = (await axios.get(`/api/allSheet/${idsheeet}`)).data;
@@ -239,7 +242,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       const indexChamp = groupeCopy[i].champs.findIndex(champ => {
         return champ.field_id === idc
       });
-      console.log('index :>> ', indexChamp);
+
       if (indexChamp !== -1) {
         groupeCopy[i].champs.splice(indexChamp, 1);
         setGroupe(groupeCopy);
@@ -473,7 +476,6 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     addSheetVersion ()
       .then((response) => {
         const JSONsheet: Sheet = (response).data
-        console.log('JSONsheet :>> ', JSONsheet);
 
         const nswSheetID = JSONsheet.sheet_id
 
