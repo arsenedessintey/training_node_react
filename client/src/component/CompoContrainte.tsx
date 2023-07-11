@@ -174,6 +174,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       getAllSheet(Sheet__id)
       setVersionFiche("V1")
 
+      
+
     }
   }
 }
