@@ -92,7 +92,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const [selectedChampId, setSelectedChampId] = useState<number>(-1);
 
-  // const [selectedConstraintId, setSelectedConstaintId] = useState("")
+  const [selectedConstraintId, setSelectedConstaintId] = useState("")
 
   useEffect(() => {
 
@@ -252,14 +252,6 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     }
   }
 
-  // const handleDeleteSousFiche = (idsousfiche: number) => {
-  //   const lienSFCopy = [...lienSF];
-  //   const lienSFUpt: ChildSheet[] = lienSFCopy.filter((SousFiche) => SousFiche.sheet_id !== idsousfiche);
-  //   setLienSF(lienSFUpt);
-  // }
-
-
-
   const handleChampsMove = (moveChamp: Champ, travel: -1 | 1) => {
 
     const groupeCopy = [...groupes];
@@ -324,26 +316,6 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   }
 
-  // const handleSousFicheMove = (moveSousFiche: ChildSheet, travel: -1 | 1) => {
-
-  //   const lienSFCopy = [...lienSF];
-
-  //   let indexSousFicheClick = -1;
-
-  //   for (let i = 0; i < lienSFCopy.length; i++) {
-
-  //     indexSousFicheClick = lienSFCopy.findIndex(SousFiche => SousFiche.sheet_id === moveSousFiche.sheet_id);
-  //     const arrayLimit = (travel !== 1) ? 0 : lienSFCopy.length - 1;
-
-  //     if (indexSousFicheClick !== -1 && indexSousFicheClick !== arrayLimit) {
-  //       swipeArrayElemGroupe(lienSFCopy, indexSousFicheClick, indexSousFicheClick + travel);
-  //       break
-  //     }
-  //   }
-
-  //   setLienSF(lienSFCopy);
-
-  // }
 
   const handleChangeGroupe = (e: any) => {
 
@@ -462,15 +434,15 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       Value9: e.target[16].value,
     }
 
-    // groupes.forEach(groupe => {
+    groupes.forEach(groupe => {
 
-    //   groupe.champs.forEach(champ => {
+      groupe.champs.forEach(champ => {
 
-    //     const VerifConstraint = champ.constraint.contrainte_id.find(constraint => constraint.contrainte_id === )
+        const VerifConstraint = champ.constraint.contrainte_id.find(constraint => constraint.contrainte_id === )
         
-    //   });
+      });
 
-    // });
+    });
 
     // Choose url path to create or modify
     const urlStr = (NewConstraint.contrainte_id === -1) ? '/api/constraint' : `/api/constraint/${selectConstraint?.contrainte_id}`;
