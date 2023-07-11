@@ -9,7 +9,7 @@ import image6 from "./FlecheExit.svg"
 import Modal from "./Modal";
 import image7 from "./Monter.svg"
 import image8 from "./Descente.svg"
-import { swipeArrayElem, swipeArrayElemGroupe } from "../utils/utils";
+import { setPath, swipeArrayElem, swipeArrayElemGroupe } from "../utils/utils";
 import Groupes from "./Groupes";
 import Champs from "./Champs";
 import VersionFiche from "./VersionFiche";
@@ -175,8 +175,13 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
       getAllSheet(Sheet__id)
 
+    } catch (error) {
+
+      setPath("pageNotFound")
+
     }
   }
+}
   
   async function getAllSheet(idsheeet:number) {
     const AllSheet = (await axios.get(`/api/allSheet/${idsheeet}`)).data;
