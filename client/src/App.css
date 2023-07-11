@@ -505,6 +505,16 @@ ul {
     font-size:20px;
   }
 
+  .affichageContrainteS{
+
+    cursor: pointer;
+    z-index: 1;
+    width: 15rem;
+    height: 3rem;
+    border: solid 2px #282c34;
+    font-size:20px;
+  }
+
   .affichageSousFicheDM{
     position: relative;
     margin-top:3px;

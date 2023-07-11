@@ -150,8 +150,6 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
       setCreaFiche("Dupliquer la Fiche")
 
-      
-
       const pathArray = window.location.pathname.toString().split("/")
 
       const sheet_id = pathArray[pathArray.length - 1]
@@ -173,7 +171,6 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       setDescFiche(sheetSch.description ?? "");
 
       getAllSheet(Sheet__id)
-      setVersionFiche("V1")
 
     }
   }
@@ -502,10 +499,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
    const handleSauvegardeSubmit = async (e:any) => {
     e.preventDefault();
-
-    setVersionFiche("V1")
-
-    await axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, Sheet_id: valueSelect, nomVersion: versionFiche, activationSheet: true })
+    
+    await axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, Sheet_id: valueSelect, nomVersion: "V1", activationSheet: true })
       .then((response) => {
         console.log(response.status);
         PropsCC.setPage("/")
@@ -655,7 +650,7 @@ const handleChangeSelect = (e:any) => {
                         ?<span>
                           <span onDoubleClick={() => handleDoubleSubmitChamps(grIdx, champIdx)}><input className="affichageNomChamp" value={champ.nom} disabled /></span>
                           <a className="Soulignement" href={"/modifySheet/" + champ.sheet_id} target='_blank'>
-                            <input className="affichageContrainte" value={champ.constraint.nom} disabled />
+                            <input className="affichageContrainteS" value={champ.constraint.nom} disabled />
                           </a>
                           
                         </span>
