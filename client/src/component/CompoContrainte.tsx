@@ -92,6 +92,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const [selectedChampId, setSelectedChampId] = useState<number>(-1);
 
+  // const [selectedConstraintId, setSelectedConstaintId] = useState("")
+
   useEffect(() => {
 
     getConstraint()
@@ -443,7 +445,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   }
 
 
-  const handleSubmitContraintes = (e: any) => {
+  const handleSubmitContraintes = (e: any, ) => {
     e.preventDefault();
     toggleModal(modalContraintes, setModalContraintes);
 
@@ -459,6 +461,16 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       Value8: e.target[15].value,
       Value9: e.target[16].value,
     }
+
+    // groupes.forEach(groupe => {
+
+    //   groupe.champs.forEach(champ => {
+
+    //     const VerifConstraint = champ.constraint.contrainte_id.find(constraint => constraint.contrainte_id === )
+        
+    //   });
+
+    // });
 
     // Choose url path to create or modify
     const urlStr = (NewConstraint.contrainte_id === -1) ? '/api/constraint' : `/api/constraint/${selectConstraint?.contrainte_id}`;
@@ -580,6 +592,8 @@ const handleChangeSelect = (e:any) => {
   const valueSlectChamp = e.target.value;
   setValueSelect(valueSlectChamp);
 }
+
+
 
   //FIN GROUPE//
 
