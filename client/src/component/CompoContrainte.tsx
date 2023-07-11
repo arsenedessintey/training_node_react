@@ -571,6 +571,10 @@ const handleDoubleSubmitChamps = (groupeIdx: number, champIdx:number) => {
 const handleChangeSelect = (e:any) => {
   const valueSlectChamp = e.target.value;
   setValueSelect(valueSlectChamp);
+  console.log('valueSlectChamp :>> ', valueSlectChamp);
+
+
+
 }
 
 
@@ -631,8 +635,6 @@ const handleChangeSelect = (e:any) => {
       <button type="button" className="Bouton_HautSousFiche Fgauche2" onClick={BackHistory}>
         <img width={"50px"} src={image6} />
       </button>
-
-      <form id="postSheet" onClick={() => toggleModal(modalNom, setModalNom)}>
         
         <div className="felxRowConstraint">
           <div className="divChamps">
@@ -666,18 +668,20 @@ const handleChangeSelect = (e:any) => {
                     <div key={champ.field_id} className="affichageAllChamps">
                       <div className="champRow"  >
 
-                        {champ.constraint.type_contrainte === "link"
-                        ?<span>
-                          <span onDoubleClick={() => handleDoubleSubmitChamps(grIdx, champIdx)}><input className="affichageNomChamp" value={champ.nom} disabled /></span>
-                          <a className="Soulignement" href={"/modifySheet/" + champ.sheet_id} target='_blank'>
-                            <input className="affichageContrainteS" value={champ.constraint.nom} disabled />
-                          </a>
-                          
-                        </span>
-                        :<span>
-                          <span onDoubleClick={() => handleDoubleSubmitChamps(grIdx, champIdx)}><input className="affichageNomChamp" value={champ.nom} disabled /></span>
-                          <input className="affichageContrainte" value={champ.constraint.nom} disabled />
-                        </span>
+                        {champ.constraint.type_contrainte !== "link" || valueSelect === "..."
+                          ? <span>
+                            <span onDoubleClick={() => handleDoubleSubmitChamps(grIdx, champIdx)}><input className="affichageNomChamp" value={champ.nom} disabled /></span>
+                            <input className="affichageContrainte" value={champ.constraint.nom} disabled />
+                          </span>
+                          :
+                          <span>
+                            <span onDoubleClick={() => handleDoubleSubmitChamps(grIdx, champIdx)}><input className="affichageNomChamp" value={champ.nom} disabled /></span>
+                            <a className="Soulignement" href={"/modifySheet/" + champ.sheet_id} target='_blank'>
+                              <input className="affichageContrainteS" value={champ.constraint.nom} disabled />
+                            </a>
+
+                          </span>
+
                         }
 
                         <img className="Modifchamps" src={image3} onClick={() => changeChamp(champ)} />
@@ -735,14 +739,13 @@ const handleChangeSelect = (e:any) => {
               </ul>
             </div>
 
-              <button type="button" form="postSheet" className="saugardeFicheButton"> {creaFiche}</button>
+              <button type="button"  className="saugardeFicheButton" onClick={() => toggleModal(modalNom, setModalNom)}> {creaFiche}</button>
               <button type="button" onClick={(e) => {e.preventDefault(); toggleModal(modalVersion, setModalVersion)}} className="saugardeFicheButton"disabled={sheetId === -1}>Changer La Version</button>
               <button type="button" onClick={handleSubmitModificationFiche} className="saugardeFicheButton"disabled={sheetId === -1}>Modifier La Fiche</button>
 
           </div>
         </div>
          
-      </form>
 
     </>
   );
