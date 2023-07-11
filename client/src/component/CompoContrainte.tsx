@@ -571,6 +571,9 @@ const handleDoubleSubmitChamps = (groupeIdx: number, champIdx:number) => {
 const handleChangeSelect = (e:any) => {
   const valueSlectChamp = e.target.value;
   setValueSelect(valueSlectChamp);
+
+
+
 }
 
 
@@ -664,18 +667,20 @@ const handleChangeSelect = (e:any) => {
                     <div key={champ.field_id} className="affichageAllChamps">
                       <div className="champRow"  >
 
-                        {champ.constraint.type_contrainte === "link"
-                        ?<span>
-                          <span onDoubleClick={() => handleDoubleSubmitChamps(grIdx, champIdx)}><input className="affichageNomChamp" value={champ.nom} disabled /></span>
-                          <a className="Soulignement" href={"/modifySheet/" + champ.sheet_id} target='_blank'>
-                            <input className="affichageContrainteS" value={champ.constraint.nom} disabled />
-                          </a>
-                          
-                        </span>
-                        :<span>
-                          <span onDoubleClick={() => handleDoubleSubmitChamps(grIdx, champIdx)}><input className="affichageNomChamp" value={champ.nom} disabled /></span>
-                          <input className="affichageContrainte" value={champ.constraint.nom} disabled />
-                        </span>
+                        {champ.constraint.type_contrainte !== "link"
+                          ? <span>
+                            <span onDoubleClick={() => handleDoubleSubmitChamps(grIdx, champIdx)}><input className="affichageNomChamp" value={champ.nom} disabled /></span>
+                            <input className="affichageContrainte" value={champ.constraint.nom} disabled />
+                          </span>
+                          :
+                          <span>
+                            <span onDoubleClick={() => handleDoubleSubmitChamps(grIdx, champIdx)}><input className="affichageNomChamp" value={champ.nom} disabled /></span>
+                            <a className="Soulignement" href={"/modifySheet/" + champ.sheet_id} target='_blank'>
+                              <input className="affichageContrainteS" value={champ.constraint.nom} disabled />
+                            </a>
+
+                          </span>
+
                         }
 
                         <img className="Modifchamps" src={image3} onClick={() => changeChamp(champ)} />
