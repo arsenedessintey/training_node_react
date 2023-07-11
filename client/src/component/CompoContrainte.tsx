@@ -156,8 +156,9 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
       const sheet_id = pathArray[pathArray.length - 1]
 
-      const sheetSch: Sheet = JSON.parse((await axios.get(`/api/modifyS/${sheet_id}`)).data)
-
+      try {
+        
+        const sheetSch: Sheet = JSON.parse((await axios.get(`/api/modifyS/${sheet_id}`)).data)
 
       const newGroupe = sheetSch.groupe
       console.log('sheeSch.groupe :>> ', sheetSch.groupe);
@@ -173,7 +174,6 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       setDescFiche(sheetSch.description ?? "");
 
       getAllSheet(Sheet__id)
-      setVersionFiche("V1")
 
     }
   }
@@ -242,7 +242,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       const indexChamp = groupeCopy[i].champs.findIndex(champ => {
         return champ.field_id === idc
       });
-      console.log('index :>> ', indexChamp);
+
       if (indexChamp !== -1) {
         groupeCopy[i].champs.splice(indexChamp, 1);
         setGroupe(groupeCopy);
@@ -476,7 +476,6 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     addSheetVersion ()
       .then((response) => {
         const JSONsheet: Sheet = (response).data
-        console.log('JSONsheet :>> ', JSONsheet);
 
         const nswSheetID = JSONsheet.sheet_id
 
@@ -502,10 +501,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
    const handleSauvegardeSubmit = async (e:any) => {
     e.preventDefault();
-
-    setVersionFiche("V1")
-
-    await axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, Sheet_id: valueSelect, nomVersion: versionFiche, activationSheet: true })
+    
+    await axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, Sheet_id: valueSelect, nomVersion: "V1", activationSheet: true })
       .then((response) => {
         console.log(response.status);
         PropsCC.setPage("/")

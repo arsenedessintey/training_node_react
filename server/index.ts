@@ -537,7 +537,6 @@ app.get('/api/DossierGet', async (req: Request, res: Response) => {
 app.put('/api/DossierDel/:id', async (req: Request, res: Response) => {
 
   const idDossier:number = Number(req.params.id);
-  console.log('idDossier :>> ', idDossier);
 
   const DelDossier = await prisma.dossier.update({
     where:{

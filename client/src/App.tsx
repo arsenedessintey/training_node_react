@@ -17,12 +17,7 @@ function App() {
   useEffect(() => {
   })
 
-  const setPath = (newPath: string) => {
-    
-    window.location.pathname = newPath;
-    setStatePath(newPath);
 
-  }
 
   const  getPageComponent = () => {
 
