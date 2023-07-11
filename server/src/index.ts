@@ -4,6 +4,7 @@ import cors from 'cors';
 import { Contrainte, PrismaClient, Prisma } from '@prisma/client';
 import { connect } from 'http2';
 
+
 interface Groupeinter {
   idg: number
   nom: string
@@ -65,7 +66,7 @@ export type Sheet = {
 }
 
 export const prisma = new PrismaClient();
-
+ // Rename + add interface
   const CreateRegex = (req: { body: { Value1: any , Value2 : any, Value3 : any, Value4 : any, Value5 : any, Value6 : any, Value7:any, Value8:any, Value9:any }; }) => {
     
   const minLength = (req.body.Value3);
@@ -108,13 +109,6 @@ export const prisma = new PrismaClient();
   return regexT
   }
 
-interface Constraint2 {
-  nom: string
-  type: string
-  regex: string 
-  id:number
-}
-
 // Load environment variables from a .env file
 dotenv.config();
 
@@ -138,7 +132,6 @@ app.get('/', (req: Request, res: Response) => {
 app.post('/api/constraint', async (req: Request, res: Response) => {
 
   //Regex
-  console.log('req.body :>> ', req.body);
   const reqRegex = req;
   const regexT = CreateRegex(reqRegex)
   //Base
@@ -241,6 +234,14 @@ app.put('/api/constraint/:id', async (req: Request, res: Response) => {
     return res.status(404).send("Contrainst not add");
   })
 });
+
+
+
+
+  //Check REFRACTOR
+
+
+
 
 const parseurGroupe = (groupes: Groupeinter[]) => {
   return groupes.map((groupe, i) => {
