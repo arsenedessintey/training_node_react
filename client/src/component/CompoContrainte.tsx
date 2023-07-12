@@ -141,7 +141,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   //FIN GROUPE STATE
 
   async function getConstraint() {
-    const tmpConstraint: Constraint[] = (await axios.get('/api/tabCon')).data;
+    const tmpConstraint: Constraint[] = (await axios.get('/api/constraint/get')).data;
     setConstraint(tmpConstraint);
   }
 
@@ -159,10 +159,9 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
       try {
         
-        const sheetSch: Sheet = JSON.parse((await axios.get(`/api/modifyS/${sheet_id}`)).data)
+        const sheetSch: Sheet = JSON.parse((await axios.get(`/api/sheet/modifyS/${sheet_id}`)).data)
 
       const newGroupe = sheetSch.groupe
-      console.log('sheeSch.groupe :>> ', sheetSch.groupe);
       const Version = sheetSch.nomVersion
       const Sheet__id = sheetSch.sheet_id
       
@@ -188,12 +187,12 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 }
   
   async function getAllSheet(idsheeet:number) {
-    const AllSheet = (await axios.get(`/api/allSheet/${idsheeet}`)).data;
+    const AllSheet = (await axios.get(`/api/sheet/allSheet/${idsheeet}`)).data;
     setAllSheet(AllSheet)
   }
 
   async function getAllSheetSelect() {
-    const AllSheetSelect = (await axios.get(`/api/allSheetSelect`)).data;
+    const AllSheetSelect = (await axios.get(`/api/sheet/allSheetSelect`)).data;
     setAllSheetSelect(AllSheetSelect);
   }
 
@@ -224,7 +223,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const handledelete = (id: number) => {
 
-    axios.put(`/api/constraintDel/${id}`)
+    axios.put(`/api/constraint/delete/${id}`)
       .then((response) => {
         console.log(response.status);
         getConstraint();
@@ -420,7 +419,6 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     setExplicationS("")
     setSelectedChampId(-1)
     toggleModal(modalChamps, setModalChamps)
-    console.log('explicationS :>> ', explicationS.length);
   }
 
 
@@ -456,7 +454,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     });
 
     // Choose url path to create or modify
-    const urlStr = (NewConstraint.contrainte_id === -1) ? '/api/constraint' : `/api/constraint/${selectConstraint?.contrainte_id}`;
+    const urlStr = (NewConstraint.contrainte_id === -1) ? '/api/constraint' : `/api/constraint/update/${selectConstraint?.contrainte_id}`;
     // Choose request method to create/post or modify/put
     const request = (NewConstraint.contrainte_id === -1) ? axios.post : axios.put;
 
@@ -472,11 +470,11 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   }
 
   const disableSheet = (sheetID: number, newSheetId?: number) => {
-    return axios.put(`/api/switchVersion/${sheetID}?newSheetId=${newSheetId}`)
+    return axios.put(`/api/sheet/switchVersion/${sheetID}?newSheetId=${newSheetId}`)
   }
 
   const addSheetVersion = () => {
-    return axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: valueSelect, nomVersion: versionFiche, activationSheet: true })
+    return axios.post('/api/sheet/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: valueSelect, nomVersion: versionFiche, activationSheet: true })
   }
 
   const handleSauvegardeSubmitID = (e: any) => {
@@ -511,7 +509,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
    const handleSauvegardeSubmit = async (e:any) => {
     e.preventDefault();
     
-    await axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, Sheet_id: valueSelect, nomVersion: "V1", activationSheet: true })
+    await axios.post('/api/sheet/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, Sheet_id: valueSelect, nomVersion: "V1", activationSheet: true })
       .then((response) => {
         console.log(response.status);
         PropsCC.setPage("/")
@@ -524,7 +522,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   const handleSubmitModificationFiche = (e:any) => {
     e.preventDefault();
 
-    axios.delete(`/api/sheetModelModif/${sheetId}`)
+    axios.delete(`/api/sheet/sheetModelModif/${sheetId}`)
     .then((response) => {
       console.log(response.status);
     })
@@ -532,7 +530,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       console.log(error);
     });
 
-    axios.post('/api/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, Sheet_id: valueSelect, nomVersion: versionFiche, activationSheet: true})
+    axios.post('/api/sheet/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, Sheet_id: valueSelect, nomVersion: versionFiche, activationSheet: true})
     .then((response) => {
       console.log(response.status);
       PropsCC.setPage("/")

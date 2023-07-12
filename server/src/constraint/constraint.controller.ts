@@ -1,14 +1,10 @@
 import express from 'express'
-const router = express.Router()
-
 import { affichageConstraint, createConstraint, deleteConstraint, updateConstraint } from './constraint.middleware'
 
+
+export const router = express.Router()
+
 router.post('/', createConstraint)
-
-router.put('/:id', deleteConstraint)
-
-router.get('/', affichageConstraint)
-
-router.put('/:id', updateConstraint)
-
-module.exports = router
+router.put('/delete/:id', deleteConstraint)
+router.get('/get', affichageConstraint)
+router.put('/update/:id', updateConstraint)

@@ -62,7 +62,7 @@ const AccueilSousFiche = (props: Props) => {
       const handleSubmitDossier = (e:any) => {
         e.preventDefault()
 
-        axios.post('/api/Dossier', {nomDossier: nouveauDossier})
+        axios.post('/api/dossier/createDoss', {nomDossier: nouveauDossier})
             .then((response) => {
                 console.log(response.status);
                 toggleModalASF(modalDossier, setModalDossier)
@@ -81,14 +81,13 @@ const AccueilSousFiche = (props: Props) => {
       }
 
         async function getDossier() {
-            const tmpDossier = (await axios.get('/api/DossierGet')).data;
+            const tmpDossier = (await axios.get('/api/dossier/DossierGet')).data;
             setDossier(tmpDossier)
         }
 
         async function getRecherche() {
-            const tmpRecherche = (await axios.get('/api/recherche')).data;
+            const tmpRecherche = (await axios.get('/api/sheet/recherche')).data;
             setRecherches(tmpRecherche);
-            console.log('tmpRecherche :>> ', tmpRecherche);
         }
 
         const idDossierRecup = (idDossier:number) => {
@@ -102,7 +101,7 @@ const AccueilSousFiche = (props: Props) => {
 
         const handleDeleteDossier = (id: number) => {
 
-            axios.put(`/api/DossierDel/${id}`)
+            axios.put(`/api/dossier/DossierDel/${id}`)
               .then((response) => {
                 console.log(response.status);
                 window.history.go(0)
@@ -116,7 +115,7 @@ const AccueilSousFiche = (props: Props) => {
 
         const handleSubmitDesacSheet = (id: number) => {
 
-        axios.put(`/api/DesacSheet/${id}`)
+        axios.put(`/api/sheet/DesacSheet/${id}`)
         .then((response) => {
             console.log(response.status);
             window.history.go(0)

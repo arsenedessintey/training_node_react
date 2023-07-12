@@ -44,7 +44,7 @@ const ChoixFicheDossier = (props: Props) => {
 
     const handleSubmitFicheChoixCo =() => {
 
-        axios.put(`/api/FicheChoixDisco/${props.idDossier}`,{sheet: props.recherches})
+        axios.put(`/api/dossier/FicheChoixDisco/${props.idDossier}`,{sheet: props.recherches})
         .then((response) => {
             console.log(response.status);
             connectSheetDossier()
@@ -57,7 +57,7 @@ const ChoixFicheDossier = (props: Props) => {
 
     const connectSheetDossier = () => {
 
-        axios.put(`/api/FicheChoixCo/${props.idDossier}`, {tab: tabFicheChoix})
+        axios.put(`/api/dossier/FicheChoixCo/${props.idDossier}`, {tab: tabFicheChoix})
         .then((response) => {
             console.log(response.status);
             props.toggle()
@@ -71,7 +71,7 @@ const ChoixFicheDossier = (props: Props) => {
 
 
     async function getAAffichageDossier() {
-        const tmpADossier: Dossiers = (await axios.get(`/api/AffichageDossier/${props.idDossier}`)).data;
+        const tmpADossier: Dossiers = (await axios.get(`/api/dossier/AffichageDossier/${props.idDossier}`)).data;
 
         const tabsheetdoss = tmpADossier.sheet
 

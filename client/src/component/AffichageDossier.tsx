@@ -26,7 +26,7 @@ const AffichageDossier = (props: Props) => {
 
 
     async function getAAffichageDossier() {
-        const tmpADossier = (await axios.get(`/api/AffichageDossier/${props.idDossier}`)).data;
+        const tmpADossier = (await axios.get(`/api/dossier/AffichageDossier/${props.idDossier}`)).data;
         setAffichageFicheDossier(tmpADossier);
   }
 

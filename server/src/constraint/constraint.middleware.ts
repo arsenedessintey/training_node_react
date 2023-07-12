@@ -1,7 +1,7 @@
 import { prisma } from "..";
 import express, { Express, Request, Response } from 'express';
 import { CreateRegex } from "./constraint.service";
-import { ValueConst } from "../type/type";
+
 
 
 const createConstraint = ((req: Request, res: Response) => {
