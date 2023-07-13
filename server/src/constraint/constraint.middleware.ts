@@ -1,6 +1,7 @@
 import { prisma } from "..";
 import express, { Express, Request, Response } from 'express';
 import { CreateRegex } from "./constraint.service";
+import { Prisma } from "@prisma/client";
 
 
 
@@ -27,8 +28,15 @@ const createConstraint = ((req: Request, res: Response) => {
       return res.status(200).send("Contrainst add");
     })
     .catch((error) => {
-      console.log(error)
-      return res.status(404).send("Contrainst not add");
+      if(error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002' && error.meta?.target === "Contrainte_nom_key"){
+        // The .code property can be accessed in a type-safe manner
+        console.log('error.meta.target :>> ', error.meta.target);
+        res.status(404).send("Not unique const name");
+
+      }else{
+        console.log(error)
+        return res.status(404).send("Contrainst not add");
+      }
     })
 });
 

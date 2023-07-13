@@ -41,7 +41,7 @@ const deleteDossier = async (req: Request, res: Response) => {
   
     const idDossier:number = Number(req.params.id);
   
-    const DelDossier = await prisma.dossier.update({
+    await prisma.dossier.update({
       where:{
         dossier_id: idDossier
       },
@@ -50,8 +50,8 @@ const deleteDossier = async (req: Request, res: Response) => {
       }
   
     })  
-    .then((DelDossier) => {
-      console.log('sheet :>> ', DelDossier);
+    .then((dossier) => {
+      console.log('sheet :>> ', dossier);
       res.status(200).send("new doss create");
     })
     .catch(error => {
@@ -65,7 +65,7 @@ const connectFicheDoss = async (req: Request, res: Response) => {
     const tabChoix = req.body.tab
     const dossier:number = Number(req.params.idDossier);
   
-    const ConnectFicheDossier = await prisma.dossier.update({
+    await prisma.dossier.update({
       where:{
         dossier_id: dossier
       },
@@ -78,8 +78,8 @@ const connectFicheDoss = async (req: Request, res: Response) => {
       }
   
     })  
-    .then((ConnectFicheDossier) => {
-      console.log('sheet :>> ', ConnectFicheDossier);
+    .then((dossier) => {
+      console.log('sheet :>> ', dossier);
       res.status(200).send("new doss create");
     })
     .catch(error => {
@@ -101,7 +101,7 @@ const disconnectFicheDoss = async (req: Request, res: Response) => {
     const sheet = req.body.sheet
     const dossier:number = Number(req.params.idDossier);
   
-    const DiscoFicheDossier = await prisma.dossier.update({
+    await prisma.dossier.update({
       where:{
         dossier_id: dossier
       },
@@ -114,8 +114,8 @@ const disconnectFicheDoss = async (req: Request, res: Response) => {
       }
   
     })
-    .then((DiscoFicheDossier) => {
-      console.log('sheet :>> ', DiscoFicheDossier);
+    .then((dossier) => {
+      console.log('sheet :>> ', dossier);
       res.status(200).send("new doss create");
     })
     .catch(error => {

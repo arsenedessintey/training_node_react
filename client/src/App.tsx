@@ -13,21 +13,23 @@ import { setPath } from './utils/utils';
 
 
 function App() {
-  const [path, setStatePath] = useState(window.location.pathname);
+  
 
   useEffect(() => {
   })
 
-  const  getPageComponent = () => {
+  const getPageComponent = () => {
+
+    let path = window.location.pathname;
 
     if(path === '/createSheet'){
-      return <CompoContrainte setPage={setPath} />
+      return <CompoContrainte />
     }
     else if (path === '/'){
-      return <AccueilSousFiche setPage={setPath}/>
+      return <AccueilSousFiche />
     }
     else if (path.includes('/modifySheet')){
-      return <CompoContrainte setPage={setPath}/>
+      return <CompoContrainte />
     }
     else{
       return <>page not found</>

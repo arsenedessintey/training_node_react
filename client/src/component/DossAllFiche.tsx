@@ -1,3 +1,4 @@
+import { setPath } from "../utils/utils"
 import { Recherches } from "./AccueilSousFiche"
 
 interface Props {
@@ -7,9 +8,9 @@ interface Props {
 
 
 
-
-
 const DossAllFiche = (props: Props) => {
+
+
 
 
 
@@ -24,10 +25,10 @@ const DossAllFiche = (props: Props) => {
                     <div
                     className="nomDeFiche"
                     >
-                    <a className="Soulignement" href={"/modifySheet/" + rech.sheet_id} target='_blank'>
-                    <p className="recherchenom">{rech.nom}</p>
-                    <p className="recherheversion">{rech.nomVersion}</p>
-                    </a>
+                    <span onClick={() => setPath("/modifySheet/" + rech.sheet_id)}>
+                        <p className="recherchenom">{rech.nom}</p>
+                        <p className="recherheversion">{rech.nomVersion}</p>
+                    </span>
                     <button type="button" className="Button_desacSheet" onClick={() => { if (window.confirm("Attention tu vas supprimer une Fiche")) {props.handleSubmitDesacSheet(rech.sheet_id)}}}>✖</button>
                     </div>
                 </li>

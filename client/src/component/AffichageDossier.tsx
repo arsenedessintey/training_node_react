@@ -4,6 +4,7 @@ import ModalSansValide from "./ModalSansValide"
 import { useEffect, useState } from "react"
 import { Dossiers } from "./AccueilSousFiche"
 import axios from "axios"
+import { setPath } from "../utils/utils"
 
 interface Props {
     toggleDossier: () => void
@@ -40,11 +41,10 @@ const AffichageDossier = (props: Props) => {
                         <li key={A_sheet.sheet_id}>
                             <div
                             className="nomDeFiche"
+                            onClick={() => setPath("/modifySheet/" + A_sheet.sheet_id)}
                             >
-                            <a className="Soulignement" href={"/modifySheet/" + A_sheet.sheet_id} target='_blank'>
                             <p className="recherchenom">{A_sheet.nom}</p>
                             <p className="recherheversion">{A_sheet.nomVersion}</p>
-                            </a>
                             </div>
                         </li>
                     ))}
