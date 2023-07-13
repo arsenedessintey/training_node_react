@@ -15,10 +15,6 @@ import Champs from "./Champs";
 import VersionFiche from "./VersionFiche";
 import Nom from "./Nom";
 
-interface PropsCC {
-  setPage: (newPage: string) => void
-}
-
 export type Sheet = {
   sheet_id: number
   nom: string
@@ -44,7 +40,7 @@ interface Champ {
   sheet_id:string
 }
 
-const CompoContrainte = (PropsCC: PropsCC) => {
+const CompoContrainte = () => {
   // Modal Champs
   const [modalChamps, setModalChamps] = useState(false);
 
@@ -63,6 +59,8 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   const [explicationS, setExplicationS] = useState("")
 
   const [valueSelect, setValueSelect] = useState<string>("")
+
+  const [errorConstName, setErrorConstName] = useState("")
 
 
   const [constraint, setConstraint] = useState<Constraint[]>([]);
@@ -174,8 +172,6 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       setDescFiche(sheetSch.description ?? "");
 
       getAllSheet(Sheet__id)
-      setVersionFiche("V1")
-
       
 
     }catch (error) {
@@ -424,7 +420,6 @@ const CompoContrainte = (PropsCC: PropsCC) => {
 
   const handleSubmitContraintes = (e: any, ) => {
     e.preventDefault();
-    toggleModal(modalContraintes, setModalContraintes);
 
     const NewConstraint: Constraint = {
       ...selectConstraint,
@@ -463,9 +458,15 @@ const CompoContrainte = (PropsCC: PropsCC) => {
       .then((response) => {
         console.log(response.status);
         getConstraint()
+        window.history.go(0)
       })
       .catch((error) => {
         console.log(error);
+        if(error.response.data === "Not unique const name") {
+          // Afficher que le nom existe déjà
+          setErrorConstName("Ce Nom est déjà utilisé");
+        }
+
       });
   }
 
@@ -476,6 +477,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   const addSheetVersion = () => {
     return axios.post('/api/sheet/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, lienSFS: valueSelect, nomVersion: versionFiche, activationSheet: true })
   }
+
 
   const handleSauvegardeSubmitID = (e: any) => {
     e.preventDefault();
@@ -489,7 +491,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
         disableSheet(sheetId, nswSheetID)
           .then((response) => {
             console.log(response.status);
-            PropsCC.setPage("/")
+            setPath('/')
           })
           .catch((error) => {
             console.log(error);
@@ -512,7 +514,7 @@ const CompoContrainte = (PropsCC: PropsCC) => {
     await axios.post('/api/sheet/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, Sheet_id: valueSelect, nomVersion: "V1", activationSheet: true })
       .then((response) => {
         console.log(response.status);
-        PropsCC.setPage("/")
+        setPath('/')
       })
       .catch((error) => {
         console.log(error);
@@ -522,18 +524,12 @@ const CompoContrainte = (PropsCC: PropsCC) => {
   const handleSubmitModificationFiche = (e:any) => {
     e.preventDefault();
 
-    axios.delete(`/api/sheet/sheetModelModif/${sheetId}`)
-    .then((response) => {
-      console.log(response.status);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    console.log('sheetId :>> ', sheetId);
 
-    axios.post('/api/sheet/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, Sheet_id: valueSelect, nomVersion: versionFiche, activationSheet: true})
+    axios.put(`/api/sheet/sheetUpdate/${sheetId}`, { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, Sheet_id: valueSelect, nomVersion: versionFiche, activationSheet: true})
     .then((response) => {
       console.log(response.status);
-      PropsCC.setPage("/")
+      setPath("/")
     })
     .catch((error) => {
       console.log(error);
@@ -607,7 +603,7 @@ const handleChangeSelect = (e:any) => {
           toggle={() => toggleModal(modalContraintes, setModalContraintes)}
           handleSubmit={handleSubmitContraintes}
         >
-          <NewConstraint selectConstraint={selectConstraint} setSelectedConstraint={setSelectConstraint} const={getConstraint} />
+          <NewConstraint selectConstraint={selectConstraint} setSelectedConstraint={setSelectConstraint} const={getConstraint} errorConstName={errorConstName}/>
         </Modal>
       )}
 

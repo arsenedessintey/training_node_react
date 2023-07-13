@@ -14,6 +14,7 @@ interface Props {
   const: () => void,
   selectConstraint: Constraint
   setSelectedConstraint: (constraint: Constraint) => void
+  errorConstName: any
 }
 
 export interface Constraint {
@@ -119,6 +120,7 @@ export default function NewConstraint(props: Props) {
           </div>
         </div>
         <br></br>
+        <p className="ErrorVersion">{props.errorConstName}</p>
         <br></br>
     </div>
   );

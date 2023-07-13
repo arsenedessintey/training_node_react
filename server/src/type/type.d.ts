@@ -1,7 +1,7 @@
 declare namespace a {
 
     interface Groupeinter {
-        idg: number
+        groupe_id: number
         nom: string
         champs: Champ[]
       }
@@ -11,7 +11,7 @@ declare namespace a {
       }
       
     interface Champ {
-        idc: number
+        field_id: number
         nom: string
         constraint: Constraint
         obligatoire:boolean

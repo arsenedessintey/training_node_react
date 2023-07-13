@@ -8,10 +8,7 @@ import ModalSansValide from "./ModalSansValide";
 import imageDossier from "./Dossier.svg"
 import AffichageDossier from "./AffichageDossier";
 import DossAllFiche from "./DossAllFiche";
-
-interface Props {
-    setPage: (newPage: string) => void
-}
+import { setPath } from "../utils/utils";
 
 export interface Recherches {
     sheet_id:number
@@ -25,7 +22,7 @@ export interface Dossiers {
     sheet:Sheet[]     
 }
 
-const AccueilSousFiche = (props: Props) => { 
+const AccueilSousFiche = () => { 
 
     const [recherches, setRecherches] = useState<Recherches[]>([])
 
@@ -126,6 +123,8 @@ const AccueilSousFiche = (props: Props) => {
     
         }
 
+        
+
 
     return(
 
@@ -186,7 +185,7 @@ const AccueilSousFiche = (props: Props) => {
 
                 <div className="button_ASF">
                     <button type="button" className="buttonSF" onClick={() => toggleModalASF(modalDossAllFiche, setModalDossAllFiche)}>FICHES</button>
-                    <button type="button" className="buttonSF" onClick= {() => props.setPage("/createSheet")}>CREER DES FICHES</button>
+                    <button type="button" className="buttonSF" onClick={() => setPath("/createSheet")}>CREER DES FICHES</button>
                     <button type="button" className="buttonSF" onClick= {() => toggleModalASF(modalDossier, setModalDossier)}>CREER UN DOSSIER</button>
                 </div>
 
