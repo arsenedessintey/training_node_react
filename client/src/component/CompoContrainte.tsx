@@ -533,14 +533,14 @@ const CompoContrainte = () => {
         console.log(error);
       });
 
-    axios.put(`/api/sheet/sheetUpdate/${sheetId}`, { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, Sheet_id: valueSelect, nomVersion: versionFiche, activationSheet: true})
-    .then((response) => {
-      console.log(response.status);
-      setPath("/")
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      axios.post(`/api/sheet/sheetModel`, { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, Sheet_id: valueSelect, nomVersion: versionFiche, activationSheet: true})
+      .then((response) => {
+        console.log(response.status);
+        setPath("/")
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     
 
