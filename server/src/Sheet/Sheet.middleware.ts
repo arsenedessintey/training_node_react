@@ -7,8 +7,6 @@ import { parseurGroupe } from "./Sheet.service";
 
 const createSheet = (req: Request, res: Response) => {
 
-    console.log('"object" :>> ', "okok");
-
     const groupes: Groupeinter[] = req.body.groupe;
     const nomFicheS: string = req.body.nomFicheS
     const descFicheS: string = req.body.descFicheS
@@ -148,8 +146,6 @@ const rechercheSheet = (req: Request, res: Response  ) => {
 
  const updateSheet = async (req: Request, res: Response) => {
 
-    console.log('"object" :>> ', "okok");
-
 
     const sheet_id: number = Number(req.params.sheet_id);
 
@@ -171,8 +167,6 @@ const rechercheSheet = (req: Request, res: Response  ) => {
           },
         }
       })
-
-      console.log('modifyFich :>> ', modifyFich);
   
       const sendsheet = JSON.stringify(modifyFich)
 
