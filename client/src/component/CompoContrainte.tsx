@@ -510,7 +510,7 @@ const CompoContrainte = () => {
 
    const handleSauvegardeSubmit = async (e:any) => {
     e.preventDefault();
-    
+
     await axios.post('/api/sheet/sheetModel', { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, Sheet_id: valueSelect, nomVersion: "V1", activationSheet: true })
       .then((response) => {
         console.log(response.status);
@@ -521,10 +521,17 @@ const CompoContrainte = () => {
       });
   }
 
-  const handleSubmitModificationFiche = (e:any) => {
-    e.preventDefault();
 
-    console.log('sheetId :>> ', sheetId);
+    const handleSubmitModificationFiche = (e:any) => {
+      e.preventDefault();
+  
+      axios.delete(`/api/sheet/sheetModelModif/${sheetId}`)
+      .then((response) => {
+        console.log(response.status);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     axios.put(`/api/sheet/sheetUpdate/${sheetId}`, { groupe: groupes, nomFicheS: nomFiche, descFicheS: descFiche, Sheet_id: valueSelect, nomVersion: versionFiche, activationSheet: true})
     .then((response) => {
